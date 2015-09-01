@@ -6,6 +6,9 @@ namespace iTunesAssistantLib
     {
         public static string FixTrackName(string trackName)
         {
+            trackName = trackName.Replace("/", string.Empty);
+            trackName = trackName.Replace("- >", ">");
+
             var trackNames = trackName.Split(new[] {">"}, StringSplitOptions.RemoveEmptyEntries);
 
             if (trackNames.Length == 1)
