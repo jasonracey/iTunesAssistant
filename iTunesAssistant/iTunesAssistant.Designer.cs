@@ -45,7 +45,7 @@
             this.workflowList.Location = new System.Drawing.Point(12, 42);
             this.workflowList.Name = "workflowList";
             this.workflowList.Size = new System.Drawing.Size(260, 169);
-            this.workflowList.TabIndex = 1;
+            this.workflowList.TabIndex = 0;
             this.workflowList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.workflowList_ItemCheck);
             // 
             // startButton
@@ -63,7 +63,7 @@
             this.clearButton.Location = new System.Drawing.Point(116, 265);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(75, 23);
-            this.clearButton.TabIndex = 3;
+            this.clearButton.TabIndex = 1;
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
