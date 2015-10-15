@@ -98,7 +98,10 @@ namespace iTunesAssistant
             timer.Interval = 100;
             timer.Start();
 
-            Task.Run(() => { _workflowRunner.Run(GetCheckedWorkflows()); }).ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext()).ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());
+            Task.Run(() => {
+                _workflowRunner.Run(GetCheckedWorkflows()); })
+                .ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext())
+                .ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void SetBusyState()
