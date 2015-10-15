@@ -40,7 +40,7 @@ namespace iTunesAssistantLib
             var albumGroupWorkflows = workflows.Where(item => 
                 item == Workflow.MergeAlbums).ToList();
 
-            RunAlbumGrouWorkflows(tracksToFix, albumGroupWorkflows);
+            RunAlbumGroupWorkflows(tracksToFix, albumGroupWorkflows);
 
             var albumWorkflows = workflows.Where(item => 
                 item == Workflow.FixCountOfTracksOnAlbum ||
@@ -62,7 +62,7 @@ namespace iTunesAssistantLib
             State = state;
         }
 
-        private void RunAlbumGrouWorkflows(
+        private void RunAlbumGroupWorkflows(
             IReadOnlyCollection<IITTrack> tracksToFix,
             IReadOnlyCollection<Workflow> albumGroupWorkflows)
         {
