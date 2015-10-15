@@ -16,6 +16,22 @@ namespace iTunesAssistantLibTest
         }
 
         [Test]
+        public void FixesSegueArrow()
+        {
+            GratefulDeadTrackFixer
+                .FixTrackName("Foo ->")
+                .Should().Be("Foo >");
+        }
+
+        [Test]
+        public void FixesSegueSpaceArrow()
+        {
+            GratefulDeadTrackFixer
+                .FixTrackName("Foo - >")
+                .Should().Be("Foo >");
+        }
+
+        [Test]
         public void PreservesSegue()
         {
             GratefulDeadTrackFixer
