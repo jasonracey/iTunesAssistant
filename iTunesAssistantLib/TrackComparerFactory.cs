@@ -7,13 +7,14 @@ namespace iTunesAssistantLib
     {
         public static IComparer<IITTrack> GetTrackComparer(List<IITTrack> tracks)
         {
-            var trackNumbers = new Dictionary<int, int>();
+            var trackNumbers = new Dictionary<string, int>();
 
             foreach (var track in tracks)
             {
-                if (track.TrackNumber != 0 && !trackNumbers.ContainsKey(track.TrackNumber))
+                var key = track.GetKey();
+                if (track.TrackNumber != 0 && !trackNumbers.ContainsKey(key))
                 {
-                    trackNumbers.Add(track.TrackNumber, track.TrackNumber);
+                    trackNumbers.Add(key, track.TrackNumber);
                 }
                 else
                 {
@@ -21,23 +22,41 @@ namespace iTunesAssistantLib
                 }
             }
 
-            return new TrackNumberComparer();
+            return new TrackDiscAndNumberComparer();
         }
     }
 
     public class TrackNameComparer : IComparer<IITTrack>
     {
-        public int Compare(IITTrack x, IITTrack y)
+        public int Compare(IITTrack t1, IITTrack t2)
         {
-            return string.CompareOrdinal(x.Name, y.Name);
+            return string.CompareOrdinal(t1.Name, t2.Name);
         }
     }
 
-    public class TrackNumberComparer : IComparer<IITTrack>
+    public class TrackDiscAndNumberComparer : IComparer<IITTrack>
     {
-        public int Compare(IITTrack x, IITTrack y)
+        public int Compare(IITTrack t1, IITTrack t2)
         {
-            return x.TrackNumber.CompareTo(y.TrackNumber);
+            return t1.GetKey().CompareTo(t2.GetKey());
+        }
+    }
+
+    public static class TrackKey
+    {
+        public static string GetKey(this IITTrack track)
+        {
+            var discNumberString = GetPaddedNumberString(track.DiscNumber);
+            var trackNumberString = GetPaddedNumberString(track.TrackNumber);
+            return $"{discNumberString}-{trackNumberString}";
+        }
+
+        private static string GetPaddedNumberString(int number)
+        {
+            // assumes range of 1-99
+            return number < 10
+                ? $"0{number}"
+                : number.ToString();
         }
     }
 }
