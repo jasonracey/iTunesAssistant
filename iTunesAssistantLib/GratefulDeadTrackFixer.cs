@@ -64,6 +64,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "Alligator";
             }
+            else if (lower.Contains("around"))
+            {
+                trackName = "Around And Around";
+            }
             else if (lower.Contains("bill graham"))
             {
                 trackName = "Bill Graham";
@@ -243,6 +247,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "Tuning";
             }
+            else if (lower.Contains("lovelight"))
+            {
+                trackName = "Turn On Your Love Light";
+            }
             else if (
                 lower.Contains("u. s. blues") ||
                 lower.Contains("u.s.blues"))
@@ -261,6 +269,9 @@ namespace iTunesAssistantLib
             {
                 trackName = "Wharf Rat";
             }
+
+            trackName = trackName.Replace("*", string.Empty);
+            trackName = trackName.Replace("(Encore)", string.Empty);
 
             trackName = trackName.TrimEnd();
 
