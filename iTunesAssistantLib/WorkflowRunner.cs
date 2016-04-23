@@ -50,7 +50,8 @@ namespace iTunesAssistantLib
 
             var trackWorkflows = workflows.Where(item => 
                 item == Workflow.FixGratefulDeadTracks || 
-                item == Workflow.FixTrackNames).ToList();
+                item == Workflow.FixTrackNames ||
+                item == Workflow.SetAlbumNames).ToList();
 
             RunTrackWorkflows(tracksToFix, trackWorkflows);
         }
@@ -198,6 +199,14 @@ namespace iTunesAssistantLib
 
             foreach (var track in tracksToFix)
             {
+                if (trackWorkflows.Contains(Workflow.SetAlbumNames))
+                {
+                    if (string.IsNullOrWhiteSpace(track.Album))
+                    {
+                        track.Album = track.Name;
+                    }
+                }
+
                 if (trackWorkflows.Contains(Workflow.FixGratefulDeadTracks))
                 {
                     const string gratefulDead = "Grateful Dead";
