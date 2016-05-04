@@ -9,17 +9,9 @@ namespace iTunesAssistantLib
         public static string FixTrackName(string trackName)
         {
             trackName = TrackNumberRegex.Replace(trackName, string.Empty);
-
-            while (trackName.Contains("  "))
-            {
-                trackName = trackName.Replace("  ", " ");
-            }
-
+            trackName = trackName.ReplaceAll("  ", " ");
             trackName = trackName.Trim();
-
-            trackName = trackName.ToTitleCase();
-
-            return trackName;
+            return trackName.ToTitleCase();
         }
     }
 }

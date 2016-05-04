@@ -6,8 +6,9 @@ namespace iTunesAssistantLib
     {
         public static string FixTrackName(string trackName)
         {
-            trackName = trackName.Replace("/", string.Empty);
-            trackName = trackName.Replace("- >", ">");
+            trackName = trackName.ReplaceAll("/", string.Empty);
+            trackName = trackName.ReplaceAll("- >", ">");
+            trackName = trackName.ReplaceAll("->", ">");
 
             var trackNames = trackName.Split(new[] {">"}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -120,7 +121,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "The Frozen Logger";
             }
-            else if (lower.Contains("raod feelin"))
+            else if (lower.Contains("gdtrfb") || lower.Contains("raod feelin"))
             {
                 trackName = "Goin' Down The Road Feeling Bad";
             }
@@ -168,6 +169,14 @@ namespace iTunesAssistantLib
             {
                 trackName = "Mexicali Blues";
             }
+            else if (lower.Contains("minglewood"))
+            {
+                trackName = "New Minglewood Blues";
+            }
+            else if (lower.Contains("mississippi half-step"))
+            {
+                trackName = "Mississippi Half-Step, Uptown Toodeloo";
+            }
             else if (lower.Contains("new speedway"))
             {
                 trackName = "New Speedway Boogie";
@@ -206,6 +215,10 @@ namespace iTunesAssistantLib
             else if (lower.Contains("jimmy row"))
             {
                 trackName = "Row Jimmy";
+            }
+            else if (lower.Contains("samson"))
+            {
+                trackName = "Samson And Delilah";
             }
             else if (lower.Contains("silver theads"))
             {
@@ -284,6 +297,15 @@ namespace iTunesAssistantLib
                 trackName += " >";
             }
 
+            return trackName;
+        }
+
+        private static string ReplaceAll(string trackName, string pattern, string substitution)
+        {
+            while (trackName.Contains(pattern))
+            {
+                trackName = trackName.Replace(pattern, substitution);
+            }
             return trackName;
         }
     }
