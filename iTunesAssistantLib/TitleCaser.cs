@@ -7,7 +7,7 @@ namespace iTunesAssistantLib
         public static string ToTitleCase(this string s)
         {
             var textInfo = new CultureInfo("en-US", false).TextInfo;
-            return textInfo.ToTitleCase(s);
+            return textInfo.ToTitleCase(textInfo.ToLower(s));
         }
     }
 }

@@ -52,10 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WhenFixingTrackName.cs" />
+    <Compile Include="WhenUsingLabeledTrackNumberRegex.cs" />
+    <Compile Include="WhenUsingVinylTrackNumberRegex.cs" />
     <Compile Include="WhenFixingAlbumName.cs" />
     <Compile Include="WhenFixingGratefulDeadTrackName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WhenFixingTrackName.cs" />
+    <Compile Include="WhenUsingTrackNumberRegex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

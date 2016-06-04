@@ -6,9 +6,8 @@ namespace iTunesAssistantLib
     {
         public static string FixTrackName(string trackName)
         {
-            trackName = trackName.ReplaceAll("/", string.Empty);
-            trackName = trackName.ReplaceAll("- >", ">");
-            trackName = trackName.ReplaceAll("->", ">");
+            trackName = trackName.Replace("/", string.Empty);
+            trackName = trackName.Replace("-", string.Empty);
 
             var trackNames = trackName.Split(new[] {">"}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -85,6 +84,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "C.C. Rider";
             }
+            else if (lower.Contains("cold rain"))
+            {
+                trackName = "Cold Rain And Snow";
+            }
             else if (lower.Contains("crowd noise"))
             {
                 trackName = "Crowd";
@@ -92,6 +95,10 @@ namespace iTunesAssistantLib
             else if (lower.Contains("cryptical"))
             {
                 trackName = "Cryptical Envelopment";
+            }
+            else if (lower.Contains("dancing in the street"))
+            {
+                trackName = "Dancing in the Street";
             }
             else if (lower.Contains("dont ease"))
             {
@@ -125,6 +132,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "Goin' Down The Road Feeling Bad";
             }
+            else if (lower.Contains("good lovin"))
+            {
+                trackName = "Good Lovin'";
+            }
             else if (lower.Contains("mojo work"))
             {
                 trackName = "Got My Mojo Working";
@@ -141,9 +152,13 @@ namespace iTunesAssistantLib
             {
                 trackName = "It's All Over Now, Baby Blue";
             }
-            else if (lower.Contains("jack a roe"))
+            else if (lower.Contains("jack a roe") || lower.Contains("jackaroe"))
             {
                 trackName = "Jack-A-Roe";
+            }
+            else if (lower.Contains("johnny"))
+            {
+                trackName = "Johnny B. Goode";
             }
             else if (lower.Contains("kingbee"))
             {
@@ -173,7 +188,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "New Minglewood Blues";
             }
-            else if (lower.Contains("mississippi half-step"))
+            else if (lower.Contains("mississippi") || lower.Contains("halfstep"))
             {
                 trackName = "Mississippi Half-Step, Uptown Toodeloo";
             }
@@ -193,6 +208,14 @@ namespace iTunesAssistantLib
             {
                 trackName = "The Promised Land";
             }
+            else if (lower.Contains("slipknot"))
+            {
+                trackName = "Slipknot!";
+            }
+            else if (lower.Contains("stephen"))
+            {
+                trackName = "St. Stephen";
+            }
             else if (lower.Contains("announcements"))
             {
                 trackName = "Stage Announcements";
@@ -204,7 +227,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "Stage Banter";
             }
-            else if (lower.Contains("peggy o"))
+            else if (lower.Contains("peggy o") || lower.Contains("peggyo"))
             {
                 trackName = "Peggy-O";
             }
@@ -266,7 +289,8 @@ namespace iTunesAssistantLib
             }
             else if (
                 lower.Contains("u. s. blues") ||
-                lower.Contains("u.s.blues"))
+                lower.Contains("u.s.blues") ||
+                lower.Contains("us blues"))
             {
                 trackName = "U.S. Blues";
             }

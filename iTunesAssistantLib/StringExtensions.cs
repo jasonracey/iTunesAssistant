@@ -2,7 +2,7 @@
 {
     public static class StringExtensions
     {
-        public static string ReplaceAll(this string str, string match, string substitution)
+        public static string RepeatedlyReplace(this string str, string match, string substitution)
         {
             while (str.Contains(match))
             {

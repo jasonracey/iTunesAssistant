@@ -207,6 +207,11 @@ namespace iTunesAssistantLib
                     }
                 }
 
+                if (trackWorkflows.Contains(Workflow.FixTrackNames))
+                {
+                    track.Name = TrackNameFixer.FixTrackName(track.Name);
+                }
+
                 if (trackWorkflows.Contains(Workflow.FixGratefulDeadTracks))
                 {
                     const string gratefulDead = "Grateful Dead";
@@ -216,11 +221,6 @@ namespace iTunesAssistantLib
                         track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
                         track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
                     }
-                }
-
-                if (trackWorkflows.Contains(Workflow.FixTrackNames))
-                {
-                    track.Name = TrackNameFixer.FixTrackName(track.Name);
                 }
 
                 ItemsProcessed++;
