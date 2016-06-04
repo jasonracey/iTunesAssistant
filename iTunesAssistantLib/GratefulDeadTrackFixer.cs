@@ -8,6 +8,7 @@ namespace iTunesAssistantLib
         {
             trackName = trackName.Replace("/", string.Empty);
             trackName = trackName.Replace("-", string.Empty);
+            trackName = trackName.Replace("!", string.Empty);
 
             var trackNames = trackName.Split(new[] {">"}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -84,6 +85,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "C.C. Rider";
             }
+            else if (lower.Contains("candyman"))
+            {
+                trackName = "Candyman";
+            }
             else if (lower.Contains("cold rain"))
             {
                 trackName = "Cold Rain And Snow";
@@ -96,7 +101,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "Cryptical Envelopment";
             }
-            else if (lower.Contains("dancing in the street"))
+            else if (lower.Contains("dancin"))
             {
                 trackName = "Dancing in the Street";
             }
@@ -144,7 +149,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "I Know You Rider";
             }
-            else if (lower.Contains("mans world"))
+            else if (lower.Contains("mans world") || lower.Contains("man's world"))
             {
                 trackName = "It's A Man's, Man's, Man's World";
             }
@@ -279,7 +284,7 @@ namespace iTunesAssistantLib
             {
                 trackName = "Truckin'";
             }
-            else if (lower.Contains("tuning "))
+            else if (lower.Contains("tuning"))
             {
                 trackName = "Tuning";
             }
