@@ -218,7 +218,10 @@ namespace iTunesAssistantLib
                     if (track.Artist == gratefulDead)
                     {
                         track.Composer = gratefulDead;
-                        track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
+                        if (track.Comment != null)
+                        {
+                            track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
+                        }
                         track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
                     }
                 }
