@@ -7,8 +7,6 @@ namespace iTunesAssistantLib
     {
         private static readonly List<string> Labels = new List<string>
         {
-            "A Love I Can Feel",
-            "John Holt",
             "Track"
         };
 

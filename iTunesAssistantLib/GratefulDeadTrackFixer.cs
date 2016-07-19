@@ -69,6 +69,10 @@ namespace iTunesAssistantLib
             {
                 trackName = "Around And Around";
             }
+            else if (lower.Contains("biodtl"))
+            {
+                trackName = "Beat It On Down The Line";
+            }
             else if (lower.Contains("bill graham"))
             {
                 trackName = "Bill Graham";
@@ -212,6 +216,10 @@ namespace iTunesAssistantLib
             else if (lower.Contains("promised land"))
             {
                 trackName = "The Promised Land";
+            }
+            else if (lower.Contains("ramble"))
+            {
+                trackName = "Ramble On Rose";
             }
             else if (lower.Contains("slipknot"))
             {
