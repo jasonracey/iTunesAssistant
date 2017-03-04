@@ -51,6 +51,7 @@ namespace iTunesAssistantLib
             var trackWorkflows = workflows.Where(item => 
                 item == Workflow.FixGratefulDeadTracks || 
                 item == Workflow.FixTrackNames ||
+                item == Workflow.ImportTrackNames ||
                 item == Workflow.SetAlbumNames).ToList();
 
             RunTrackWorkflows(tracksToFix, trackWorkflows);
@@ -170,7 +171,22 @@ namespace iTunesAssistantLib
                     album.Value.Sort(trackComparer);
                     for (var i = 0; i < album.Value.Count; i++)
                     {
-                        album.Value[i].TrackNumber = i + 1;
+                        try
+                        {
+                            album.Value[i].TrackNumber = i + 1;
+                        }
+                        catch (System.Runtime.InteropServices.COMException e)
+                        {
+                            if (e.Message.Contains("0xA0040203"))
+                            {
+                                // track "missing"
+                                continue;
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
                     }
                 }
 
@@ -178,7 +194,22 @@ namespace iTunesAssistantLib
                 {
                     foreach (var track in album.Value)
                     {
-                        track.TrackCount = album.Value.Count;
+                        try
+                        {
+                            track.TrackCount = album.Value.Count;
+                        }
+                        catch (System.Runtime.InteropServices.COMException e)
+                        {
+                            if (e.Message.Contains("0xA0040203"))
+                            {
+                                // track "missing"
+                                continue;
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
                     }
                 }
 
@@ -196,6 +227,30 @@ namespace iTunesAssistantLib
             }
 
             NewState(0, tracksToFix.Count, "Running track workflows...");
+
+            if (trackWorkflows.Contains(Workflow.ImportTrackNames))
+            {
+                // todo - allow upload of file through UI
+                var trackNames = System.IO.File.ReadAllLines(@"Y:\Files\Music\add\tracks.txt");
+                if (trackNames.Length != tracksToFix.Count)
+                {
+                    throw new System.ApplicationException("Number of tracks in import file must equal number of tracks to fix.");
+                }
+                var sortedTracks = new SortedList<string, IITTrack>();
+                foreach (var track in tracksToFix)
+                {
+                    var discNumberString = track.DiscNumber.ToString("D3");
+                    var trackNumberString = track.TrackNumber.ToString("D3");
+                    var key = $"{discNumberString}-{trackNumberString}";
+                    sortedTracks.Add(key, track);
+                }
+                for (var i = 0; i < trackNames.Length; i++)
+                {
+                    sortedTracks.Values[i].Name = trackNames[i];
+                    ItemsProcessed++;
+                }
+                return;
+            }
 
             foreach (var track in tracksToFix)
             {

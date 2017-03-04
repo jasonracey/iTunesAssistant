@@ -79,7 +79,6 @@ namespace iTunesAssistant
         private List<Workflow> GetCheckedWorkflows()
         {
             var checkedWorkflows = new List<Workflow>();
-
             foreach (var workflow in Enum.GetValues(typeof (Workflow)))
             {
                 if (workflowList.CheckedItems.Contains(workflow))
@@ -87,7 +86,6 @@ namespace iTunesAssistant
                     checkedWorkflows.Add((Workflow) Enum.Parse(typeof (Workflow), workflow.ToString()));
                 }
             }
-
             return checkedWorkflows;
         }
 
@@ -98,10 +96,12 @@ namespace iTunesAssistant
             timer.Interval = 100;
             timer.Start();
 
-            Task.Run(() => {
-                _workflowRunner.Run(GetCheckedWorkflows()); })
-                .ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext())
-                .ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());
+            Task.Run(() => 
+            {
+                _workflowRunner.Run(GetCheckedWorkflows());
+            })
+            .ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext())
+            .ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void SetBusyState()

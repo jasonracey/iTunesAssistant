@@ -6,6 +6,7 @@
         FixGratefulDeadTracks,
         FixTrackNames,
         FixTrackNumbers,
+        ImportTrackNames,
         MergeAlbums,
         SetAlbumNames
     }
