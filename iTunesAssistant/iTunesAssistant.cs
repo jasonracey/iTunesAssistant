@@ -8,6 +8,7 @@ namespace iTunesAssistant
 {
     public partial class iTunesAssistant : Form
     {
+        private HashSet<Workflow> _selectedWorkflows;
         private WorkflowRunner _workflowRunner;
 
         public iTunesAssistant()
@@ -28,18 +29,27 @@ namespace iTunesAssistant
                 return;
             }
 
-            switch (e.NewValue)
+            if (e.NewValue == CheckState.Checked && workflowList.Text == WorkflowName.ImportTrackNames)
             {
-                case CheckState.Checked:
-                    clearButton.Enabled = true;
-                    startButton.Enabled = true;
-                    break;
-                case CheckState.Unchecked:
-                    var isLastCheckedItem = workflowList.CheckedItems.Count == 1;
-                    clearButton.Enabled = isLastCheckedItem == false;
-                    startButton.Enabled = isLastCheckedItem == false;
-                    break;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _selectedWorkflows.Add(new Workflow { Name = workflowList.Text, Data = openFileDialog.FileName });
+                }
+                else
+                {
+                    e.NewValue = CheckState.Unchecked;
+                }
             }
+            else if (e.NewValue == CheckState.Checked)
+            {
+                _selectedWorkflows.Add(new Workflow { Name = workflowList.Text });
+            }
+            else
+            {
+                _selectedWorkflows.RemoveWhere(workflow => workflow.Name == workflowList.Text);
+            }
+
+            SetButtonState(e.NewValue);
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -70,23 +80,13 @@ namespace iTunesAssistant
         {
             workflowList.Enabled = true;
             workflowList.Items.Clear();
-            foreach (Workflow workflow in Enum.GetValues(typeof (Workflow)))
-            {
-                workflowList.Items.Add(workflow);
-            }
-        }
-
-        private List<Workflow> GetCheckedWorkflows()
-        {
-            var checkedWorkflows = new List<Workflow>();
-            foreach (var workflow in Enum.GetValues(typeof (Workflow)))
-            {
-                if (workflowList.CheckedItems.Contains(workflow))
-                {
-                    checkedWorkflows.Add((Workflow) Enum.Parse(typeof (Workflow), workflow.ToString()));
-                }
-            }
-            return checkedWorkflows;
+            workflowList.Items.Add(WorkflowName.FixCountOfTracksOnAlbum);
+            workflowList.Items.Add(WorkflowName.FixGratefulDeadTracks);
+            workflowList.Items.Add(WorkflowName.FixTrackNames);
+            workflowList.Items.Add(WorkflowName.FixTrackNumbers);
+            workflowList.Items.Add(WorkflowName.ImportTrackNames);
+            workflowList.Items.Add(WorkflowName.MergeAlbums);
+            workflowList.Items.Add(WorkflowName.SetAlbumNames);
         }
 
         private void RunCheckedWorkflows()
@@ -98,7 +98,7 @@ namespace iTunesAssistant
 
             Task.Run(() => 
             {
-                _workflowRunner.Run(GetCheckedWorkflows());
+                _workflowRunner.Run(_selectedWorkflows);
             })
             .ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext())
             .ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());
@@ -109,6 +109,21 @@ namespace iTunesAssistant
             workflowList.Enabled = false;
             clearButton.Enabled = false;
             startButton.Enabled = false;
+        }
+
+        private void SetButtonState(CheckState checkState)
+        {
+            if (checkState == CheckState.Checked)
+            {
+                clearButton.Enabled = true;
+                startButton.Enabled = true;
+            }
+            else
+            {
+                var isLastCheckedItem = workflowList.CheckedItems.Count <= 1;
+                clearButton.Enabled = isLastCheckedItem == false;
+                startButton.Enabled = isLastCheckedItem == false;
+            }
         }
 
         private void SetCountLabel(int processedTrackCount, int totalTrackCount)
@@ -124,6 +139,7 @@ namespace iTunesAssistant
             progressBar.Value = 0;
             stateLabel.Text = @"Idle";
             SetCountLabel(0, 0);
+            _selectedWorkflows = new HashSet<Workflow>();
         }
     }
 }

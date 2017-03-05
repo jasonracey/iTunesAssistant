@@ -36,6 +36,7 @@
             this.countLabel = new System.Windows.Forms.Label();
             this.stateLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // workflowList
@@ -97,6 +98,12 @@
             // 
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.CheckPathExists = false;
+            this.openFileDialog.InitialDirectory = "Y:\\Files\\Music\\add";
+            this.openFileDialog.Title = "Select Track Name File";
+            // 
             // iTunesAssistant
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -125,6 +132,7 @@
         private System.Windows.Forms.Label countLabel;
         private System.Windows.Forms.Label stateLabel;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 

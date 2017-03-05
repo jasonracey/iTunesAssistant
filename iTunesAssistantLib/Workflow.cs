@@ -1,13 +1,8 @@
 ﻿namespace iTunesAssistantLib
 {
-    public enum Workflow
+    public class Workflow
     {
-        FixCountOfTracksOnAlbum,
-        FixGratefulDeadTracks,
-        FixTrackNames,
-        FixTrackNumbers,
-        ImportTrackNames,
-        MergeAlbums,
-        SetAlbumNames
+        public string Data { get; set; }
+        public string Name { get; set; }
     }
 }

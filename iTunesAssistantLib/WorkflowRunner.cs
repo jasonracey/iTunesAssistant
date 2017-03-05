@@ -17,9 +17,9 @@ namespace iTunesAssistantLib
         public int ItemsProcessed { get; private set; }
         public int ItemsTotal { get; private set; }
 
-        public void Run(List<Workflow> workflows)
+        public void Run(HashSet<Workflow> workflows)
         {
-            NewState(0, _app.LibraryPlaylist.Tracks.Count, "Loading tracks...");
+            SetNewState(0, _app.LibraryPlaylist.Tracks.Count, "Loading tracks...");
 
             var tracksToFix = new List<IITTrack>();
 
@@ -37,43 +37,41 @@ namespace iTunesAssistantLib
                 return;
             }
 
-            var albumGroupWorkflows = workflows.Where(item => 
-                item == Workflow.MergeAlbums).ToList();
+            if (workflows.Any(item => item.Name == WorkflowName.MergeAlbums))
+            {
+                RunMergeAlbumsWorkflow(tracksToFix);
+            }
 
-            RunAlbumGroupWorkflows(tracksToFix, albumGroupWorkflows);
+            if (workflows.Any(item => item.Name == WorkflowName.ImportTrackNames))
+            {
+                var inputFilePath = workflows.First(item => item.Name == WorkflowName.ImportTrackNames).Data;
+                RunImportTrackNamesWorkflow(tracksToFix, inputFilePath);
+            }
 
             var albumWorkflows = workflows.Where(item => 
-                item == Workflow.FixCountOfTracksOnAlbum ||
-                item == Workflow.FixTrackNumbers).ToList();
+                item.Name == WorkflowName.FixCountOfTracksOnAlbum ||
+                item.Name == WorkflowName.FixTrackNumbers).ToList();
 
             RunAlbumWorkflows(tracksToFix, albumWorkflows);
 
             var trackWorkflows = workflows.Where(item => 
-                item == Workflow.FixGratefulDeadTracks || 
-                item == Workflow.FixTrackNames ||
-                item == Workflow.ImportTrackNames ||
-                item == Workflow.SetAlbumNames).ToList();
+                item.Name == WorkflowName.FixGratefulDeadTracks || 
+                item.Name == WorkflowName.FixTrackNames ||
+                item.Name == WorkflowName.SetAlbumNames).ToList();
 
             RunTrackWorkflows(tracksToFix, trackWorkflows);
         }
 
-        private void NewState(int itemsProcessed, int itemsTotal, string state)
+        private void SetNewState(int itemsProcessed, int itemsTotal, string state)
         {
             ItemsProcessed = itemsProcessed;
             ItemsTotal = itemsTotal;
             State = state;
         }
 
-        private void RunAlbumGroupWorkflows(
-            IReadOnlyCollection<IITTrack> tracksToFix,
-            IReadOnlyCollection<Workflow> albumGroupWorkflows)
+        private void RunMergeAlbumsWorkflow(IReadOnlyCollection<IITTrack> tracksToFix)
         {
-            if (albumGroupWorkflows.Count == 0)
-            {
-                return;
-            }
-
-            NewState(0, tracksToFix.Count, "Generating album groups...");
+            SetNewState(0, tracksToFix.Count, "Generating album groups...");
 
             var albumGroups = new Dictionary<string, SortedDictionary<string,List<IITTrack>>>();
 
@@ -107,12 +105,12 @@ namespace iTunesAssistantLib
                 }
             }
 
-            NewState(0, albumGroups.Count, "Running album group workflows...");
+            SetNewState(0, albumGroups.Count, "Running merge albums workflow...");
 
             foreach (var albumGroup in albumGroups)
             {
                 var newAlbumName = albumGroup.Key;
-                var trackCount = albumGroup.Value.Sum(x => x.Value.Count);
+                var trackCount = albumGroup.Value.Sum(album => album.Value.Count);
                 var trackNumber = 1;
 
                 foreach (var album in albumGroup.Value)
@@ -133,6 +131,59 @@ namespace iTunesAssistantLib
             }
         }
 
+        private void RunImportTrackNamesWorkflow(IReadOnlyCollection<IITTrack> tracksToFix, string inputFilePath)
+        {
+            SetNewState(0, tracksToFix.Count, "Reading track names to import...");
+
+            var newTrackNames = System.IO.File.ReadAllLines(inputFilePath);
+
+            var newTrackNameGroups = new List<List<string>>();
+            var newTrackNameGroup = new List<string>();
+            foreach (var newTrackName in newTrackNames)
+            {
+                var cleanName = newTrackName.Trim();
+                if (cleanName != string.Empty)
+                {
+                    newTrackNameGroup.Add(newTrackName);
+                }
+                else
+                {
+                    newTrackNameGroups.Add(newTrackNameGroup);
+                    newTrackNameGroup = new List<string>();
+                }
+
+                ItemsProcessed++;
+            }
+
+            var albums = GetAlbums(tracksToFix);
+
+            if (albums.Count != newTrackNameGroups.Count)
+            {
+                throw new System.ApplicationException("Number of albums in import file must equal number of albums to fix.");
+            }
+
+            SetNewState(0, tracksToFix.Count, "Assigning new track names...");
+
+            for (var i = 0; i < albums.Count; i++)
+            {
+                var currentAlbum = albums.ElementAt(i).Value;
+                var currentTrackGroup = newTrackNameGroups[i];
+
+                if (currentAlbum.Count != currentTrackGroup.Count)
+                {
+                    throw new System.ApplicationException("Number of tracks in import file must equal number of tracks to fix.");
+                }
+
+                for (var j = 0; j < currentAlbum.Count; j++)
+                {
+                    currentAlbum[j].Name = currentTrackGroup[j];
+                    ItemsProcessed++;
+                }
+            }
+
+            return;
+        }
+
         private void RunAlbumWorkflows(
             IReadOnlyCollection<IITTrack> tracksToFix,
             IReadOnlyCollection<Workflow> albumWorkflows)
@@ -142,30 +193,14 @@ namespace iTunesAssistantLib
                 return;
             }
 
-            NewState(0, tracksToFix.Count, "Generating album list...");
+            var albums = GetAlbums(tracksToFix);
 
-            var albums = new Dictionary<string,List<IITTrack>>();
-
-            foreach (var track in tracksToFix)
-            {
-                if (!albums.ContainsKey(track.Album))
-                {
-                    albums.Add(track.Album, new List<IITTrack> {track});
-                }
-                else
-                {
-                    albums[track.Album].Add(track);
-                }
-
-                ItemsProcessed++;
-            }
-
-            NewState(0, albums.Count, "Running album workflows...");
+            SetNewState(0, albums.Count, "Running album workflows...");
 
             foreach (var album in albums)
             {
                 // have to set number before count in case old number is higher than count
-                if (albumWorkflows.Contains(Workflow.FixTrackNumbers))
+                if (albumWorkflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNumbers))
                 {
                     var trackComparer = TrackComparerFactory.GetTrackComparer(album.Value);
                     album.Value.Sort(trackComparer);
@@ -190,7 +225,7 @@ namespace iTunesAssistantLib
                     }
                 }
 
-                if (albumWorkflows.Contains(Workflow.FixCountOfTracksOnAlbum))
+                if (albumWorkflows.Any(workflow => workflow.Name == WorkflowName.FixCountOfTracksOnAlbum))
                 {
                     foreach (var track in album.Value)
                     {
@@ -226,35 +261,11 @@ namespace iTunesAssistantLib
                 return;
             }
 
-            NewState(0, tracksToFix.Count, "Running track workflows...");
-
-            if (trackWorkflows.Contains(Workflow.ImportTrackNames))
-            {
-                // todo - allow upload of file through UI
-                var trackNames = System.IO.File.ReadAllLines(@"Y:\Files\Music\add\tracks.txt");
-                if (trackNames.Length != tracksToFix.Count)
-                {
-                    throw new System.ApplicationException("Number of tracks in import file must equal number of tracks to fix.");
-                }
-                var sortedTracks = new SortedList<string, IITTrack>();
-                foreach (var track in tracksToFix)
-                {
-                    var discNumberString = track.DiscNumber.ToString("D3");
-                    var trackNumberString = track.TrackNumber.ToString("D3");
-                    var key = $"{discNumberString}-{trackNumberString}";
-                    sortedTracks.Add(key, track);
-                }
-                for (var i = 0; i < trackNames.Length; i++)
-                {
-                    sortedTracks.Values[i].Name = trackNames[i];
-                    ItemsProcessed++;
-                }
-                return;
-            }
+            SetNewState(0, tracksToFix.Count, "Running track workflows...");
 
             foreach (var track in tracksToFix)
             {
-                if (trackWorkflows.Contains(Workflow.SetAlbumNames))
+                if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.SetAlbumNames))
                 {
                     if (string.IsNullOrWhiteSpace(track.Album))
                     {
@@ -262,12 +273,12 @@ namespace iTunesAssistantLib
                     }
                 }
 
-                if (trackWorkflows.Contains(Workflow.FixTrackNames))
+                if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNames))
                 {
                     track.Name = TrackNameFixer.FixTrackName(track.Name);
                 }
 
-                if (trackWorkflows.Contains(Workflow.FixGratefulDeadTracks))
+                if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixGratefulDeadTracks))
                 {
                     const string gratefulDead = "Grateful Dead";
                     if (track.Artist == gratefulDead)
@@ -283,6 +294,29 @@ namespace iTunesAssistantLib
 
                 ItemsProcessed++;
             }
+        }
+
+        private SortedDictionary<string, List<IITTrack>> GetAlbums(IReadOnlyCollection<IITTrack> tracksToFix)
+        {
+            SetNewState(0, tracksToFix.Count, "Generating album list...");
+
+            var albums = new SortedDictionary<string, List<IITTrack>>();
+
+            foreach (var track in tracksToFix)
+            {
+                if (!albums.ContainsKey(track.Album))
+                {
+                    albums.Add(track.Album, new List<IITTrack> { track });
+                }
+                else
+                {
+                    albums[track.Album].Add(track);
+                }
+
+                ItemsProcessed++;
+            }
+
+            return albums;
         }
     }
 }
