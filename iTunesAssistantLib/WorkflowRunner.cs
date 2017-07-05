@@ -277,16 +277,7 @@ namespace iTunesAssistantLib
 
                 if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixGratefulDeadTracks))
                 {
-                    const string gratefulDead = "Grateful Dead";
-                    if (track.Artist == gratefulDead)
-                    {
-                        track.Composer = gratefulDead;
-                        if (track.Comment != null)
-                        {
-                            track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
-                        }
-                        track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
-                    }
+                    track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
                 }
 
                 ItemsProcessed++;
