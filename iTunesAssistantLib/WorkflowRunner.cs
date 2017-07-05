@@ -23,12 +23,9 @@ namespace iTunesAssistantLib
 
             var tracksToFix = new List<IITTrack>();
 
-            foreach (IITTrack track in _app.LibraryPlaylist.Tracks)
+            foreach (IITTrack track in _app.SelectedTracks)
             {
-                if (track.Genre == "Fix")
-                {
-                    tracksToFix.Add(track);
-                }
+                tracksToFix.Add(track);
                 ItemsProcessed++;
             }
 
