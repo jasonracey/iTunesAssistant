@@ -133,8 +133,7 @@ namespace iTunesAssistantLib
             SetNewState(0, tracksToFix.Count, "Reading track names to import...");
 
             var newTrackNames = System.IO.File.ReadAllLines(inputFilePath);
-
-            var newTrackNameGroups = new List<List<string>>();
+            
             var newTrackNameGroup = new List<string>();
             foreach (var newTrackName in newTrackNames)
             {
@@ -143,37 +142,21 @@ namespace iTunesAssistantLib
                 {
                     newTrackNameGroup.Add(newTrackName);
                 }
-                else
-                {
-                    newTrackNameGroups.Add(newTrackNameGroup);
-                    newTrackNameGroup = new List<string>();
-                }
 
                 ItemsProcessed++;
             }
 
             var albums = GetAlbums(tracksToFix);
 
-            if (albums.Count != newTrackNameGroups.Count)
-            {
-                throw new System.ApplicationException("Number of albums in import file must equal number of albums to fix.");
-            }
-
             SetNewState(0, tracksToFix.Count, "Assigning new track names...");
 
             for (var i = 0; i < albums.Count; i++)
             {
                 var currentAlbum = albums.ElementAt(i).Value;
-                var currentTrackGroup = newTrackNameGroups[i];
-
-                if (currentAlbum.Count != currentTrackGroup.Count)
-                {
-                    throw new System.ApplicationException("Number of tracks in import file must equal number of tracks to fix.");
-                }
 
                 for (var j = 0; j < currentAlbum.Count; j++)
                 {
-                    currentAlbum[j].Name = currentTrackGroup[j];
+                    currentAlbum[j].Name = newTrackNameGroup[j];
                     ItemsProcessed++;
                 }
             }
