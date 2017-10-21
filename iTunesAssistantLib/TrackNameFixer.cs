@@ -10,6 +10,7 @@ namespace iTunesAssistantLib
             "Track"
         };
 
+        private static readonly Regex GratefulDeadTrackNumberRegex = new Regex(@"^gd\d+\s?t?\d+\s+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex TrackNumberRegex = new Regex(@"^(\d+\s*[-.]*\s*)", RegexOptions.Compiled);
         private static readonly Regex VinylTrackNumberRegex = new Regex(@"^(\w\s*[-.]*\s*\d+\s*[-.]*\s*)", RegexOptions.Compiled);
 
@@ -21,6 +22,7 @@ namespace iTunesAssistantLib
                 var regex = new Regex($@"^(\d*\s*\-?\s*{label}\s*\-?\s*\d*\s*\-?\s*)");
                 trackName = regex.Replace(trackName, string.Empty);
             }
+            trackName = GratefulDeadTrackNumberRegex.Replace(trackName, string.Empty);
             trackName = VinylTrackNumberRegex.Replace(trackName, string.Empty);
             trackName = TrackNumberRegex.Replace(trackName, string.Empty);
 
