@@ -21,6 +21,11 @@ namespace iTunesAssistantLib
         {
             SetNewState(0, _app.LibraryPlaylist.Tracks.Count, "Loading tracks...");
 
+            if (_app.SelectedTracks == null)
+            {
+                return;
+            }
+
             var tracksToFix = new List<IITTrack>();
 
             foreach (IITTrack track in _app.SelectedTracks)
