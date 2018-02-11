@@ -98,7 +98,15 @@ namespace iTunesAssistant
 
             Task.Run(() => 
             {
-                _workflowRunner.Run(_selectedWorkflows);
+                try
+                {
+                    _workflowRunner.Run(_selectedWorkflows);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error: " + e.Message, "Error", MessageBoxButtons.OK);
+                }
+                
             })
             .ContinueWith(task => timer.Stop(), TaskScheduler.FromCurrentSynchronizationContext())
             .ContinueWith(task => SetIdleState(), TaskScheduler.FromCurrentSynchronizationContext());

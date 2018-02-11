@@ -182,6 +182,9 @@ namespace iTunesAssistantLib
 
             SetNewState(0, albums.Count, "Running album workflows...");
 
+            const string trackMissingErrorCode = "0xA0040203";
+            const string trackMissingErrorMessage = "One or more tracks could not be found in your file system.";
+
             foreach (var album in albums)
             {
                 // have to set number before count in case old number is higher than count
@@ -197,10 +200,9 @@ namespace iTunesAssistantLib
                         }
                         catch (System.Runtime.InteropServices.COMException e)
                         {
-                            if (e.Message.Contains("0xA0040203"))
+                            if (e.Message.Contains(trackMissingErrorCode))
                             {
-                                // track "missing"
-                                continue;
+                                throw new System.Exception(trackMissingErrorMessage);
                             }
                             else
                             {
@@ -220,10 +222,9 @@ namespace iTunesAssistantLib
                         }
                         catch (System.Runtime.InteropServices.COMException e)
                         {
-                            if (e.Message.Contains("0xA0040203"))
+                            if (e.Message.Contains(trackMissingErrorCode))
                             {
-                                // track "missing"
-                                continue;
+                                throw new System.Exception(trackMissingErrorMessage);
                             }
                             else
                             {
@@ -280,6 +281,11 @@ namespace iTunesAssistantLib
 
             foreach (var track in tracksToFix)
             {
+                if (string.IsNullOrWhiteSpace(track.Album))
+                {
+                    throw new System.Exception("One or more tracks is missing an album name.");
+                }
+
                 if (!albums.ContainsKey(track.Album))
                 {
                     albums.Add(track.Album, new List<IITTrack> { track });
