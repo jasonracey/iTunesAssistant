@@ -150,7 +150,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("deadman")) { trackName = "Dead Man, Dead Man"; }
             else if (trackNameKey.Contains("deal")) { trackName = "Deal"; }
             else if (trackNameKey.Contains("dearmrfantasy")) { trackName = "Dear Mr. Fantasy"; }
-            else if (trackNameKey.Contains("deathdonthavenomercy")) { trackName = "Death Don't Have No Mercy"; }
+            else if (trackNameKey.Contains("deathdont")) { trackName = "Death Don't Have No Mercy"; }
             else if (trackNameKey.Contains("deathletterblues")) { trackName = "Death Letter Blues"; }
             else if (trackNameKey.Contains("deepelemblues")) { trackName = "Deep Elem Blues"; }
             else if (trackNameKey.Contains("desolationrow")) { trackName = "Desolation Row"; }
@@ -201,7 +201,8 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("goin")) { trackName = "Goin' Down The Road Feeling Bad"; }
             else if (trackNameKey.Contains("goodgollymissmolly")) { trackName = "Good Golly Miss Molly"; }
             else if (trackNameKey.Contains("goodlovin")) { trackName = "Good Lovin'"; }
-            else if (trackNameKey.Contains("goodmorninglittleschoolgirl")) { trackName = "Good Morning Little Schoolgirl"; }
+            else if (trackNameKey.Contains("goodmorning")) { trackName = "Good Morning Little Schoolgirl"; }
+            else if (trackNameKey.Contains("schoolgirl")) { trackName = "Good Morning Little Schoolgirl"; }
             else if (trackNameKey.Contains("goodnightirene")) { trackName = "Goodnight Irene"; }
             else if (trackNameKey.Contains("gotmymojoworking")) { trackName = "Got My Mojo Working"; }
             else if (trackNameKey.Contains("gottaservesomebody")) { trackName = "Gotta Serve Somebody"; }
@@ -504,6 +505,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("tonsofsteel")) { trackName = "Tons Of Steel"; }
             else if (trackNameKey.Contains("touchofgrey")) { trackName = "Touch Of Grey"; }
             else if (trackNameKey.Contains("truckin")) { trackName = "Truckin'"; }
+            else if (trackNameKey.Contains("turnon")) { trackName = "Turn On Your Love Light"; }
             else if (trackNameKey.Contains("lovelight")) { trackName = "Turn On Your Love Light"; }
             else if (trackNameKey.Contains("twistshout")) { trackName = "Twist And Shout"; }
             else if (trackNameKey.Contains("twistandshout")) { trackName = "Twist And Shout"; }
