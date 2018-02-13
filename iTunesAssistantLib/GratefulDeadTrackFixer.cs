@@ -6,10 +6,6 @@ namespace iTunesAssistantLib
     {
         public static string FixTrackName(string trackName)
         {
-            trackName = trackName.Replace("/", string.Empty);
-            trackName = trackName.Replace("-", string.Empty);
-            trackName = trackName.Replace("!", string.Empty);
-
             var trackNames = trackName.Split(new[] {">"}, StringSplitOptions.RemoveEmptyEntries);
 
             if (trackNames.Length == 1)
@@ -43,285 +39,514 @@ namespace iTunesAssistantLib
 
         private static string GetCanonicalName(string trackName)
         {
-            var lower = trackName.ToLower();
-
-            var endsWithSegue = lower.EndsWith(">");
-            var endsWithJam = lower.EndsWith(" jam") || lower.EndsWith(" jam>") || lower.EndsWith(" jam >");
-
+            var endsWithSegue = trackName.EndsWith(">");
             if (endsWithSegue)
             {
                 trackName = trackName.Replace(">", string.Empty);
             }
+
+            var endsWithJam = trackName.ToLower().EndsWith(" jam");
             if (endsWithJam)
             {
                 trackName = trackName.Replace(" Jam", string.Empty).Replace(" jam", string.Empty);
             }
 
-            if (lower.Contains("the rub"))
-            {
-                trackName = "Ain't It Crazy (The Rub)";
-            }
-            else if (lower.Contains("aligator"))
-            {
-                trackName = "Alligator";
-            }
-            else if (lower.Contains("around"))
-            {
-                trackName = "Around And Around";
-            }
-            else if (lower.Contains("biodtl"))
-            {
-                trackName = "Beat It On Down The Line";
-            }
-            else if (lower.Contains("bill graham"))
-            {
-                trackName = "Bill Graham";
-            }
-            else if (lower.Contains("throated"))
-            {
-                trackName = "Black-Throated Wind";
-            }
-            else if (lower.Contains("eyed women"))
-            {
-                trackName = "Brown-Eyed Women";
-            }
-            else if (lower.Contains("c. c."))
-            {
-                trackName = "C.C. Rider";
-            }
-            else if (lower.Contains("candyman"))
-            {
-                trackName = "Candyman";
-            }
-            else if (lower.Contains("cold rain"))
-            {
-                trackName = "Cold Rain And Snow";
-            }
-            else if (lower.Contains("crowd noise"))
-            {
-                trackName = "Crowd";
-            }
-            else if (lower.Contains("cryptical"))
-            {
-                trackName = "Cryptical Envelopment";
-            }
-            else if (lower.Contains("dancin"))
-            {
-                trackName = "Dancing in the Street";
-            }
-            else if (lower.Contains("dont ease"))
-            {
-                trackName = "Don't Ease Me In";
-            }
-            else if (lower.Contains("duprees"))
-            {
-                trackName = "Dupree's Diamond Blues";
-            }
-            else if (lower.Contains("easy tolove"))
-            {
-                trackName = "Easy To Love You";
-            }
-            else if (lower.Contains("equipment issues"))
-            {
-                trackName = "Equipment Problems";
-            }
-            else if (lower.Contains("estimated"))
-            {
-                trackName = "Estimated Prophet";
-            }
-            else if (lower.Contains("franklins"))
-            {
-                trackName = "Franklin's Tower";
-            }
-            else if (lower.Contains("frozen logger"))
-            {
-                trackName = "The Frozen Logger";
-            }
-            else if (lower.Contains("gdtrfb") || lower.Contains("raod feelin"))
-            {
-                trackName = "Goin' Down The Road Feeling Bad";
-            }
-            else if (lower.Contains("good lovin"))
-            {
-                trackName = "Good Lovin'";
-            }
-            else if (lower.Contains("mojo work"))
-            {
-                trackName = "Got My Mojo Working";
-            }
-            else if (lower.Contains("your rider"))
-            {
-                trackName = "I Know You Rider";
-            }
-            else if (lower.Contains("mans world") || lower.Contains("man's world"))
-            {
-                trackName = "It's A Man's, Man's, Man's World";
-            }
-            else if (lower.Contains("baby blue"))
-            {
-                trackName = "It's All Over Now, Baby Blue";
-            }
-            else if (lower.Contains("jack a roe") || lower.Contains("jackaroe"))
-            {
-                trackName = "Jack-A-Roe";
-            }
-            else if (lower.Contains("johnny"))
-            {
-                trackName = "Johnny B. Goode";
-            }
-            else if (lower.Contains("kingbee"))
-            {
-                trackName = "I'm A King Bee";
-            }
-            else if (lower.Contains("lazy lightning"))
-            {
-                trackName = "Lazy Lightnin'";
-            }
-            else if (lower.Contains("women are smarter"))
-            {
-                trackName = "Man Smart (Woman Smarter)";
-            }
-            else if (lower.Contains("bobby mcgee"))
-            {
-                trackName = "Me And Bobby McGee";
-            }
-            else if (lower.Contains("my uncle"))
-            {
-                trackName = "Me And My Uncle";
-            }
-            else if (lower.Contains("mexical") || lower.Contains("mexacal"))
-            {
-                trackName = "Mexicali Blues";
-            }
-            else if (lower.Contains("minglewood"))
-            {
-                trackName = "New Minglewood Blues";
-            }
-            else if (lower.Contains("mississippi") || lower.Contains("halfstep"))
-            {
-                trackName = "Mississippi Half-Step, Uptown Toodeloo";
-            }
-            else if (lower.Contains("new speedway"))
-            {
-                trackName = "New Speedway Boogie";
-            }
-            else if (lower.Contains("ollin arageed"))
-            {
-                trackName = "Ollin Arrageed";
-            }
-            else if (lower.Contains("in the band"))
-            {
-                trackName = "Playing In The Band";
-            }
-            else if (lower.Contains("promised land"))
-            {
-                trackName = "The Promised Land";
-            }
-            else if (lower.Contains("ramble"))
-            {
-                trackName = "Ramble On Rose";
-            }
-            else if (lower.Contains("slipknot"))
-            {
-                trackName = "Slipknot!";
-            }
-            else if (lower.Contains("stephen"))
-            {
-                trackName = "St. Stephen";
-            }
-            else if (lower.Contains("announcements"))
-            {
-                trackName = "Stage Announcements";
-            }
-            else if (
-                lower.Contains(" stage") ||
-                lower.Contains("stage ") ||
-                lower.Equals("stage"))
-            {
-                trackName = "Stage Banter";
-            }
-            else if (lower.Contains("peggy o") || lower.Contains("peggyo"))
-            {
-                trackName = "Peggy-O";
-            }
-            else if (lower.Contains("mcfall"))
-            {
-                trackName = "Rosalie McFall";
-            }
-            else if (lower.Contains("jimmy row"))
-            {
-                trackName = "Row Jimmy";
-            }
-            else if (lower.Contains("samson"))
-            {
-                trackName = "Samson And Delilah";
-            }
-            else if (lower.Contains("silver theads"))
-            {
-                trackName = "Silver Threads And Golden Needles";
-            }
-            else if (lower.Contains("forever tuning"))
-            {
-                trackName = "Stars And Stripes Forever";
-            }
-            else if (lower.Contains("sugaee"))
-            {
-                trackName = "Sugaree";
-            }
-            else if (lower.Contains("sweet chariot"))
-            {
-                trackName = "Swing Low, Sweet Chariot";
-            }
-            else if (lower.Contains("tennessee fred") || lower.Contains("tennesee") || lower.Contains("tennesse"))
-            {
-                trackName = "Tennessee Jed";
-            }
-            else if (
-                lower.Contains("for the other one") ||
-                lower.Contains("for the the other one"))
-            {
-                trackName = "That's It For The Other One";
-            }
-            else if (
-                lower.Contains("other one") ||
-                lower.Contains("otherone"))
-            {
-                trackName = "The Other One";
-            }
-            else if (lower.Contains("truckin"))
-            {
-                trackName = "Truckin'";
-            }
-            else if (lower.Contains("tuning"))
-            {
-                trackName = "Tuning";
-            }
-            else if (lower.Contains("lovelight"))
-            {
-                trackName = "Turn On Your Love Light";
-            }
-            else if (
-                lower.Contains("u. s. blues") ||
-                lower.Contains("u.s.blues") ||
-                lower.Contains("us blues"))
-            {
-                trackName = "U.S. Blues";
-            }
-            else if (lower.Contains("wake up"))
-            {
-                trackName = "Wake Up Little Susie";
-            }
-            else if (lower.Contains("werewolves in london"))
-            {
-                trackName = "Werewolves Of London";
-            }
-            else if (lower.Contains("warf rat"))
-            {
-                trackName = "Wharf Rat";
-            }
+            var trackNameKey = trackName.ToLowerAlphaNumeric();
 
-            trackName = trackName.Replace("*", string.Empty);
-            trackName = trackName.Replace("(Encore)", string.Empty);
+            if (trackNameKey.Contains("hullygully")) { trackName = "(Baby) Hully Gully"; }
+            else if (trackNameKey.Contains("childrenoftheeighties")) { trackName = "(For The) Children Of The Eighties"; }
+            else if (trackNameKey.Contains("satisfaction")) { trackName = "(I Can't Get No) Satisfaction"; }
+            else if (trackNameKey.Contains("roadrunner")) { trackName = "(I'm A) Road Runner"; }
+            else if (trackNameKey.Contains("avoicefromonhigh")) { trackName = "A Voice From On High"; }
+            else if (trackNameKey.Contains("aintitcrazy")) { trackName = "Ain't It Crazy (The Rub)"; }
+            else if (trackNameKey.Contains("therub")) { trackName = "Ain't It Crazy (The Rub)"; }
+            else if (trackNameKey.Contains("alabamagetaway")) { trackName = "Alabama Getaway"; }
+            else if (trackNameKey.Contains("alicedmillionaire")) { trackName = "Alice D Millionaire"; }
+            else if (trackNameKey.Contains("allalongthewatchtower")) { trackName = "All Along The Watchtower"; }
+            else if (trackNameKey.Contains("allihavetodoisdream")) { trackName = "All I Have To Do Is Dream"; }
+            else if (trackNameKey.Contains("allofmylove")) { trackName = "All Of My Love"; }
+            else if (trackNameKey.Contains("aligator")) { trackName = "Alligator"; }
+            else if (trackNameKey.Contains("alligator")) { trackName = "Alligator"; }
+            else if (trackNameKey.Contains("althea")) { trackName = "Althea"; }
+            else if (trackNameKey.Contains("awbygn")) { trackName = "And We Bid You Goodnight"; }
+            else if (trackNameKey.Contains("goodnight")) { trackName = "And We Bid You Goodnight"; }
+            else if (trackNameKey.Contains("areyoulonelyforme")) { trackName = "Are You Lonely For Me"; }
+            else if (trackNameKey.Contains("around")) { trackName = "Around And Around"; }
+            else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of my Life"; }
+            else if (trackNameKey.Contains("babaoriley")) { trackName = "Baba O'Riley"; }
+            else if (trackNameKey.Contains("babywhatyouwantmetodo")) { trackName = "Baby What You Want Me To Do"; }
+            else if (trackNameKey.Contains("badmoonrising")) { trackName = "Bad Moon Rising"; }
+            else if (trackNameKey.Contains("balladofathinman")) { trackName = "Ballad Of A Thin Man"; }
+            else if (trackNameKey.Contains("balladofcaseyjones")) { trackName = "Ballad Of Casey Jones"; }
+            else if (trackNameKey.Contains("bananaboatsongdayo")) { trackName = "Banana Boat Song (Day-O)"; }
+            else if (trackNameKey.Contains("banksoftheohio")) { trackName = "Banks Of The Ohio"; }
+            else if (trackNameKey.Contains("barbaraallen")) { trackName = "Barbara Allen"; }
+            else if (trackNameKey.Contains("biodtl")) { trackName = "Beat It On Down The Line"; }
+            else if (trackNameKey.Contains("beatitondown")) { trackName = "Beat It On Down The Line"; }
+            else if (trackNameKey.Contains("believeitornot")) { trackName = "Believe It Or Not"; }
+            else if (trackNameKey.Contains("bertha")) { trackName = "Bertha"; }
+            else if (trackNameKey.Contains("betty")) { trackName = "Betty And Dupree"; }
+            else if (trackNameKey.Contains("bigbossman")) { trackName = "Big Boss Man"; }
+            else if (trackNameKey.Contains("bigboypete")) { trackName = "Big Boy Pete"; }
+            else if (trackNameKey.Contains("bigbreasa")) { trackName = "Big Breasa"; }
+            else if (trackNameKey.Contains("bigrailroadblues")) { trackName = "Big Railroad Blues"; }
+            else if (trackNameKey.Contains("bigriver")) { trackName = "Big River"; }
+            else if (trackNameKey.Contains("billgraham")) { trackName = "Bill Graham"; }
+            else if (trackNameKey.Contains("birdsong")) { trackName = "Bird Song"; }
+            else if (trackNameKey.Contains("blackmuddyriver")) { trackName = "Black Muddy River"; }
+            else if (trackNameKey.Contains("blackpeter")) { trackName = "Black Peter"; }
+            else if (trackNameKey.Contains("blackqueen")) { trackName = "Black Queen"; }
+            else if (trackNameKey.Contains("blackthroatedwind")) { trackName = "Black Throated Wind"; }
+            else if (trackNameKey.Contains("blackbird")) { trackName = "Blackbird"; }
+            else if (trackNameKey.Contains("blowaway")) { trackName = "Blow Away"; }
+            else if (trackNameKey.Contains("bluemoon")) { trackName = "Blue Moon"; }
+            else if (trackNameKey.Contains("bluesforallah")) { trackName = "Blues For Allah"; }
+            else if (trackNameKey.Contains("borncrosseyed")) { trackName = "Born Cross-Eyed"; }
+            else if (trackNameKey.Contains("bornonthebayou")) { trackName = "Born On The Bayou"; }
+            else if (trackNameKey.Contains("boxofrain")) { trackName = "Box Of Rain"; }
+            else if (trackNameKey.Contains("bringmemyshotgun")) { trackName = "Bring Me My Shotgun"; }
+            else if (trackNameKey.Contains("brokedownpalace")) { trackName = "Brokedown Palace"; }
+            else if (trackNameKey.Contains("brokenarrow")) { trackName = "Broken Arrow"; }
+            else if (trackNameKey.Contains("browneyedwomen")) { trackName = "Brown-Eyed Women"; }
+            else if (trackNameKey.Contains("builttolast")) { trackName = "Built To Last"; }
+            else if (trackNameKey.Contains("byebyelove")) { trackName = "Bye Bye Love"; }
+            else if (trackNameKey.Contains("ccrider")) { trackName = "C.C. Rider"; }
+            else if (trackNameKey.Contains("californiaearthquake")) { trackName = "California Earthquake"; }
+            else if (trackNameKey.Contains("cantcomedown")) { trackName = "Can't Come Down"; }
+            else if (trackNameKey.Contains("candyman")) { trackName = "Candyman"; }
+            else if (trackNameKey.Contains("cardboard")) { trackName = "Cardboard Cowboy"; }
+            else if (trackNameKey.Contains("caseyjones")) { trackName = "Casey Jones"; }
+            else if (trackNameKey.Contains("cassidy")) { trackName = "Cassidy"; }
+            else if (trackNameKey.Contains("cathysclown")) { trackName = "Cathy's Clown"; }
+            else if (trackNameKey.Contains("caution")) { trackName = "Caution (Do Not Stop On Tracks)"; }
+            else if (trackNameKey.Contains("checkin")) { trackName = "Checkin' Up"; }
+            else if (trackNameKey.Contains("childhoodsend")) { trackName = "Childhood's End"; }
+            else if (trackNameKey.Contains("chimesoffreedom")) { trackName = "Chimes Of Freedom"; }
+            else if (trackNameKey.Contains("chinacat")) { trackName = "China Cat Sunflower"; }
+            else if (trackNameKey.Contains("chinatownshuffle")) { trackName = "Chinatown Shuffle"; }
+            else if (trackNameKey.Contains("chinesebones")) { trackName = "Chinese Bones"; }
+            else if (trackNameKey.Contains("clementine")) { trackName = "Clementine"; }
+            else if (trackNameKey.Contains("closeencounters")) { trackName = "Close Encounters"; }
+            else if (trackNameKey.Contains("cocainehabitblues")) { trackName = "Cocaine Habit Blues"; }
+            else if (trackNameKey.Contains("coldjordan")) { trackName = "Cold Jordan"; }
+            else if (trackNameKey.Contains("crs")) { trackName = "Cold Rain And Snow"; }
+            else if (trackNameKey.Contains("coldrain")) { trackName = "Cold Rain And Snow"; }
+            else if (trackNameKey.Contains("comebackbaby")) { trackName = "Come Back Baby"; }
+            else if (trackNameKey.Contains("comesatime")) { trackName = "Comes A Time"; }
+            else if (trackNameKey.Contains("corrina")) { trackName = "Corrina"; }
+            else if (trackNameKey.Contains("cosmic")) { trackName = "Cosmic Charlie"; }
+            else if (trackNameKey.Contains("cowboysong")) { trackName = "Cowboy Song"; }
+            else if (trackNameKey.Contains("crazyfingers")) { trackName = "Crazy Fingers"; }
+            else if (trackNameKey.Contains("crowdnoise")) { trackName = "Crowd"; }
+            else if (trackNameKey.Contains("creampuffwar")) { trackName = "Cream Puff War"; }
+            else if (trackNameKey.Contains("cryptical")) { trackName = "Cryptical Envelopment"; }
+            else if (trackNameKey.Contains("cumberlandblues")) { trackName = "Cumberland Blues"; }
+            else if (trackNameKey.Contains("dancin")) { trackName = "Dancin’ In The Streets"; }
+            else if (trackNameKey.Contains("darkhollow")) { trackName = "Dark Hollow"; }
+            else if (trackNameKey.Contains("darkstar")) { trackName = "Dark Star"; }
+            else if (trackNameKey.Contains("darlingcorey")) { trackName = "Darling Corey"; }
+            else if (trackNameKey.Contains("daytripper")) { trackName = "Day Tripper"; }
+            else if (trackNameKey.Contains("daysbetween")) { trackName = "Days Between"; }
+            else if (trackNameKey.Contains("deadman")) { trackName = "Dead Man, Dead Man"; }
+            else if (trackNameKey.Contains("deal")) { trackName = "Deal"; }
+            else if (trackNameKey.Contains("dearmrfantasy")) { trackName = "Dear Mr. Fantasy"; }
+            else if (trackNameKey.Contains("deathdonthavenomercy")) { trackName = "Death Don't Have No Mercy"; }
+            else if (trackNameKey.Contains("deathletterblues")) { trackName = "Death Letter Blues"; }
+            else if (trackNameKey.Contains("deepelemblues")) { trackName = "Deep Elem Blues"; }
+            else if (trackNameKey.Contains("desolationrow")) { trackName = "Desolation Row"; }
+            else if (trackNameKey.Contains("devilwiththebluedress")) { trackName = "Devil With The Blue Dress"; }
+            else if (trackNameKey.Contains("direwolf")) { trackName = "Dire Wolf"; }
+            else if (trackNameKey.Contains("doyouwannadance")) { trackName = "Do You Wanna Dance"; }
+            else if (trackNameKey.Contains("dointhatrag")) { trackName = "Doin' That Rag"; }
+            else if (trackNameKey.Contains("donteasemein")) { trackName = "Don't Ease Me In"; }
+            else if (trackNameKey.Contains("dontmessupagoodthing")) { trackName = "Don't Mess Up A Good Thing"; }
+            else if (trackNameKey.Contains("dontneedlove")) { trackName = "Don't Need Love"; }
+            else if (trackNameKey.Contains("dontthinktwiceitsallright")) { trackName = "Don't Think Twice It's All Right"; }
+            else if (trackNameKey.Contains("downinthebottom")) { trackName = "Down In The Bottom"; }
+            else if (trackNameKey.Contains("downsolong")) { trackName = "Down So Long"; }
+            else if (trackNameKey.Contains("drinkup")) { trackName = "Drink Up And Go Home"; }
+            else if (trackNameKey.Contains("drums")) { trackName = "Drums"; }
+            else if (trackNameKey.Contains("dupreesdiamondblues")) { trackName = "Dupree's Diamond Blues"; }
+            else if (trackNameKey.Contains("earlymorningrain")) { trackName = "Early Morning Rain"; }
+            else if (trackNameKey.Contains("easyanswers")) { trackName = "Easy Answers"; }
+            else if (trackNameKey.Contains("easytoloveyou")) { trackName = "Easy To Love You"; }
+            else if (trackNameKey.Contains("easywind")) { trackName = "Easy Wind"; }
+            else if (trackNameKey.Contains("elpaso")) { trackName = "El Paso"; }
+            else if (trackNameKey.Contains("emptypages")) { trackName = "Empty Pages"; }
+            else if (trackNameKey.Contains("equipment")) { trackName = "Equipment Problems"; }
+            else if (trackNameKey.Contains("encorebreak")) { trackName = "Encore Break"; }
+            else if (trackNameKey.Contains("estimatedprophet")) { trackName = "Estimated Prophet"; }
+            else if (trackNameKey.Contains("eternity")) { trackName = "Eternity"; }
+            else if (trackNameKey.Contains("everytimeyougoaway")) { trackName = "Every Time You Go Away"; }
+            else if (trackNameKey.Contains("eyesoftheworld")) { trackName = "Eyes Of The World"; }
+            else if (trackNameKey.Contains("farfromme")) { trackName = "Far From Me"; }
+            else if (trackNameKey.Contains("feedback")) { trackName = "Feedback"; }
+            else if (trackNameKey.Contains("feellikeastranger")) { trackName = "Feel Like A Stranger"; }
+            else if (trackNameKey.Contains("fever")) { trackName = "Fever"; }
+            else if (trackNameKey.Contains("funiculi")) { trackName = "Funiculi Funicula"; }
+            else if (trackNameKey.Contains("fireonthe")) { trackName = "Fire On The Mountain"; }
+            else if (trackNameKey.Contains("foolishheart")) { trackName = "Foolish Heart"; }
+            else if (trackNameKey.Contains("foreveryoung")) { trackName = "Forever Young"; }
+            else if (trackNameKey.Contains("franklinstower")) { trackName = "Franklin's Tower"; }
+            else if (trackNameKey.Contains("friendofthe")) { trackName = "Friend Of The Devil"; }
+            else if (trackNameKey.Contains("fromtheheartofme")) { trackName = "From The Heart Of Me"; }
+            else if (trackNameKey.Contains("frozenlogger")) { trackName = "The Frozen Logger"; }
+            else if (trackNameKey.Contains("gamespeopleplay")) { trackName = "Games People Play"; }
+            else if (trackNameKey.Contains("bouquet")) { trackName = "Gathering Flowers For The Master's Bouquet"; }
+            else if (trackNameKey.Contains("gentlemenstartyourengines")) { trackName = "Gentlemen, Start Your Engines"; }
+            else if (trackNameKey.Contains("getback")) { trackName = "Get Back"; }
+            else if (trackNameKey.Contains("gimmesomelovin")) { trackName = "Gimme Some Lovin'"; }
+            else if (trackNameKey.Contains("gloria")) { trackName = "Gloria"; }
+            else if (trackNameKey.Contains("gdtrfb")) { trackName = "Goin' Down The Road Feeling Bad"; }
+            else if (trackNameKey.Contains("goin")) { trackName = "Goin' Down The Road Feeling Bad"; }
+            else if (trackNameKey.Contains("goodgollymissmolly")) { trackName = "Good Golly Miss Molly"; }
+            else if (trackNameKey.Contains("goodlovin")) { trackName = "Good Lovin'"; }
+            else if (trackNameKey.Contains("goodmorninglittleschoolgirl")) { trackName = "Good Morning Little Schoolgirl"; }
+            else if (trackNameKey.Contains("goodnightirene")) { trackName = "Goodnight Irene"; }
+            else if (trackNameKey.Contains("gotmymojoworking")) { trackName = "Got My Mojo Working"; }
+            else if (trackNameKey.Contains("gottaservesomebody")) { trackName = "Gotta Serve Somebody"; }
+            else if (trackNameKey.Contains("greateststoryevertold")) { trackName = "Greatest Story Ever Told"; }
+            else if (trackNameKey.Contains("greengreengrassofhome")) { trackName = "Green Green Grass Of Home"; }
+            else if (trackNameKey.Contains("greenonions")) { trackName = "Green Onions"; }
+            else if (trackNameKey.Contains("greenriver")) { trackName = "Green River"; }
+            else if (trackNameKey.Contains("happinessisdrumming")) { trackName = "Happiness Is Drumming"; }
+            else if (trackNameKey.Contains("hth")) { trackName = "Hard To Handle"; }
+            else if (trackNameKey.Contains("h2h")) { trackName = "Hard To Handle"; }
+            else if (trackNameKey.Contains("hardtohandle")) { trackName = "Hard To Handle"; }
+            else if (trackNameKey.Contains("hewasafriendofmine")) { trackName = "He Was A Friend Of Mine"; }
+            else if (trackNameKey.Contains("hesgone")) { trackName = "He's Gone"; }
+            else if (trackNameKey.Contains("headsup")) { trackName = "Heads Up"; }
+            else if (trackNameKey.Contains("heartofmine")) { trackName = "Heart Of Mine"; }
+            else if (trackNameKey.Contains("heavenhelpthefool")) { trackName = "Heaven Help The Fool"; }
+            else if (trackNameKey.Contains("hellinabucket")) { trackName = "Hell In A Bucket"; }
+            else if (trackNameKey.Contains("helpmerhonda")) { trackName = "Help Me Rhonda"; }
+            else if (trackNameKey.Contains("helpontheway")) { trackName = "Help On The Way"; }
+            else if (trackNameKey.Contains("herecomessunshine")) { trackName = "Here Comes Sunshine"; }
+            else if (trackNameKey.Contains("heybodiddley")) { trackName = "Hey Bo Diddley"; }
+            else if (trackNameKey.Contains("heyjude")) { trackName = "Hey Jude"; }
+            else if (trackNameKey.Contains("heylittleone")) { trackName = "Hey Little One"; }
+            else if (trackNameKey.Contains("heypockyway")) { trackName = "Hey Pocky Way"; }
+            else if (trackNameKey.Contains("hiheeledsneakers")) { trackName = "Hi Heeled Sneakers"; }
+            else if (trackNameKey.Contains("hideaway")) { trackName = "Hide Away"; }
+            else if (trackNameKey.Contains("hightime")) { trackName = "High Time"; }
+            else if (trackNameKey.Contains("highway61revisited")) { trackName = "Highway 61 Revisited"; }
+            else if (trackNameKey.Contains("howlongblues")) { trackName = "How Long Blues"; }
+            else if (trackNameKey.Contains("howsweet")) { trackName = "How Sweet It Is (To Be Loved by You)"; }
+            else if (trackNameKey.Contains("iaintsuperstitious")) { trackName = "I Ain't Superstitious"; }
+            else if (trackNameKey.Contains("ifoughtthelaw")) { trackName = "I Fought The Law"; }
+            else if (trackNameKey.Contains("igotamindtogiveuplivin")) { trackName = "I Got A Mind To Give Up Livin'"; }
+            else if (trackNameKey.Contains("ijustwannamakelovetoyou")) { trackName = "I Just Wanna Make Love To You"; }
+            else if (trackNameKey.Contains("iknowitsasin")) { trackName = "I Know It's A Sin"; }
+            else if (trackNameKey.Contains("yourrider")) { trackName = "I Know You Rider"; }
+            else if (trackNameKey.Contains("iknowyourider")) { trackName = "I Know You Rider"; }
+            else if (trackNameKey.Contains("ineedamiracle")) { trackName = "I Need A Miracle"; }
+            else if (trackNameKey.Contains("isecondthatemotion")) { trackName = "I Second That Emotion"; }
+            else if (trackNameKey.Contains("iwanttotellyou")) { trackName = "I Want To Tell You"; }
+            else if (trackNameKey.Contains("iwantyou")) { trackName = "I Want You"; }
+            else if (trackNameKey.Contains("iwashedmyhandsinmuddywater")) { trackName = "I Washed My Hands In Muddy Water"; }
+            else if (trackNameKey.Contains("iwilltakeyouhome")) { trackName = "I Will Take You Home"; }
+            else if (trackNameKey.Contains("illbeyourbabytonight")) { trackName = "I'll Be Your Baby Tonight"; }
+            else if (trackNameKey.Contains("illgocrazy")) { trackName = "I'll Go Crazy"; }
+            else if (trackNameKey.Contains("imahogforyoubaby")) { trackName = "I'm A Hog For You Baby"; }
+            else if (trackNameKey.Contains("imakingbee")) { trackName = "I'm A King Bee"; }
+            else if (trackNameKey.Contains("imaman")) { trackName = "I'm A Man"; }
+            else if (trackNameKey.Contains("ivebeenallaroundthisworld")) { trackName = "I've Been All Around This World"; }
+            else if (trackNameKey.Contains("ivegotatigerbythetail")) { trackName = "I've Got A Tiger By The Tail"; }
+            else if (trackNameKey.Contains("ivejustseenaface")) { trackName = "I've Just Seen A Face"; }
+            else if (trackNameKey.Contains("ifihadtheworldtogive")) { trackName = "If I Had The World To Give"; }
+            else if (trackNameKey.Contains("iftheshoefits")) { trackName = "If The Shoe Fits"; }
+            else if (trackNameKey.Contains("ikoiko")) { trackName = "Iko Iko"; }
+            else if (trackNameKey.Contains("inthemidnighthour")) { trackName = "In The Midnight Hour"; }
+            else if (trackNameKey.Contains("inthepines")) { trackName = "In The Pines"; }
+            else if (trackNameKey.Contains("ithurtsmetoo")) { trackName = "It Hurts Me Too"; }
+            else if (trackNameKey.Contains("itmusthavebeentheroses")) { trackName = "It Must Have Been The Roses"; }
+            else if (trackNameKey.Contains("traintocry")) { trackName = "It Takes A Lot to Laugh, It Takes A Train to Cry"; }
+            else if (trackNameKey.Contains("mansworld")) { trackName = "It's A Man's, Man's, Man's World"; }
+            else if (trackNameKey.Contains("allovernow")) { trackName = "It's All Over Now"; }
+            else if (trackNameKey.Contains("babyblue")) { trackName = "It's All Over Now, Baby Blue"; }
+            else if (trackNameKey.Contains("itsmyownfault")) { trackName = "It's My Own Fault"; }
+            else if (trackNameKey.Contains("jackaroe")) { trackName = "Jack A Roe"; }
+            else if (trackNameKey.Contains("jackstraw")) { trackName = "Jack Straw"; }
+            else if (trackNameKey.Contains("joey")) { trackName = "Joey"; }
+            else if (trackNameKey.Contains("johnbrown")) { trackName = "John Brown"; }
+            else if (trackNameKey.Contains("johnsother")) { trackName = "John's Other"; }
+            else if (trackNameKey.Contains("johnnybgoode")) { trackName = "Johnny B. Goode"; }
+            else if (trackNameKey.Contains("justalittlelight")) { trackName = "Just A Little Light"; }
+            else if (trackNameKey.Contains("tomthumbblues")) { trackName = "Just Like Tom Thumb Blues"; }
+            else if (trackNameKey.Contains("kansascity")) { trackName = "Kansas City"; }
+            else if (trackNameKey.Contains("katiemae")) { trackName = "Katie Mae"; }
+            else if (trackNameKey.Contains("keepongrowing")) { trackName = "Keep On Growing"; }
+            else if (trackNameKey.Contains("keepyourdayjob")) { trackName = "Keep Your Day Job"; }
+            else if (trackNameKey.Contains("kingsolomonsmarbles")) { trackName = "King Solomon's Marbles"; }
+            else if (trackNameKey.Contains("knockinonheavensdoor")) { trackName = "Knockin' On Heaven's Door"; }
+            else if (trackNameKey.Contains("lalhambra")) { trackName = "L'Alhambra"; }
+            else if (trackNameKey.Contains("labamba")) { trackName = "La Bamba"; }
+            else if (trackNameKey.Contains("ladydi")) { trackName = "Lady Di And I"; }
+            else if (trackNameKey.Contains("lazylightnin")) { trackName = "Lazy Lightning"; }
+            else if (trackNameKey.Contains("lazyriverroad")) { trackName = "Lazy River Road"; }
+            else if (trackNameKey.Contains("leaveyourloveathome")) { trackName = "Leave Your Love At Home"; }
+            else if (trackNameKey.Contains("letitbeme")) { trackName = "Let It Be Me"; }
+            else if (trackNameKey.Contains("letitgrow")) { trackName = "Let It Grow"; }
+            else if (trackNameKey.Contains("letitrock")) { trackName = "Let It Rock"; }
+            else if (trackNameKey.Contains("letmein")) { trackName = "Let Me In"; }
+            else if (trackNameKey.Contains("letmesingyourbluesaway")) { trackName = "Let Me Sing Your Blues Away"; }
+            else if (trackNameKey.Contains("letthegoodtimesroll")) { trackName = "Let The Good Times Roll"; }
+            else if (trackNameKey.Contains("liberty")) { trackName = "Liberty"; }
+            else if (trackNameKey.Contains("littleredrooster")) { trackName = "Little Red Rooster"; }
+            else if (trackNameKey.Contains("littlesadie")) { trackName = "Little Sadie"; }
+            else if (trackNameKey.Contains("littlestar")) { trackName = "Little Star"; }
+            else if (trackNameKey.Contains("longblacklimousine")) { trackName = "Long Black Limousine"; }
+            else if (trackNameKey.Contains("lookonyonderswall")) { trackName = "Look On Yonder's Wall"; }
+            else if (trackNameKey.Contains("lookslikerain")) { trackName = "Looks Like Rain"; }
+            else if (trackNameKey.Contains("looselucy")) { trackName = "Loose Lucy"; }
+            else if (trackNameKey.Contains("loser")) { trackName = "Loser"; }
+            else if (trackNameKey.Contains("lostsailor")) { trackName = "Lost Sailor"; }
+            else if (trackNameKey.Contains("louielouie")) { trackName = "Louie, Louie"; }
+            else if (trackNameKey.Contains("lovetheoneyourewith")) { trackName = "Love The One You're With"; }
+            else if (trackNameKey.Contains("luciferseyes")) { trackName = "Lucifer's Eyes"; }
+            else if (trackNameKey.Contains("lucyintheskywithdiamonds")) { trackName = "Lucy In The Sky with Diamonds"; }
+            else if (trackNameKey.Contains("macktheknife")) { trackName = "Mack The Knife"; }
+            else if (trackNameKey.Contains("maggiesfarm")) { trackName = "Maggie's Farm"; }
+            else if (trackNameKey.Contains("mamatried")) { trackName = "Mama Tried"; }
+            else if (trackNameKey.Contains("manofpeace")) { trackName = "Man Of Peace"; }
+            else if (trackNameKey.Contains("womenaresmarter")) { trackName = "Man Smart (Woman Smarter)"; }
+            else if (trackNameKey.Contains("mansmartwomansmarter")) { trackName = "Man Smart (Woman Smarter)"; }
+            else if (trackNameKey.Contains("imaman")) { trackName = "Mannish Boy (I'm A Man)"; }
+            else if (trackNameKey.Contains("mannishboy")) { trackName = "Mannish Boy (I'm A Man)"; }
+            else if (trackNameKey.Contains("marriottusa")) { trackName = "Marriott USA"; }
+            else if (trackNameKey.Contains("masonschildren")) { trackName = "Mason's Children"; }
+            else if (trackNameKey.Contains("matildamatilda")) { trackName = "Matilda, Matilda"; }
+            else if (trackNameKey.Contains("maybeyouknow")) { trackName = "Maybe You Know"; }
+            else if (trackNameKey.Contains("bobbymcgee")) { trackName = "Me And Bobby McGee"; }
+            else if (trackNameKey.Contains("myuncle")) { trackName = "Me And My Uncle"; }
+            else if (trackNameKey.Contains("memphisblues")) { trackName = "Memphis Blues"; }
+            else if (trackNameKey.Contains("mexacali")) { trackName = "Mexicali Blues"; }
+            else if (trackNameKey.Contains("mexicali")) { trackName = "Mexicali Blues"; }
+            else if (trackNameKey.Contains("mightaswell")) { trackName = "Might As Well"; }
+            else if (trackNameKey.Contains("milkintheturkey")) { trackName = "Milkin' The Turkey"; }
+            else if (trackNameKey.Contains("mindleftbody")) { trackName = "Mind Left Body"; }
+            else if (trackNameKey.Contains("confusionsprince")) { trackName = "Mindbender (Confusion's Prince)"; }
+            else if (trackNameKey.Contains("mindbender")) { trackName = "Mindbender (Confusion's Prince)"; }
+            else if (trackNameKey.Contains("missionintherain")) { trackName = "Mission In The Rain"; }
+            else if (trackNameKey.Contains("mississippi")) { trackName = "Mississippi Half-Step Uptown Toodleloo"; }
+            else if (trackNameKey.Contains("halfstep")) { trackName = "Mississippi Half-Step Uptown Toodleloo"; }
+            else if (trackNameKey.Contains("mrcharlie")) { trackName = "Mr. Charlie"; }
+            else if (trackNameKey.Contains("mona")) { trackName = "Mona"; }
+            else if (trackNameKey.Contains("moneymoney")) { trackName = "Money Money"; }
+            else if (trackNameKey.Contains("monkey")) { trackName = "Monkey And The Engineer"; }
+            else if (trackNameKey.Contains("morningdew")) { trackName = "Morning Dew"; }
+            else if (trackNameKey.Contains("mountainsofthemoon")) { trackName = "Mountains Of The Moon"; }
+            else if (trackNameKey.Contains("mountain")) { trackName = "Mountain"; }
+            else if (trackNameKey.Contains("mrtambourineman")) { trackName = "Mr Tambourine Man"; }
+            else if (trackNameKey.Contains("mybabe")) { trackName = "My Babe"; }
+            else if (trackNameKey.Contains("mybabyleftme")) { trackName = "My Baby Left Me"; }
+            else if (trackNameKey.Contains("mybrotheresau")) { trackName = "My Brother Esau"; }
+            else if (trackNameKey.Contains("mysterytrain")) { trackName = "Mystery Train"; }
+            else if (trackNameKey.Contains("neighborhoodgirls")) { trackName = "Neighborhood Girls"; }
+            else if (trackNameKey.Contains("nevertrustawoman")) { trackName = "Never Trust A Woman"; }
+            else if (trackNameKey.Contains("minglewood")) { trackName = "New Minglewood Blues"; }
+            else if (trackNameKey.Contains("neworleans")) { trackName = "New Orleans"; }
+            else if (trackNameKey.Contains("newpotatocaboose")) { trackName = "New Potato Caboose"; }
+            else if (trackNameKey.Contains("newspeedwayboogie")) { trackName = "New Speedway Boogie"; }
+            else if (trackNameKey.Contains("newyearscount")) { trackName = "New Year's Countdown"; }
+            else if (trackNameKey.Contains("nexttimeyouseeme")) { trackName = "Next Time You See Me"; }
+            else if (trackNameKey.Contains("nobodysfaultbutmine")) { trackName = "Nobody's Fault But Mine"; }
+            else if (trackNameKey.Contains("notfadeaway")) { trackName = "Not Fade Away"; }
+            else if (trackNameKey.Contains("odeforbilliedean")) { trackName = "Ode For Billie Dean"; }
+            else if (trackNameKey.Contains("ohbabeitaintnolie")) { trackName = "Oh Babe, It Ain't No Lie"; }
+            else if (trackNameKey.Contains("ohboy")) { trackName = "Oh Boy"; }
+            else if (trackNameKey.Contains("okiefrommuskogee")) { trackName = "Okie From Muskogee"; }
+            else if (trackNameKey.Contains("olslewfoot")) { trackName = "Ol' Slewfoot"; }
+            else if (trackNameKey.Contains("oldoldhouse")) { trackName = "Old, Old House"; }
+            else if (trackNameKey.Contains("arageed")) { trackName = "Ollin Arageed"; }
+            else if (trackNameKey.Contains("arrageed")) { trackName = "Ollin Arageed"; }
+            else if (trackNameKey.Contains("ontheroadagain")) { trackName = "On The Road Again"; }
+            else if (trackNameKey.Contains("onekindfavor")) { trackName = "One Kind Favor"; }
+            else if (trackNameKey.Contains("onemoresaturday")) { trackName = "One More Saturday Night"; }
+            else if (trackNameKey.Contains("onlyafool")) { trackName = "Only A Fool"; }
+            else if (trackNameKey.Contains("operator")) { trackName = "Operator"; }
+            else if (trackNameKey.Contains("overseasstomp")) { trackName = "Overseas Stomp (Lindbergh Hop)"; }
+            else if (trackNameKey.Contains("lindberghhop")) { trackName = "Overseas Stomp (Lindbergh Hop)"; }
+            else if (trackNameKey.Contains("paininmyheart")) { trackName = "Pain In My Heart"; }
+            else if (trackNameKey.Contains("parchmanfarm")) { trackName = "Parchman Farm"; }
+            else if (trackNameKey.Contains("passenger")) { trackName = "Passenger"; }
+            else if (trackNameKey.Contains("peggysue")) { trackName = "Peggy Sue"; }
+            else if (trackNameKey.Contains("peggyo")) { trackName = "Peggy-O"; }
+            else if (trackNameKey.Contains("philned")) { trackName = "Phil & Ned"; }
+            else if (trackNameKey.Contains("philsearthquakespace")) { trackName = "Phil's Earthquake Space"; }
+            else if (trackNameKey.Contains("picassomoon")) { trackName = "Picasso Moon"; }
+            else if (trackNameKey.Contains("playinreprise")) { trackName = "Playin' Reprise"; }
+            else if (trackNameKey.Contains("playin")) { trackName = "Playing In The Band"; }
+            else if (trackNameKey.Contains("pollution")) { trackName = "Pollution"; }
+            else if (trackNameKey.Contains("prisonerblues")) { trackName = "Prisoner Blues"; }
+            else if (trackNameKey.Contains("proudmary")) { trackName = "Proud Mary"; }
+            else if (trackNameKey.Contains("queenjaneapproximately")) { trackName = "Queen Jane Approximately"; }
+            else if (trackNameKey.Contains("railroadingonthegreatdivide")) { trackName = "Railroading On The Great Divide"; }
+            else if (trackNameKey.Contains("rain")) { trackName = "Rain"; }
+            else if (trackNameKey.Contains("rainyday")) { trackName = "Rainy Day Women # 12 & 35"; }
+            else if (trackNameKey.Contains("ramble")) { trackName = "Ramble On Rose"; }
+            else if (trackNameKey.Contains("reuben")) { trackName = "Reuben And Cerise"; }
+            else if (trackNameKey.Contains("revolution")) { trackName = "Revolution"; }
+            else if (trackNameKey.Contains("revolutionaryhamstrungblues")) { trackName = "Revolutionary Hamstrung Blues"; }
+            else if (trackNameKey.Contains("riotincellblocknumbernine")) { trackName = "Riot In Cell Block Number Nine"; }
+            else if (trackNameKey.Contains("ripple")) { trackName = "Ripple"; }
+            else if (trackNameKey.Contains("roberta")) { trackName = "Roberta"; }
+            else if (trackNameKey.Contains("pneumonia")) { trackName = "Rockin' Pneumonia And Boogie Woogie Flu"; }
+            else if (trackNameKey.Contains("tumblin")) { trackName = "Rollin' And Tumblin'"; }
+            else if (trackNameKey.Contains("rosaleemcfall")) { trackName = "Rosa Lee McFall"; }
+            else if (trackNameKey.Contains("jimmy")) { trackName = "Row Jimmy"; }
+            else if (trackNameKey.Contains("runrudolphrun")) { trackName = "Run, Rudolph, Run"; }
+            else if (trackNameKey.Contains("sage")) { trackName = "Sage And Spirit"; }
+            else if (trackNameKey.Contains("saintofcircumstance")) { trackName = "Saint Of Circumstance"; }
+            else if (trackNameKey.Contains("stephen")) { trackName = "Saint Stephen"; }
+            else if (trackNameKey.Contains("saltlakecity")) { trackName = "Salt Lake City"; }
+            else if (trackNameKey.Contains("sambaintherain")) { trackName = "Samba In The Rain"; }
+            else if (trackNameKey.Contains("samson")) { trackName = "Samson And Delilah"; }
+            else if (trackNameKey.Contains("sawmill")) { trackName = "Sawmill"; }
+            else if (trackNameKey.Contains("saybossman")) { trackName = "Say Boss Man"; }
+            else if (trackNameKey.Contains("scarletbegonias")) { trackName = "Scarlet Begonias"; }
+            else if (trackNameKey.Contains("searchin")) { trackName = "Searchin'"; }
+            else if (trackNameKey.Contains("seasonsofmyheart")) { trackName = "Seasons Of My Heart"; }
+            else if (trackNameKey.Contains("sgtpeppersband")) { trackName = "Sgt Pepper's Band"; }
+            else if (trackNameKey.Contains("shakedownstreet")) { trackName = "Shakedown Street"; }
+            else if (trackNameKey.Contains("shebelongstome")) { trackName = "She Belongs To Me"; }
+            else if (trackNameKey.Contains("shesmine")) { trackName = "She's Mine"; }
+            else if (trackNameKey.Contains("shelterfromthestorm")) { trackName = "Shelter From The Storm"; }
+            else if (trackNameKey.Contains("shipoffools")) { trackName = "Ship Of Fools"; }
+            else if (trackNameKey.Contains("sicktired")) { trackName = "Sick And Tired"; }
+            else if (trackNameKey.Contains("sickandtired")) { trackName = "Sick And Tired"; }
+            else if (trackNameKey.Contains("sidewalksofnewyork")) { trackName = "Sidewalks Of New York"; }
+            else if (trackNameKey.Contains("silverthreads")) { trackName = "Silver Threads And Golden Needles"; }
+            else if (trackNameKey.Contains("simpletwistoffate")) { trackName = "Simple Twist Of Fate"; }
+            else if (trackNameKey.Contains("singmebackhome")) { trackName = "Sing Me Back Home"; }
+            else if (trackNameKey.Contains("sittinontopoftheworld")) { trackName = "Sittin' On Top Of The World"; }
+            else if (trackNameKey.Contains("slipknot")) { trackName = "Slipknot"; }
+            else if (trackNameKey.Contains("slowtrain")) { trackName = "Slow Train"; }
+            else if (trackNameKey.Contains("smokestacklightning")) { trackName = "Smokestack Lightning"; }
+            else if (trackNameKey.Contains("somanyroads")) { trackName = "So Many Roads"; }
+            else if (trackNameKey.Contains("sosad")) { trackName = "So Sad (To Watch Good Love Go Bad)"; }
+            else if (trackNameKey.Contains("sowhat")) { trackName = "So What"; }
+            else if (trackNameKey.Contains("spacefunk")) { trackName = "Space Funk"; }
+            else if (trackNameKey.Contains("spanish")) { trackName = "Spanish"; }
+            else if (trackNameKey.Contains("spoonful")) { trackName = "Spoonful"; }
+            else if (trackNameKey.Contains("announcements")) { trackName = "Stage Announcements"; }
+            else if (trackNameKey.Contains(" stage")) { trackName = "Stage Announcements"; }
+            else if (trackNameKey.Contains(" stage ")) { trackName = "Stage Announcements"; }
+            else if (trackNameKey.Contains("stage ")) { trackName = "Stage Announcements"; }
+            else if (trackNameKey.Contains("staggerlee")) { trackName = "Stagger Lee"; }
+            else if (trackNameKey.Contains("standeronthemountain")) { trackName = "Stander On The Mountain"; }
+            else if (trackNameKey.Contains("standingonthecorner")) { trackName = "Standing On The Corner"; }
+            else if (trackNameKey.Contains("standingonthemoon")) { trackName = "Standing On The Moon"; }
+            else if (trackNameKey.Contains("starsstripes")) { trackName = "Stars And Stripes Forever"; }
+            else if (trackNameKey.Contains("forever tuning")) { trackName = "Stars And Stripes Forever"; }
+            else if (trackNameKey.Contains("stealin")) { trackName = "Stealin'"; }
+            else if (trackNameKey.Contains("stellablue")) { trackName = "Stella Blue"; }
+            else if (trackNameKey.Contains("stiritup")) { trackName = "Stir It Up"; }
+            else if (trackNameKey.Contains("strongerthandirt")) { trackName = "Stronger Than Dirt"; }
+            else if (trackNameKey.Contains("sugarmagnolia")) { trackName = "Sugar Magnolia"; }
+            else if (trackNameKey.Contains("sugaee")) { trackName = "Sugaree"; }
+            else if (trackNameKey.Contains("sugaree")) { trackName = "Sugaree"; }
+            else if (trackNameKey.Contains("sunrise")) { trackName = "Sunrise"; }
+            else if (trackNameKey.Contains("sunshinedaydream")) { trackName = "Sunshine Daydream"; }
+            else if (trackNameKey.Contains("supplication")) { trackName = "Supplication"; }
+            else if (trackNameKey.Contains("swinglowsweetchariot")) { trackName = "Swing Low Sweet Chariot"; }
+            else if (trackNameKey.Contains("takeitalloff")) { trackName = "Take It All Off"; }
+            else if (trackNameKey.Contains("takemetotheriver")) { trackName = "Take Me To The River"; }
+            else if (trackNameKey.Contains("tangledupinblue")) { trackName = "Tangled Up In Blue"; }
+            else if (trackNameKey.Contains("tastebud")) { trackName = "Tastebud"; }
+            else if (trackNameKey.Contains("tellmama")) { trackName = "Tell Mama"; }
+            else if (trackNameKey.Contains("tennesee")) { trackName = "Tennessee Jed"; }
+            else if (trackNameKey.Contains("tennessee")) { trackName = "Tennessee Jed"; }
+            else if (trackNameKey.Contains("terrapinstation")) { trackName = "Terrapin Station"; }
+            else if (trackNameKey.Contains("thatwouldbesomething")) { trackName = "That Would Be Something"; }
+            else if (trackNameKey.Contains("thatllbetheday")) { trackName = "That'll Be The Day"; }
+            else if (trackNameKey.Contains("thatsallrightmama")) { trackName = "That's All Right, Mama"; }
+            else if (trackNameKey.Contains("for the other one")) { trackName = "That's It For The Other One"; }
+            else if (trackNameKey.Contains("for the the other one")) { trackName = "That's It For The Other One"; }
+            else if (trackNameKey.Contains("frankielee")) { trackName = "The Ballad Of Frankie Lee And Judas Priest"; }
+            else if (trackNameKey.Contains("judaspriest")) { trackName = "The Ballad Of Frankie Lee And Judas Priest"; }
+            else if (trackNameKey.Contains("boxer")) { trackName = "The Boxer"; }
+            else if (trackNameKey.Contains("eleven")) { trackName = "The Eleven"; }
+            else if (trackNameKey.Contains("flood")) { trackName = "The Flood"; }
+            else if (trackNameKey.Contains("frozenlogger")) { trackName = "The Frozen Logger"; }
+            else if (trackNameKey.Contains("goldenroad")) { trackName = "The Golden Road (To Unlimited Devotion)"; }
+            else if (trackNameKey.Contains("lasttime")) { trackName = "The Last Time"; }
+            else if (trackNameKey.Contains("mainten")) { trackName = "The Main Ten"; }
+            else if (trackNameKey.Contains("quinntheeskimo")) { trackName = "The Mighty Quinn (Quinn The Eskimo)"; }
+            else if (trackNameKey.Contains("mightyquinn")) { trackName = "The Mighty Quinn (Quinn The Eskimo)"; }
+            else if (trackNameKey.Contains("tmns")) { trackName = "The Music Never Stopped"; }
+            else if (trackNameKey.Contains("musicnever")) { trackName = "The Music Never Stopped"; }
+            else if (trackNameKey.Contains("oneyoulove")) { trackName = "The One You Love"; }
+            else if (trackNameKey.Contains("onlytimeisnow")) { trackName = "The Only Time Is Now"; }
+            else if (trackNameKey.Contains("otherone")) { trackName = "The Other One"; }
+            else if (trackNameKey.Contains("promisedland")) { trackName = "The Promised Land"; }
+            else if (trackNameKey.Contains("raceison")) { trackName = "The Race Is On"; }
+            else if (trackNameKey.Contains("ravenspace")) { trackName = "The Raven Space"; }
+            else if (trackNameKey.Contains("samething")) { trackName = "The Same Thing"; }
+            else if (trackNameKey.Contains("seven")) { trackName = "The Seven"; }
+            else if (trackNameKey.Contains("thestranger")) { trackName = "The Stranger (Two Souls In Communion)"; }
+            else if (trackNameKey.Contains("twosoulsincommunion")) { trackName = "The Stranger (Two Souls In Communion)"; }
+            else if (trackNameKey.Contains("thingsiusedtodo")) { trackName = "The Things I Used To Do"; }
+            else if (trackNameKey.Contains("timestheyareachanging")) { trackName = "The Times They Are A Changing"; }
+            else if (trackNameKey.Contains("valleyroad")) { trackName = "The Valley Road"; }
+            else if (trackNameKey.Contains("weight")) { trackName = "The Weight"; }
+            else if (trackNameKey.Contains("wheel")) { trackName = "The Wheel"; }
+            else if (trackNameKey.Contains("wickedmessenger")) { trackName = "The Wicked Messenger"; }
+            else if (trackNameKey.Contains("thereissomethingonyourmind")) { trackName = "There Is Something On Your Mind"; }
+            else if (trackNameKey.Contains("tleo")) { trackName = "They Love Each Other"; }
+            else if (trackNameKey.Contains("theyloveeachother")) { trackName = "They Love Each Other"; }
+            else if (trackNameKey.Contains("throwingstones")) { trackName = "Throwing Stones"; }
+            else if (trackNameKey.Contains("tillthemorningcomes")) { trackName = "Till The Morning Comes"; }
+            else if (trackNameKey.Contains("tolaymedown")) { trackName = "To Lay Me Down"; }
+            else if (trackNameKey.Contains("tomorrowisalongtime")) { trackName = "Tomorrow Is A Long Time"; }
+            else if (trackNameKey.Contains("tomorrowisforever")) { trackName = "Tomorrow Is Forever"; }
+            else if (trackNameKey.Contains("tomorrowneverknows")) { trackName = "Tomorrow Never Knows"; }
+            else if (trackNameKey.Contains("tonsofsteel")) { trackName = "Tons Of Steel"; }
+            else if (trackNameKey.Contains("touchofgrey")) { trackName = "Touch Of Grey"; }
+            else if (trackNameKey.Contains("truckin")) { trackName = "Truckin'"; }
+            else if (trackNameKey.Contains("lovelight")) { trackName = "Turn On Your Love Light"; }
+            else if (trackNameKey.Contains("twistshout")) { trackName = "Twist And Shout"; }
+            else if (trackNameKey.Contains("twistandshout")) { trackName = "Twist And Shout"; }
+            else if (trackNameKey.Contains("tunin")) { trackName = "Tuning"; }
+            else if (trackNameKey.Contains("usblues")) { trackName = "U.S. Blues"; }
+            else if (trackNameKey.Contains("unbrokenchain")) { trackName = "Unbroken Chain"; }
+            else if (trackNameKey.Contains("unclejohnsband")) { trackName = "Uncle John's Band"; }
+            else if (trackNameKey.Contains("unclesamsblues")) { trackName = "Uncle Sam's Blues"; }
+            else if (trackNameKey.Contains("victimorthecrime")) { trackName = "Victim Or The Crime"; }
+            else if (trackNameKey.Contains("violalee")) { trackName = "Viola Lee Blues"; }
+            else if (trackNameKey.Contains("visionsofjohanna")) { trackName = "Visions Of Johanna"; }
+            else if (trackNameKey.Contains("wabashcannonball")) { trackName = "Wabash Cannonball"; }
+            else if (trackNameKey.Contains("littlesusie")) { trackName = "Wake Up Little Susie"; }
+            else if (trackNameKey.Contains("walkdownthestreet")) { trackName = "Walk Down The Street"; }
+            else if (trackNameKey.Contains("walkinblues")) { trackName = "Walkin' Blues"; }
+            else if (trackNameKey.Contains("walkingthedog")) { trackName = "Walking The Dog"; }
+            else if (trackNameKey.Contains("wangdangdoodle")) { trackName = "Wang Dang Doodle"; }
+            else if (trackNameKey.Contains("warriorsofthesun")) { trackName = "Warriors Of The Sun"; }
+            else if (trackNameKey.Contains("watchingtheriverflow")) { trackName = "Watching The River Flow"; }
+            else if (trackNameKey.Contains("wavethatflag")) { trackName = "Wave That Flag"; }
+            else if (trackNameKey.Contains("wavetothewind")) { trackName = "Wave To The Wind"; }
+            else if (trackNameKey.Contains("waytogohome")) { trackName = "Way to go Home"; }
+            else if (trackNameKey.Contains("wecanrun")) { trackName = "We Can Run"; }
+            else if (trackNameKey.Contains("prelude")) { trackName = "Weather Report Suite Prelude"; }
+            else if (trackNameKey.Contains("weatherreport")) { trackName = "Weather Report Suite"; }
+            else if (trackNameKey.Contains("werewolves")) { trackName = "Werewolves Of London"; }
+            else if (trackNameKey.Contains("westlafadeaway")) { trackName = "West L.A. Fadeaway"; }
+            else if (trackNameKey.Contains("warfrat")) { trackName = "Wharf Rat"; }
+            else if (trackNameKey.Contains("wharfrat")) { trackName = "Wharf Rat"; }
+            else if (trackNameKey.Contains("whatsgoingon")) { trackName = "What's Going On"; }
+            else if (trackNameKey.Contains("masterpiece")) { trackName = "When I Paint My Masterpiece"; }
+            else if (trackNameKey.Contains("whenpushcomestoshove")) { trackName = "When Push Comes to Shove"; }
+            else if (trackNameKey.Contains("whodoyoulove")) { trackName = "Who Do You Love"; }
+            else if (trackNameKey.Contains("whoslovingyoutonight")) { trackName = "Who's Loving You Tonight"; }
+            else if (trackNameKey.Contains("whydontwedoitintheroad")) { trackName = "Why Don't We Do It In The Road"; }
+            else if (trackNameKey.Contains("willthecirclebeunbroken")) { trackName = "Will The Circle Be Unbroken"; }
+            else if (trackNameKey.Contains("handjive")) { trackName = "Willie And The Hand Jive"; }
+            else if (trackNameKey.Contains("wowwowheyhey")) { trackName = "Wow Wow Hey Hey"; }
+            else if (trackNameKey.Contains("youaintwomanenough")) { trackName = "You Ain't Woman Enough"; }
+            else if (trackNameKey.Contains("youdonthavetoask")) { trackName = "You Don't Have To Ask"; }
+            else if (trackNameKey.Contains("youdontloveme")) { trackName = "You Don't Love Me"; }
+            else if (trackNameKey.Contains("youwinagain")) { trackName = "You Win Again"; }
+            else if (trackNameKey.Contains("yourloveathome")) { trackName = "Your Love At Home"; }
 
             trackName = trackName.TrimEnd();
 
@@ -334,15 +559,6 @@ namespace iTunesAssistantLib
                 trackName += " >";
             }
 
-            return trackName;
-        }
-
-        private static string ReplaceAll(string trackName, string pattern, string substitution)
-        {
-            while (trackName.Contains(pattern))
-            {
-                trackName = trackName.Replace(pattern, substitution);
-            }
             return trackName;
         }
     }
