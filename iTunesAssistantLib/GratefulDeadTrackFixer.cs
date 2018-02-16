@@ -70,6 +70,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("althea")) { trackName = "Althea"; }
             else if (trackNameKey.Contains("awbygn")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("goodnight")) { trackName = "And We Bid You Goodnight"; }
+            else if (trackNameKey.Contains("webidyou")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("areyoulonelyforme")) { trackName = "Are You Lonely For Me"; }
             else if (trackNameKey.Contains("around")) { trackName = "Around And Around"; }
             else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of my Life"; }
@@ -259,6 +260,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("ikoiko")) { trackName = "Iko Iko"; }
             else if (trackNameKey.Contains("inthemidnighthour")) { trackName = "In The Midnight Hour"; }
             else if (trackNameKey.Contains("inthepines")) { trackName = "In The Pines"; }
+            else if (trackNameKey.Contains("introduction")) { trackName = "Introduction"; }
             else if (trackNameKey.Contains("ithurtsmetoo")) { trackName = "It Hurts Me Too"; }
             else if (trackNameKey.Contains("itmusthavebeentheroses")) { trackName = "It Must Have Been The Roses"; }
             else if (trackNameKey.Contains("traintocry")) { trackName = "It Takes A Lot to Laugh, It Takes A Train to Cry"; }
