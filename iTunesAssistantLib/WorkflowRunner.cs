@@ -267,7 +267,14 @@ namespace iTunesAssistantLib
                 if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixGratefulDeadTracks))
                 {
                     track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
-                    track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
+                    if (string.IsNullOrWhiteSpace(track.Comment))
+                    {
+                        throw new System.Exception("One or more tracks is missing a comment");
+                    }
+                    else
+                    {
+                        track.Comment = track.Comment.Replace("https://archive.org/details/", string.Empty);
+                    }
                 }
 
                 ItemsProcessed++;
