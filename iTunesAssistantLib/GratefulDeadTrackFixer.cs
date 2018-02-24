@@ -73,7 +73,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("webidyou")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("areyoulonelyforme")) { trackName = "Are You Lonely For Me"; }
             else if (trackNameKey.Contains("aroundand")) { trackName = "Around And Around"; }
-            else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of my Life"; }
+            else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of My Life"; }
             else if (trackNameKey.Contains("babaoriley")) { trackName = "Baba O'Riley"; }
             else if (trackNameKey.Contains("babywhatyouwantmetodo")) { trackName = "Baby What You Want Me To Do"; }
             else if (trackNameKey.Contains("badmoonrising")) { trackName = "Bad Moon Rising"; }
@@ -178,6 +178,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("easyanswers")) { trackName = "Easy Answers"; }
             else if (trackNameKey.Contains("easytoloveyou")) { trackName = "Easy To Love You"; }
             else if (trackNameKey.Contains("easywind")) { trackName = "Easy Wind"; }
+            else if (trackNameKey.Contains("eighteenchildren")) { trackName = "Eighteen Children"; }
             else if (trackNameKey.Contains("elpaso")) { trackName = "El Paso"; }
             else if (trackNameKey.Contains("emptypages")) { trackName = "Empty Pages"; }
             else if (trackNameKey.Contains("equipment")) { trackName = "Equipment Problems"; }
@@ -194,6 +195,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("fireonthe")) { trackName = "Fire On The Mountain"; }
             else if (trackNameKey.Contains("foolishheart")) { trackName = "Foolish Heart"; }
             else if (trackNameKey.Contains("foreveryoung")) { trackName = "Forever Young"; }
+            else if (trackNameKey.Contains("foxyladyjam")) { trackName = "Foxy Lady Jam"; }
             else if (trackNameKey.Contains("franklinstower")) { trackName = "Franklin's Tower"; }
             else if (trackNameKey.Contains("friendofthe")) { trackName = "Friend Of The Devil"; }
             else if (trackNameKey.Contains("fromtheheartofme")) { trackName = "From The Heart Of Me"; }
@@ -212,6 +214,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("goodmorning")) { trackName = "Good Morning Little Schoolgirl"; }
             else if (trackNameKey.Contains("schoolgirl")) { trackName = "Good Morning Little Schoolgirl"; }
             else if (trackNameKey.Contains("goodnightirene")) { trackName = "Goodnight Irene"; }
+            else if (trackNameKey.Contains("goodvibrations")) { trackName = "Good Vibrations"; }
             else if (trackNameKey.Contains("gotmymojoworking")) { trackName = "Got My Mojo Working"; }
             else if (trackNameKey.Contains("gottaservesomebody")) { trackName = "Gotta Serve Somebody"; }
             else if (trackNameKey.Contains("greateststoryevertold")) { trackName = "Greatest Story Ever Told"; }
@@ -263,10 +266,12 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("aroundthisworld")) { trackName = "I've Been All Around This World"; }
             else if (trackNameKey.Contains("ivegotatigerbythetail")) { trackName = "I've Got A Tiger By The Tail"; }
             else if (trackNameKey.Contains("ivejustseenaface")) { trackName = "I've Just Seen A Face"; }
+            else if (trackNameKey.Contains("iveseenthemall")) { trackName = "I've Seen Them All"; }
             else if (trackNameKey.Contains("ifihadtheworldtogive")) { trackName = "If I Had The World To Give"; }
             else if (trackNameKey.Contains("iftheshoefits")) { trackName = "If The Shoe Fits"; }
+            else if (trackNameKey.Contains("aiko")) { trackName = "Iko Iko"; }
             else if (trackNameKey.Contains("ikoiko")) { trackName = "Iko Iko"; }
-            else if (trackNameKey.Contains("inthemidnighthour")) { trackName = "In The Midnight Hour"; }
+            else if (trackNameKey.Contains("midnighthour")) { trackName = "In The Midnight Hour"; }
             else if (trackNameKey.Contains("inthepines")) { trackName = "In The Pines"; }
             else if (trackNameKey.Contains("intro")) { trackName = "Introduction"; }
             else if (trackNameKey.Contains("ithurtsmetoo")) { trackName = "It Hurts Me Too"; }
@@ -390,8 +395,8 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("passenger")) { trackName = "Passenger"; }
             else if (trackNameKey.Contains("peggysue")) { trackName = "Peggy Sue"; }
             else if (trackNameKey.Contains("peggyo")) { trackName = "Peggy-O"; }
-            else if (trackNameKey.Contains("philned")) { trackName = "Phil & Ned"; }
             else if (trackNameKey.Contains("philsearthquakespace")) { trackName = "Phil's Earthquake Space"; }
+            else if (trackNameKey.Contains("philsolo")) { trackName = "Phil Solo"; }
             else if (trackNameKey.Contains("picassomoon")) { trackName = "Picasso Moon"; }
             else if (trackNameKey.Contains("playinreprise")) { trackName = "Playin' Reprise"; }
             else if (trackNameKey.Contains("playin")) { trackName = "Playing In The Band"; }
@@ -399,6 +404,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("prisonerblues")) { trackName = "Prisoner Blues"; }
             else if (trackNameKey.Contains("proudmary")) { trackName = "Proud Mary"; }
             else if (trackNameKey.Contains("queenjaneapproximately")) { trackName = "Queen Jane Approximately"; }
+            else if (trackNameKey.Contains("radio")) { trackName = "Radio Announcers"; }
             else if (trackNameKey.Contains("railroadingonthegreatdivide")) { trackName = "Railroading On The Great Divide"; }
             else if (trackNameKey.Contains("rain")) { trackName = "Rain"; }
             else if (trackNameKey.Contains("rainyday")) { trackName = "Rainy Day Women # 12 & 35"; }
@@ -406,7 +412,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("reuben")) { trackName = "Reuben And Cerise"; }
             else if (trackNameKey.Contains("revolution")) { trackName = "Revolution"; }
             else if (trackNameKey.Contains("revolutionaryhamstrungblues")) { trackName = "Revolutionary Hamstrung Blues"; }
-            else if (trackNameKey.Contains("riotincellblocknumbernine")) { trackName = "Riot In Cell Block Number Nine"; }
+            else if (trackNameKey.Contains("riotincellblock")) { trackName = "Riot In Cell Block Number Nine"; }
             else if (trackNameKey.Contains("ripple")) { trackName = "Ripple"; }
             else if (trackNameKey.Contains("roberta")) { trackName = "Roberta"; }
             else if (trackNameKey.Contains("pneumonia")) { trackName = "Rockin' Pneumonia And Boogie Woogie Flu"; }
@@ -534,11 +540,13 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("lovelight")) { trackName = "Turn On Your Love Light"; }
             else if (trackNameKey.Contains("twistshout")) { trackName = "Twist And Shout"; }
             else if (trackNameKey.Contains("twistandshout")) { trackName = "Twist And Shout"; }
+            else if (trackNameKey.Contains("tuningjam")) { trackName = "Tuning Jam"; }
             else if (trackNameKey.Contains("tunin")) { trackName = "Tuning"; }
             else if (trackNameKey.Contains("usblues")) { trackName = "U.S. Blues"; }
             else if (trackNameKey.Contains("unbrokenchain")) { trackName = "Unbroken Chain"; }
             else if (trackNameKey.Contains("unclejohnsband")) { trackName = "Uncle John's Band"; }
             else if (trackNameKey.Contains("unclesamsblues")) { trackName = "Uncle Sam's Blues"; }
+            else if (trackNameKey.Contains("unknownblues")) { trackName = "Unknown Blues"; }
             else if (trackNameKey.Contains("victimorthecrime")) { trackName = "Victim Or The Crime"; }
             else if (trackNameKey.Contains("violalee")) { trackName = "Viola Lee Blues"; }
             else if (trackNameKey.Contains("visionsofjohanna")) { trackName = "Visions Of Johanna"; }
