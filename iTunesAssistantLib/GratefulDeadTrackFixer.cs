@@ -72,7 +72,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("goodnight")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("webidyou")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("areyoulonelyforme")) { trackName = "Are You Lonely For Me"; }
-            else if (trackNameKey.Contains("around")) { trackName = "Around And Around"; }
+            else if (trackNameKey.Contains("aroundand")) { trackName = "Around And Around"; }
             else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of my Life"; }
             else if (trackNameKey.Contains("babaoriley")) { trackName = "Baba O'Riley"; }
             else if (trackNameKey.Contains("babywhatyouwantmetodo")) { trackName = "Baby What You Want Me To Do"; }
@@ -260,7 +260,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("imahogforyoubaby")) { trackName = "I'm A Hog For You Baby"; }
             else if (trackNameKey.Contains("kingbee")) { trackName = "I'm A King Bee"; }
             else if (trackNameKey.Contains("imaman")) { trackName = "I'm A Man"; }
-            else if (trackNameKey.Contains("ivebeenallaroundthisworld")) { trackName = "I've Been All Around This World"; }
+            else if (trackNameKey.Contains("aroundthisworld")) { trackName = "I've Been All Around This World"; }
             else if (trackNameKey.Contains("ivegotatigerbythetail")) { trackName = "I've Got A Tiger By The Tail"; }
             else if (trackNameKey.Contains("ivejustseenaface")) { trackName = "I've Just Seen A Face"; }
             else if (trackNameKey.Contains("ifihadtheworldtogive")) { trackName = "If I Had The World To Give"; }
@@ -268,9 +268,9 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("ikoiko")) { trackName = "Iko Iko"; }
             else if (trackNameKey.Contains("inthemidnighthour")) { trackName = "In The Midnight Hour"; }
             else if (trackNameKey.Contains("inthepines")) { trackName = "In The Pines"; }
-            else if (trackNameKey.Contains("introduction")) { trackName = "Introduction"; }
+            else if (trackNameKey.Contains("intro")) { trackName = "Introduction"; }
             else if (trackNameKey.Contains("ithurtsmetoo")) { trackName = "It Hurts Me Too"; }
-            else if (trackNameKey.Contains("itmusthavebeentheroses")) { trackName = "It Must Have Been The Roses"; }
+            else if (trackNameKey.Contains("musthavebeenthe")) { trackName = "It Must Have Been The Roses"; }
             else if (trackNameKey.Contains("traintocry")) { trackName = "It Takes A Lot to Laugh, It Takes A Train to Cry"; }
             else if (trackNameKey.Contains("mansworld")) { trackName = "It's A Man's, Man's, Man's World"; }
             else if (trackNameKey.Contains("itsasin")) { trackName = "It's A Sin"; }
