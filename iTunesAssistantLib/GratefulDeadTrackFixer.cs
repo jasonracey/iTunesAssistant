@@ -247,6 +247,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("howsweet")) { trackName = "How Sweet It Is (To Be Loved by You)"; }
             else if (trackNameKey.Contains("iaintsuperstitious")) { trackName = "I Ain't Superstitious"; }
             else if (trackNameKey.Contains("ifoughtthelaw")) { trackName = "I Fought The Law"; }
+            else if (trackNameKey.Contains("igetaround")) { trackName = "I Get Around"; }
             else if (trackNameKey.Contains("igotamindtogiveuplivin")) { trackName = "I Got A Mind To Give Up Livin'"; }
             else if (trackNameKey.Contains("ijustwannamakelovetoyou")) { trackName = "I Just Wanna Make Love To You"; }
             else if (trackNameKey.Contains("iknowitsasin")) { trackName = "I Know It's A Sin"; }
