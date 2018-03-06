@@ -98,7 +98,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("blackmuddyriver")) { trackName = "Black Muddy River"; }
             else if (trackNameKey.Contains("blackpeter")) { trackName = "Black Peter"; }
             else if (trackNameKey.Contains("blackqueen")) { trackName = "Black Queen"; }
-            else if (trackNameKey.Contains("blackthroatedwind")) { trackName = "Black Throated Wind"; }
+            else if (trackNameKey.Contains("blackthroated")) { trackName = "Black Throated Wind"; }
             else if (trackNameKey.Contains("blackbird")) { trackName = "Blackbird"; }
             else if (trackNameKey.Contains("blowaway")) { trackName = "Blow Away"; }
             else if (trackNameKey.Contains("bluemoon")) { trackName = "Blue Moon"; }
@@ -373,7 +373,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("newpotatocaboose")) { trackName = "New Potato Caboose"; }
             else if (trackNameKey.Contains("newspeedwayboogie")) { trackName = "New Speedway Boogie"; }
             else if (trackNameKey.Contains("newyearscount")) { trackName = "New Year's Countdown"; }
-            else if (trackNameKey.Contains("timeyouseeme")) { trackName = "Next Time You See Me"; }
+            else if (trackNameKey.Contains("timeyousee")) { trackName = "Next Time You See Me"; }
             else if (trackNameKey.Contains("nobodysfaultbutmine")) { trackName = "Nobody's Fault But Mine"; }
             else if (trackNameKey.Contains("notfadeaway")) { trackName = "Not Fade Away"; }
             else if (trackNameKey.Contains("odeforbilliedean")) { trackName = "Ode For Billie Dean"; }
@@ -448,7 +448,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("silverthreads")) { trackName = "Silver Threads And Golden Needles"; }
             else if (trackNameKey.Contains("simpletwistoffate")) { trackName = "Simple Twist Of Fate"; }
             else if (trackNameKey.Contains("singmebackhome")) { trackName = "Sing Me Back Home"; }
-            else if (trackNameKey.Contains("sittinontopoftheworld")) { trackName = "Sittin' On Top Of The World"; }
+            else if (trackNameKey.Contains("sittinontopofthe")) { trackName = "Sittin' On Top Of The World"; }
             else if (trackNameKey.Contains("slewfoot")) { trackName = "Slewfoot"; }
             else if (trackNameKey.Contains("slipknot")) { trackName = "Slipknot!"; }
             else if (trackNameKey.Contains("slowtrain")) { trackName = "Slow Train"; }
