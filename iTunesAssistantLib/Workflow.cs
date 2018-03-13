@@ -2,7 +2,9 @@
 {
     public class Workflow
     {
-        public string Data { get; set; }
+        public string FileName { get; set; }
         public string Name { get; set; }
+        public string NewValue { get; set; }
+        public string OldValue { get; set; }
     }
 }

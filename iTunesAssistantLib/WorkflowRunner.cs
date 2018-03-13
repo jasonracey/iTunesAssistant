@@ -46,7 +46,7 @@ namespace iTunesAssistantLib
 
             if (workflows.Any(item => item.Name == WorkflowName.ImportTrackNames))
             {
-                var inputFilePath = workflows.First(item => item.Name == WorkflowName.ImportTrackNames).Data;
+                var inputFilePath = workflows.First(item => item.Name == WorkflowName.ImportTrackNames).FileName;
                 RunImportTrackNamesWorkflow(tracksToFix, inputFilePath);
             }
 
@@ -57,6 +57,7 @@ namespace iTunesAssistantLib
             RunAlbumWorkflows(tracksToFix, albumWorkflows);
 
             var trackWorkflows = workflows.Where(item => 
+                item.Name == WorkflowName.FindAndReplace ||
                 item.Name == WorkflowName.FixGratefulDeadTracks || 
                 item.Name == WorkflowName.FixTrackNames ||
                 item.Name == WorkflowName.SetAlbumNames).ToList();
@@ -257,6 +258,12 @@ namespace iTunesAssistantLib
                     {
                         track.Album = track.Name;
                     }
+                }
+
+                if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FindAndReplace))
+                {
+                    var findAndReplace = trackWorkflows.First(item => item.Name == WorkflowName.FindAndReplace);
+                    track.Name = track.Name.Replace(findAndReplace.OldValue, findAndReplace.NewValue);
                 }
 
                 if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNames))

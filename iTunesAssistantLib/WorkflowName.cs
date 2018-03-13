@@ -2,6 +2,7 @@
 {
     public class WorkflowName
     {
+        public const string FindAndReplace = "FindAndReplace";
         public const string FixCountOfTracksOnAlbum = "FixCountOfTracksOnAlbum";
         public const string FixGratefulDeadTracks = "FixGratefulDeadTracks";
         public const string FixTrackNames = "FixTrackNames";

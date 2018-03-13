@@ -37,6 +37,12 @@
             this.stateLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.findText = new System.Windows.Forms.TextBox();
+            this.replaceText = new System.Windows.Forms.TextBox();
+            this.findAndReplaceGroup = new System.Windows.Forms.GroupBox();
+            this.replaceLabel = new System.Windows.Forms.Label();
+            this.findLabel = new System.Windows.Forms.Label();
+            this.findAndReplaceGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // workflowList
@@ -45,13 +51,13 @@
             this.workflowList.FormattingEnabled = true;
             this.workflowList.Location = new System.Drawing.Point(12, 42);
             this.workflowList.Name = "workflowList";
-            this.workflowList.Size = new System.Drawing.Size(260, 169);
+            this.workflowList.Size = new System.Drawing.Size(360, 169);
             this.workflowList.TabIndex = 0;
             this.workflowList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.workflowList_ItemCheck);
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(197, 265);
+            this.startButton.Location = new System.Drawing.Point(297, 351);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
             this.startButton.TabIndex = 2;
@@ -61,7 +67,7 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(116, 265);
+            this.clearButton.Location = new System.Drawing.Point(216, 351);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(75, 23);
             this.clearButton.TabIndex = 1;
@@ -71,15 +77,15 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(13, 226);
+            this.progressBar.Location = new System.Drawing.Point(13, 322);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(259, 23);
+            this.progressBar.Size = new System.Drawing.Size(359, 23);
             this.progressBar.TabIndex = 4;
             // 
             // countLabel
             // 
             this.countLabel.AutoSize = true;
-            this.countLabel.Location = new System.Drawing.Point(13, 265);
+            this.countLabel.Location = new System.Drawing.Point(10, 348);
             this.countLabel.Name = "countLabel";
             this.countLabel.Size = new System.Drawing.Size(24, 13);
             this.countLabel.TabIndex = 5;
@@ -104,11 +110,59 @@
             this.openFileDialog.InitialDirectory = "Y:\\Files\\Music\\add";
             this.openFileDialog.Title = "Select Track Name File";
             // 
+            // findText
+            // 
+            this.findText.Location = new System.Drawing.Point(62, 30);
+            this.findText.Name = "findText";
+            this.findText.Size = new System.Drawing.Size(290, 20);
+            this.findText.TabIndex = 8;
+            this.findText.TextChanged += new System.EventHandler(this.findText_TextChanged);
+            // 
+            // replaceText
+            // 
+            this.replaceText.Location = new System.Drawing.Point(62, 60);
+            this.replaceText.Name = "replaceText";
+            this.replaceText.Size = new System.Drawing.Size(290, 20);
+            this.replaceText.TabIndex = 9;
+            this.replaceText.TextChanged += new System.EventHandler(this.replaceText_TextChanged);
+            // 
+            // findAndReplaceGroup
+            // 
+            this.findAndReplaceGroup.Controls.Add(this.replaceLabel);
+            this.findAndReplaceGroup.Controls.Add(this.findLabel);
+            this.findAndReplaceGroup.Controls.Add(this.replaceText);
+            this.findAndReplaceGroup.Controls.Add(this.findText);
+            this.findAndReplaceGroup.Location = new System.Drawing.Point(12, 222);
+            this.findAndReplaceGroup.Name = "findAndReplaceGroup";
+            this.findAndReplaceGroup.Size = new System.Drawing.Size(360, 94);
+            this.findAndReplaceGroup.TabIndex = 10;
+            this.findAndReplaceGroup.TabStop = false;
+            this.findAndReplaceGroup.Text = "Find and replace:";
+            // 
+            // replaceLabel
+            // 
+            this.replaceLabel.AutoSize = true;
+            this.replaceLabel.Location = new System.Drawing.Point(6, 63);
+            this.replaceLabel.Name = "replaceLabel";
+            this.replaceLabel.Size = new System.Drawing.Size(50, 13);
+            this.replaceLabel.TabIndex = 11;
+            this.replaceLabel.Text = "Replace:";
+            // 
+            // findLabel
+            // 
+            this.findLabel.Location = new System.Drawing.Point(6, 33);
+            this.findLabel.Name = "findLabel";
+            this.findLabel.Size = new System.Drawing.Size(50, 13);
+            this.findLabel.TabIndex = 10;
+            this.findLabel.Text = "Find:";
+            this.findLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // iTunesAssistant
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 300);
+            this.ClientSize = new System.Drawing.Size(384, 386);
+            this.Controls.Add(this.findAndReplaceGroup);
             this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.countLabel);
             this.Controls.Add(this.progressBar);
@@ -119,6 +173,8 @@
             this.Name = "iTunesAssistant";
             this.Text = "iTunesAssistant";
             this.Load += new System.EventHandler(this.iTunesAssistant_Load);
+            this.findAndReplaceGroup.ResumeLayout(false);
+            this.findAndReplaceGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,6 +189,11 @@
         private System.Windows.Forms.Label stateLabel;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.TextBox findText;
+        private System.Windows.Forms.TextBox replaceText;
+        private System.Windows.Forms.GroupBox findAndReplaceGroup;
+        private System.Windows.Forms.Label replaceLabel;
+        private System.Windows.Forms.Label findLabel;
     }
 }
 

@@ -33,7 +33,7 @@ namespace iTunesAssistant
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _selectedWorkflows.Add(new Workflow { Name = workflowList.Text, Data = openFileDialog.FileName });
+                    _selectedWorkflows.Add(new Workflow { Name = workflowList.Text, FileName = openFileDialog.FileName });
                 }
                 else
                 {
@@ -46,10 +46,32 @@ namespace iTunesAssistant
             }
             else
             {
-                _selectedWorkflows.RemoveWhere(workflow => workflow.Name == workflowList.Text);
+                RemoveWorkflow(workflowList.Text);
             }
 
             SetButtonState(e.NewValue);
+        }
+
+        private void findText_TextChanged(object sender, EventArgs e)
+        {
+            var haveFindText = HaveFindText();
+
+            if (haveFindText)
+            {
+                UpdateFindAndReplaceWorkflow(findText.Text, replaceText.Text);
+            }
+            else
+            {
+                RemoveWorkflow(WorkflowName.FindAndReplace);
+            }
+
+            clearButton.Enabled = haveFindText;
+            startButton.Enabled = haveFindText;
+        }
+
+        private void replaceText_TextChanged(object sender, EventArgs e)
+        {
+            UpdateFindAndReplaceWorkflow(findText.Text, replaceText.Text);
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -89,6 +111,16 @@ namespace iTunesAssistant
             workflowList.Items.Add(WorkflowName.SetAlbumNames);
         }
 
+        private bool HaveFindText()
+        {
+            return findText.Text != string.Empty;
+        }
+
+        private void RemoveWorkflow(string workflowName)
+        {
+            _selectedWorkflows.RemoveWhere(workflow => workflow.Name == workflowName);
+        }
+
         private void RunCheckedWorkflows()
         {
             _workflowRunner = new WorkflowRunner();
@@ -115,6 +147,7 @@ namespace iTunesAssistant
         private void SetBusyState()
         {
             workflowList.Enabled = false;
+            findAndReplaceGroup.Enabled = false;
             clearButton.Enabled = false;
             startButton.Enabled = false;
         }
@@ -129,8 +162,9 @@ namespace iTunesAssistant
             else
             {
                 var isLastCheckedItem = workflowList.CheckedItems.Count <= 1;
-                clearButton.Enabled = isLastCheckedItem == false;
-                startButton.Enabled = isLastCheckedItem == false;
+                var enableButton = isLastCheckedItem == false || HaveFindText();
+                clearButton.Enabled = enableButton;
+                startButton.Enabled = enableButton;
             }
         }
 
@@ -142,12 +176,21 @@ namespace iTunesAssistant
         private void SetIdleState()
         {
             BuildWorkflowList();
+            findAndReplaceGroup.Enabled = true;
+            findText.Clear();
+            replaceText.Clear();
             clearButton.Enabled = false;
             startButton.Enabled = false;
             progressBar.Value = 0;
             stateLabel.Text = @"Idle";
             SetCountLabel(0, 0);
             _selectedWorkflows = new HashSet<Workflow>();
+        }
+
+        private void UpdateFindAndReplaceWorkflow(string findText, string replaceText)
+        {
+            RemoveWorkflow(WorkflowName.FindAndReplace);
+            _selectedWorkflows.Add(new Workflow { Name = WorkflowName.FindAndReplace, OldValue = findText, NewValue = replaceText });
         }
     }
 }
