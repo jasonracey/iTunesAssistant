@@ -269,7 +269,7 @@ namespace iTunesAssistantLib
                     track.Name = GratefulDeadTrackFixer.FixTrackName(track.Name);
                     if (string.IsNullOrWhiteSpace(track.Comment))
                     {
-                        throw new System.Exception("One or more tracks is missing a comment");
+                        throw new System.Exception("One or more Grateful Dead tracks is missing a comment");
                     }
                     else
                     {
