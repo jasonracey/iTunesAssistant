@@ -73,6 +73,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("webidyou")) { trackName = "And We Bid You Goodnight"; }
             else if (trackNameKey.Contains("areyoulonelyforme")) { trackName = "Are You Lonely For Me"; }
             else if (trackNameKey.Contains("aroundand")) { trackName = "Around And Around"; }
+            else if (trackNameKey.Contains("aroundaround")) { trackName = "Around And Around"; }
             else if (trackNameKey.Contains("atticsofmylife")) { trackName = "Attics Of My Life"; }
             else if (trackNameKey.Contains("babaoriley")) { trackName = "Baba O'Riley"; }
             else if (trackNameKey.Contains("babywhatyouwantmetodo")) { trackName = "Baby What You Want Me To Do"; }
@@ -374,7 +375,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("newspeedwayboogie")) { trackName = "New Speedway Boogie"; }
             else if (trackNameKey.Contains("newyearscount")) { trackName = "New Year's Countdown"; }
             else if (trackNameKey.Contains("timeyousee")) { trackName = "Next Time You See Me"; }
-            else if (trackNameKey.Contains("nobodysfaultbutmine")) { trackName = "Nobody's Fault But Mine"; }
+            else if (trackNameKey.Contains("faultbutmine")) { trackName = "Nobody's Fault But Mine"; }
             else if (trackNameKey.Contains("notfadeaway")) { trackName = "Not Fade Away"; }
             else if (trackNameKey.Contains("odeforbilliedean")) { trackName = "Ode For Billie Dean"; }
             else if (trackNameKey.Contains("ohbabeitaintnolie")) { trackName = "Oh Babe, It Ain't No Lie"; }
