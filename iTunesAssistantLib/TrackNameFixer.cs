@@ -19,8 +19,9 @@ namespace iTunesAssistantLib
             // run more specific first
             foreach (var label in Labels)
             {
-                var regex = new Regex($@"^(\d*\s*\-?\s*{label}\s*\-?\s*\d*\s*\-?\s*)");
-                trackName = regex.Replace(trackName, string.Empty);
+                // todo: what is this doing? what is a track label?
+                var trackLabelRegex = new Regex($@"^(\d*\s*\-?\s*{label}\s*\-?\s*\d*\s*\-?\s*)");
+                trackName = trackLabelRegex.Replace(trackName, string.Empty);
             }
             trackName = GratefulDeadTrackNumberRegex.Replace(trackName, string.Empty);
             trackName = VinylTrackNumberRegex.Replace(trackName, string.Empty);
@@ -28,7 +29,10 @@ namespace iTunesAssistantLib
 
             trackName = trackName.RepeatedlyReplace("  ", " ");
             trackName = trackName.Trim();
-            return trackName.ToTitleCase();
+            trackName = trackName.ToTitleCase(); // this messes up Roman numerals
+            trackName = RomanNumeralFixer.FixRomanNumerals(trackName);
+
+            return trackName;
         }
     }
 }
