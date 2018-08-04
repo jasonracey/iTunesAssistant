@@ -147,28 +147,27 @@ namespace iTunesAssistantLib
                 if (cleanName != string.Empty)
                 {
                     cleanedNewTrackNames.Add(cleanName);
+                    ItemsProcessed++;
                 }
-
-                ItemsProcessed++;
             }
 
-            var tracksToRename = GetAlbums(tracksToFix).ElementAt(0).Value;
-
-            if (tracksToRename.Any(track => track.TrackNumber == 0))
+            if (tracksToFix.Any(track => track.TrackNumber == 0))
             {
                 throw new System.Exception("One or more tracks does not have a track number");
             }
 
-            if (tracksToRename.Count != cleanedNewTrackNames.Count)
+            if (tracksToFix.Count != cleanedNewTrackNames.Count)
             {
                 throw new System.Exception("The number of names to import must match the number of tracks selected");
             }
 
             SetNewState(0, tracksToFix.Count, "Assigning new track names...");
 
-            for (var i = 0; i < tracksToRename.Count; i++)
+            var trackArr = tracksToFix.ToArray();
+
+            for (var i = 0; i < trackArr.Length; i++)
             {
-                tracksToRename[i].Name = cleanedNewTrackNames[i];
+                trackArr[i].Name = cleanedNewTrackNames[i];
                 ItemsProcessed++;
             }
 
