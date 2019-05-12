@@ -223,7 +223,6 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("greenonions")) { trackName = "Green Onions"; }
             else if (trackNameKey.Contains("greenriver")) { trackName = "Green River"; }
             else if (trackNameKey.Contains("happinessisdrumming")) { trackName = "Happiness Is Drumming"; }
-            else if (trackNameKey.Contains("hth")) { trackName = "Hard To Handle"; }
             else if (trackNameKey.Contains("h2h")) { trackName = "Hard To Handle"; }
             else if (trackNameKey.Contains("hardtohandle")) { trackName = "Hard To Handle"; }
             else if (trackNameKey.Contains("hewasafriendofmine")) { trackName = "He Was A Friend Of Mine"; }
