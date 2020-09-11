@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesAssistantLib", "iTunesAssistantLib\iTunesAssistantLib.csproj", "{55F59579-624C-4CC9-819A-207D22FC7DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTunesAssistantLib", "iTunesAssistantLib\iTunesAssistantLib.csproj", "{979758F4-A3D4-4914-8FAF-D3E5F74AB181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesAssistant", "iTunesAssistant\iTunesAssistant.csproj", "{82B10DA4-7423-4E55-9CD6-A28A62E374EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTunesAssistant", "iTunesAssistant\iTunesAssistant.csproj", "{2ACA706C-04B0-4F14-B52B-97B948F4FBCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesAssistantLibTest", "iTunesAssistantTest\iTunesAssistantLibTest.csproj", "{709DD36D-837A-4900-861F-FE7B9F469E95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesAssistantLibTest", "iTunesAssistantLibTest\iTunesAssistantLibTest.csproj", "{70884E9D-DD60-402F-86DE-B17F7656584D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,20 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55F59579-624C-4CC9-819A-207D22FC7DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55F59579-624C-4CC9-819A-207D22FC7DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55F59579-624C-4CC9-819A-207D22FC7DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55F59579-624C-4CC9-819A-207D22FC7DF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82B10DA4-7423-4E55-9CD6-A28A62E374EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82B10DA4-7423-4E55-9CD6-A28A62E374EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82B10DA4-7423-4E55-9CD6-A28A62E374EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82B10DA4-7423-4E55-9CD6-A28A62E374EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{709DD36D-837A-4900-861F-FE7B9F469E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{709DD36D-837A-4900-861F-FE7B9F469E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{709DD36D-837A-4900-861F-FE7B9F469E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{709DD36D-837A-4900-861F-FE7B9F469E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{979758F4-A3D4-4914-8FAF-D3E5F74AB181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{979758F4-A3D4-4914-8FAF-D3E5F74AB181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{979758F4-A3D4-4914-8FAF-D3E5F74AB181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{979758F4-A3D4-4914-8FAF-D3E5F74AB181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ACA706C-04B0-4F14-B52B-97B948F4FBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ACA706C-04B0-4F14-B52B-97B948F4FBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ACA706C-04B0-4F14-B52B-97B948F4FBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ACA706C-04B0-4F14-B52B-97B948F4FBCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70884E9D-DD60-402F-86DE-B17F7656584D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70884E9D-DD60-402F-86DE-B17F7656584D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70884E9D-DD60-402F-86DE-B17F7656584D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70884E9D-DD60-402F-86DE-B17F7656584D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53F5DA80-4903-4097-9318-69BCF058FD10}
 	EndGlobalSection
 EndGlobal

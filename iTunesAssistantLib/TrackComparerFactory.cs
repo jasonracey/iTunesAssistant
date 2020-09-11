@@ -28,17 +28,17 @@ namespace iTunesAssistantLib
 
     public class TrackNameComparer : IComparer<IITTrack>
     {
-        public int Compare(IITTrack t1, IITTrack t2)
+        public int Compare(IITTrack? t1, IITTrack? t2)
         {
-            return string.CompareOrdinal(t1.Name, t2.Name);
+            return string.CompareOrdinal(t1?.Name, t2?.Name);
         }
     }
 
     public class TrackDiscAndNumberComparer : IComparer<IITTrack>
     {
-        public int Compare(IITTrack t1, IITTrack t2)
+        public int Compare(IITTrack? t1, IITTrack? t2)
         {
-            return t1.GetKey().CompareTo(t2.GetKey());
+            return t1?.GetKey()?.CompareTo(t2?.GetKey()) ?? 0;
         }
     }
 

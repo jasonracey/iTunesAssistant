@@ -1,85 +1,85 @@
 ﻿using FluentAssertions;
 using iTunesAssistantLib;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace iTunesAssistantLibTest
 {
-    [TestFixture]
+    [TestClass]
     public class WhenFixingGratefulDeadTrackName
     {
-        [Test]
+        [TestMethod]
         public void PreservesJam()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo Jam")
-                .Should().Be("Foo Jam");
+                .FixTrackName("Alligator Jam")
+                .Should().Be("Alligator Jam");
         }
 
-        [Test]
+        [TestMethod]
         public void FixesSegueArrow()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo ->")
-                .Should().Be("Foo >");
+                .FixTrackName("Alligator ->")
+                .Should().Be("Alligator >");
         }
 
-        [Test]
+        [TestMethod]
         public void FixesSegueSpaceArrow()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo - >")
-                .Should().Be("Foo >");
+                .FixTrackName("Alligator - >")
+                .Should().Be("Alligator >");
         }
 
-        [Test]
+        [TestMethod]
         public void PreservesSegue()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo >")
-                .Should().Be("Foo >");
+                .FixTrackName("Alligator >")
+                .Should().Be("Alligator >");
         }
 
-        [Test]
+        [TestMethod]
         public void PreservesJamSegue()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo Jam >")
-                .Should().Be("Foo Jam >");
+                .FixTrackName("Alligator Jam >")
+                .Should().Be("Alligator Jam >");
         }
 
-        [Test]
+        [TestMethod]
         public void CreatesSegueSpacing()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo>")
-                .Should().Be("Foo >");
+                .FixTrackName("Alligator>")
+                .Should().Be("Alligator >");
         }
 
-        [Test]
+        [TestMethod]
         public void FixesSegueSpacing()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo  >")
-                .Should().Be("Foo >");
+                .FixTrackName("Alligator  >")
+                .Should().Be("Alligator >");
         }
 
-        [Test]
+        [TestMethod]
         public void CreatesJamSegueSpacing()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo Jam>")
-                .Should().Be("Foo Jam >");
+                .FixTrackName("Alligator Jam>")
+                .Should().Be("Alligator Jam >");
         }
 
-        [Test]
+        [TestMethod]
         public void FixesJamSegueSpacing()
         {
             GratefulDeadTrackFixer
-                .FixTrackName("Foo Jam  >")
-                .Should().Be("Foo Jam >");
+                .FixTrackName("Alligator Jam  >")
+                .Should().Be("Alligator Jam >");
         }
 
-        [Test]
+        [TestMethod]
         public void FixesCompoundTracks()
         {
             GratefulDeadTrackFixer

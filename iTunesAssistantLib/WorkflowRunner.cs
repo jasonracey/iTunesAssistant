@@ -13,7 +13,7 @@ namespace iTunesAssistantLib
             _app = new iTunesAppClass();
         }
 
-        public string State { get; private set; }
+        public string? State { get; private set; }
         public int ItemsProcessed { get; private set; }
         public int ItemsTotal { get; private set; }
 
@@ -28,10 +28,13 @@ namespace iTunesAssistantLib
 
             var tracksToFix = new List<IITTrack>();
 
-            foreach (IITTrack track in _app.SelectedTracks)
+            foreach (IITTrack? track in _app.SelectedTracks)
             {
-                tracksToFix.Add(track);
-                ItemsProcessed++;
+                if (track != null)
+                {
+                    tracksToFix.Add(track);
+                    ItemsProcessed++;
+                }
             }
 
             if (tracksToFix.Count == 0)
@@ -47,6 +50,7 @@ namespace iTunesAssistantLib
             if (workflows.Any(item => item.Name == WorkflowName.ImportTrackNames))
             {
                 var inputFilePath = workflows.First(item => item.Name == WorkflowName.ImportTrackNames).FileName;
+                if (string.IsNullOrWhiteSpace(inputFilePath)) throw new iTunesAssistantException($"Invalid input file path '{inputFilePath}'");
                 RunImportTrackNamesWorkflow(tracksToFix, inputFilePath);
             }
 
@@ -267,7 +271,10 @@ namespace iTunesAssistantLib
                 if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FindAndReplace))
                 {
                     var findAndReplace = trackWorkflows.First(item => item.Name == WorkflowName.FindAndReplace);
-                    track.Name = track.Name.Replace(findAndReplace.OldValue, findAndReplace.NewValue);
+                    if (!string.IsNullOrEmpty(findAndReplace.OldValue))
+                    {
+                        track.Name = track.Name.Replace(findAndReplace.OldValue, findAndReplace.NewValue);
+                    }
                 }
 
                 if (trackWorkflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNames))

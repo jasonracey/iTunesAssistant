@@ -8,8 +8,8 @@ namespace iTunesAssistant
 {
     public partial class iTunesAssistant : Form
     {
-        private HashSet<Workflow> _selectedWorkflows;
-        private WorkflowRunner _workflowRunner;
+        private HashSet<Workflow> _selectedWorkflows = new HashSet<Workflow>();
+        private WorkflowRunner _workflowRunner = new WorkflowRunner();
 
         public iTunesAssistant()
         {

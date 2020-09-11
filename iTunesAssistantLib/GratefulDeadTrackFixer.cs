@@ -39,13 +39,13 @@ namespace iTunesAssistantLib
 
         private static string GetCanonicalName(string trackName)
         {
-            var endsWithSegue = trackName.EndsWith(">");
+            var endsWithSegue = trackName.TrimEnd().EndsWith(">");
             if (endsWithSegue)
             {
                 trackName = trackName.Replace(">", string.Empty);
             }
 
-            var endsWithJam = trackName.ToLower().EndsWith(" jam");
+            var endsWithJam = trackName.TrimEnd().ToLower().EndsWith(" jam");
             if (endsWithJam)
             {
                 trackName = trackName.Replace(" Jam", string.Empty).Replace(" jam", string.Empty);
@@ -53,6 +53,7 @@ namespace iTunesAssistantLib
 
             var trackNameKey = trackName.ToLowerAlphaNumeric();
 
+            #region Track Names
             if (trackNameKey.Contains("hullygully")) { trackName = "(Baby) Hully Gully"; }
             else if (trackNameKey.Contains("childrenoftheeighties")) { trackName = "(For The) Children Of The Eighties"; }
             else if (trackNameKey.Contains("satisfaction")) { trackName = "(I Can't Get No) Satisfaction"; }
@@ -586,8 +587,7 @@ namespace iTunesAssistantLib
             else if (trackNameKey.Contains("youwinagain")) { trackName = "You Win Again"; }
             else if (trackNameKey.Contains("yourloveathome")) { trackName = "Your Love At Home"; }
             else trackName = "***** UNKNOWN - " + trackName;
-
-            trackName = trackName.TrimEnd();
+            #endregion
 
             if (endsWithJam)
             {

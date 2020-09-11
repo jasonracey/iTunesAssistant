@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using iTunesAssistantLib;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace iTunesAssistantLibTest
 {
-    [TestFixture]
+    [TestClass]
     public class WhenFixingAlbumName
     {
-        [Test]
+        [TestMethod]
         public void RemovesDiscAndNumberFromName()
         {
             AlbumNameFixer
@@ -48,7 +48,7 @@ namespace iTunesAssistantLibTest
                 .Should().Be("Foo Bar1");
         }
 
-        [Test]
+        [TestMethod]
         public void RemovesCdAndNumberFromName()
         {
             AlbumNameFixer
