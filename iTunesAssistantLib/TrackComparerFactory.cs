@@ -3,18 +3,18 @@ using iTunesLib;
 
 namespace iTunesAssistantLib
 {
-    public class TrackComparerFactory
+    public static class TrackComparerFactory
     {
         public static IComparer<IITTrack> GetTrackComparer(List<IITTrack> tracks)
         {
-            var trackNumbers = new Dictionary<string, int>();
+            var trackNumbers = new HashSet<string>();
 
             foreach (var track in tracks)
             {
                 var key = track.GetKey();
-                if (track.TrackNumber != 0 && !trackNumbers.ContainsKey(key))
+                if (track.TrackNumber != 0 && !trackNumbers.Contains(key))
                 {
-                    trackNumbers.Add(key, track.TrackNumber);
+                    trackNumbers.Add(key);
                 }
                 else
                 {
@@ -46,17 +46,7 @@ namespace iTunesAssistantLib
     {
         public static string GetKey(this IITTrack track)
         {
-            var discNumberString = GetPaddedNumberString(track.DiscNumber);
-            var trackNumberString = GetPaddedNumberString(track.TrackNumber);
-            return $"{discNumberString}-{trackNumberString}";
-        }
-
-        private static string GetPaddedNumberString(int number)
-        {
-            // assumes range of 1-99
-            return number < 10
-                ? $"0{number}"
-                : number.ToString();
+            return $"{track.DiscNumber:D2}-{track.TrackNumber:D2}";
         }
     }
 }

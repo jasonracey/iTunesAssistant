@@ -2,21 +2,18 @@
 
 namespace iTunesAssistantLib
 {
-    public class AlbumNameFixer
+    public static class AlbumNameFixer
     {
-        public static string FixAlbumName(string albumName)
+        private static readonly Regex DiscNumberRegex = new Regex(@"\s*\[*\(*(disc|cd)\s*\d*\)*\]*\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public static string FixAlbumName(this string s)
         {
-            var albumNameRegex = new Regex(@"\s*\[*\(*(disc|cd)\s*\d*\)*\]*\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            albumName = albumNameRegex.Replace(albumName, string.Empty);
+            return s.RemoveDiscNumber().RemoveDoubleSpaces().Trim().ToTitleCase();
+        }
 
-            while (albumName.Contains("  "))
-            {
-                albumName = albumName.Replace("  ", " ");
-            }
-
-            albumName = albumName.Trim();
-
-            return albumName.ToTitleCase();
+        private static string RemoveDiscNumber(this string s)
+        {
+            return DiscNumberRegex.Replace(s, string.Empty);
         }
     }
 }

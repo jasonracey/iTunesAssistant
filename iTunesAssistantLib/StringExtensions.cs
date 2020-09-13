@@ -4,20 +4,31 @@ namespace iTunesAssistantLib
 {
     public static class StringExtensions
     {
-        public static string RepeatedlyReplace(this string str, string match, string substitution)
+        private const string DoubleSpace = "  ";
+        private const string SingleSpace = " ";
+        private const string PatternForAnyAlphaNumeric = "[^a-zA-Z0-9]";
+
+        public static string RemoveDoubleSpaces(this string s)
         {
-            while (str.Contains(match))
-            {
-                str = str.Replace(match, substitution);
-            }
-            return str;
+            return RepeatedlyReplace(s, DoubleSpace, SingleSpace);
         }
 
-        public static string ToLowerAlphaNumeric(this string str)
+        public static string RepeatedlyReplace(this string s, string match, string substitution)
         {
-            const string pattern = "[^a-zA-Z0-9]";
-            var replacement = string.Empty;
-            return Regex.Replace(str, pattern, replacement, RegexOptions.Compiled).ToLower();
+            while (s.Contains(match))
+            {
+                s = s.Replace(match, substitution);
+            }
+            return s;
+        }
+
+        public static string ToLowerAlphaNumeric(this string s)
+        {
+            return Regex.Replace(
+                input: s, 
+                pattern: PatternForAnyAlphaNumeric, 
+                replacement: string.Empty, 
+                options: RegexOptions.Compiled).ToLower();
         }
     }
 }
