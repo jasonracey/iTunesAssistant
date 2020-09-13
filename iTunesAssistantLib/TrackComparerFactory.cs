@@ -5,7 +5,7 @@ namespace iTunesAssistantLib
 {
     public static class TrackComparerFactory
     {
-        public static IComparer<IITTrack> GetTrackComparer(List<IITTrack> tracks)
+        public static IComparer<IITTrack> GetTrackComparer(IEnumerable<IITTrack> tracks)
         {
             var trackNumbers = new HashSet<string>();
 
@@ -46,7 +46,7 @@ namespace iTunesAssistantLib
     {
         public static string GetKey(this IITTrack track)
         {
-            return $"{track.DiscNumber:D2}-{track.TrackNumber:D2}";
+            return $"{track.DiscNumber:D3}-{track.TrackNumber:D3}";
         }
     }
 }
