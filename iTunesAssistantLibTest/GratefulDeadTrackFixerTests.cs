@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace iTunesAssistantLibTest
 {
     [TestClass]
-    public class WhenFixingGratefulDeadTrackName
+    public class GratefulDeadTrackFixerTests
     {
         [TestMethod]
         public void PreservesJam()

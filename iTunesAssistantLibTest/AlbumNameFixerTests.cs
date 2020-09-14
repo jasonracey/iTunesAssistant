@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace iTunesAssistantLibTest
 {
     [TestClass]
-    public class WhenFixingAlbumName
+    public class AlbumNameFixerTests
     {
         [TestMethod]
         public void RemovesDiscAndNumberFromName()
