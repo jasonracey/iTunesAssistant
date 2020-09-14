@@ -49,10 +49,6 @@ namespace iTunesAssistantLib
                 .Trim()
                 .ToTitleCase();
 
-            // because these are modified by ToTitleCase
-            // todo: move this inside ToTitleCase
-            trackName = RomanNumeralFixer.FixRomanNumerals(trackName);
-
             return trackName;
         }
     }

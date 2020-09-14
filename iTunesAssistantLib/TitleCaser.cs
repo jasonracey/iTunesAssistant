@@ -8,7 +8,8 @@ namespace iTunesAssistantLib
 
         public static string ToTitleCase(this string s)
         {
-            return TextInfoEnUs.ToTitleCase(TextInfoEnUs.ToLower(s));
+            // because Roman numerals are modified by ToTitleCase
+            return RomanNumeralFixer.FixRomanNumerals(TextInfoEnUs.ToTitleCase(TextInfoEnUs.ToLower(s)));
         }
     }
 }
