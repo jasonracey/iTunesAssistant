@@ -4,8 +4,9 @@ namespace iTunesAssistantLib
 {
     public static class StringExtensions
     {
-        private const string DoubleSpace = "  ";
-        private const string SingleSpace = " ";
+        public const string DoubleSpace = "  ";
+        public const string SingleSpace = " ";
+
         private const string PatternForAnyAlphaNumeric = "[^a-zA-Z0-9]";
 
         public static string RemoveDoubleSpaces(this string s)

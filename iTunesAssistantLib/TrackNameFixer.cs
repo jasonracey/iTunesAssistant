@@ -6,9 +6,6 @@ namespace iTunesAssistantLib
 {
     public class TrackNameFixer
     {
-        private const string space = " ";
-        private const string doubleSpace = "  ";
-
         private static readonly IEnumerable<string> Labels = new HashSet<string> { "track" };
 
         /// <summary>
@@ -45,7 +42,7 @@ namespace iTunesAssistantLib
                 .Aggregate(trackName, (trackName, regex) => regex.Replace(trackName, string.Empty));
 
             trackName = trackName
-                .RepeatedlyReplace(doubleSpace, space)
+                .RepeatedlyReplace(StringExtensions.DoubleSpace, StringExtensions.SingleSpace)
                 .Trim()
                 .ToTitleCase();
 
