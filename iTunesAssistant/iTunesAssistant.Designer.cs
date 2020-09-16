@@ -49,17 +49,19 @@
             // 
             this.workflowList.CheckOnClick = true;
             this.workflowList.FormattingEnabled = true;
-            this.workflowList.Location = new System.Drawing.Point(12, 42);
+            this.workflowList.Location = new System.Drawing.Point(20, 81);
+            this.workflowList.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.workflowList.Name = "workflowList";
-            this.workflowList.Size = new System.Drawing.Size(360, 169);
+            this.workflowList.Size = new System.Drawing.Size(597, 312);
             this.workflowList.TabIndex = 0;
             this.workflowList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.workflowList_ItemCheck);
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(297, 351);
+            this.startButton.Location = new System.Drawing.Point(495, 675);
+            this.startButton.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.Size = new System.Drawing.Size(125, 44);
             this.startButton.TabIndex = 2;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
@@ -67,9 +69,10 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(216, 351);
+            this.clearButton.Location = new System.Drawing.Point(360, 675);
+            this.clearButton.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(75, 23);
+            this.clearButton.Size = new System.Drawing.Size(125, 44);
             this.clearButton.TabIndex = 1;
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
@@ -77,26 +80,29 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(13, 322);
+            this.progressBar.Location = new System.Drawing.Point(22, 619);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(359, 23);
+            this.progressBar.Size = new System.Drawing.Size(598, 44);
             this.progressBar.TabIndex = 4;
             // 
             // countLabel
             // 
             this.countLabel.AutoSize = true;
-            this.countLabel.Location = new System.Drawing.Point(10, 348);
+            this.countLabel.Location = new System.Drawing.Point(17, 669);
+            this.countLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.countLabel.Name = "countLabel";
-            this.countLabel.Size = new System.Drawing.Size(24, 13);
+            this.countLabel.Size = new System.Drawing.Size(39, 25);
             this.countLabel.TabIndex = 5;
             this.countLabel.Text = "0/0";
             // 
             // stateLabel
             // 
             this.stateLabel.AutoSize = true;
-            this.stateLabel.Location = new System.Drawing.Point(12, 13);
+            this.stateLabel.Location = new System.Drawing.Point(20, 25);
+            this.stateLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Size = new System.Drawing.Size(24, 13);
+            this.stateLabel.Size = new System.Drawing.Size(41, 25);
             this.stateLabel.TabIndex = 6;
             this.stateLabel.Text = "Idle";
             // 
@@ -112,17 +118,19 @@
             // 
             // findText
             // 
-            this.findText.Location = new System.Drawing.Point(62, 30);
+            this.findText.Location = new System.Drawing.Point(103, 58);
+            this.findText.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.findText.Name = "findText";
-            this.findText.Size = new System.Drawing.Size(290, 20);
+            this.findText.Size = new System.Drawing.Size(481, 31);
             this.findText.TabIndex = 8;
             this.findText.TextChanged += new System.EventHandler(this.findText_TextChanged);
             // 
             // replaceText
             // 
-            this.replaceText.Location = new System.Drawing.Point(62, 60);
+            this.replaceText.Location = new System.Drawing.Point(103, 115);
+            this.replaceText.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.replaceText.Name = "replaceText";
-            this.replaceText.Size = new System.Drawing.Size(290, 20);
+            this.replaceText.Size = new System.Drawing.Size(481, 31);
             this.replaceText.TabIndex = 9;
             this.replaceText.TextChanged += new System.EventHandler(this.replaceText_TextChanged);
             // 
@@ -132,9 +140,11 @@
             this.findAndReplaceGroup.Controls.Add(this.findLabel);
             this.findAndReplaceGroup.Controls.Add(this.replaceText);
             this.findAndReplaceGroup.Controls.Add(this.findText);
-            this.findAndReplaceGroup.Location = new System.Drawing.Point(12, 222);
+            this.findAndReplaceGroup.Location = new System.Drawing.Point(20, 427);
+            this.findAndReplaceGroup.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.findAndReplaceGroup.Name = "findAndReplaceGroup";
-            this.findAndReplaceGroup.Size = new System.Drawing.Size(360, 94);
+            this.findAndReplaceGroup.Padding = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.findAndReplaceGroup.Size = new System.Drawing.Size(600, 181);
             this.findAndReplaceGroup.TabIndex = 10;
             this.findAndReplaceGroup.TabStop = false;
             this.findAndReplaceGroup.Text = "Find and replace:";
@@ -142,26 +152,28 @@
             // replaceLabel
             // 
             this.replaceLabel.AutoSize = true;
-            this.replaceLabel.Location = new System.Drawing.Point(6, 63);
+            this.replaceLabel.Location = new System.Drawing.Point(10, 121);
+            this.replaceLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.replaceLabel.Name = "replaceLabel";
-            this.replaceLabel.Size = new System.Drawing.Size(50, 13);
+            this.replaceLabel.Size = new System.Drawing.Size(76, 25);
             this.replaceLabel.TabIndex = 11;
             this.replaceLabel.Text = "Replace:";
             // 
             // findLabel
             // 
-            this.findLabel.Location = new System.Drawing.Point(6, 33);
+            this.findLabel.Location = new System.Drawing.Point(10, 63);
+            this.findLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.findLabel.Name = "findLabel";
-            this.findLabel.Size = new System.Drawing.Size(50, 13);
+            this.findLabel.Size = new System.Drawing.Size(83, 25);
             this.findLabel.TabIndex = 10;
             this.findLabel.Text = "Find:";
             this.findLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // iTunesAssistant
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 386);
+            this.ClientSize = new System.Drawing.Size(640, 742);
             this.Controls.Add(this.findAndReplaceGroup);
             this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.countLabel);
@@ -170,6 +182,7 @@
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.workflowList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "iTunesAssistant";
             this.Text = "iTunesAssistant";
             this.Load += new System.EventHandler(this.iTunesAssistant_Load);
