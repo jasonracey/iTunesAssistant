@@ -9,7 +9,7 @@ namespace iTunesAssistant
     public partial class iTunesAssistant : Form
     {
         private HashSet<Workflow> _selectedWorkflows = new HashSet<Workflow>();
-        private WorkflowRunner _workflowRunner = new WorkflowRunner();
+        private WorkflowRunner _workflowRunner = new WorkflowRunner(new AppClassWrapper());
 
         public iTunesAssistant()
         {
@@ -123,7 +123,7 @@ namespace iTunesAssistant
 
         private void RunCheckedWorkflows()
         {
-            _workflowRunner = new WorkflowRunner();
+            _workflowRunner = new WorkflowRunner(new AppClassWrapper());
 
             timer.Interval = 100;
             timer.Start();
