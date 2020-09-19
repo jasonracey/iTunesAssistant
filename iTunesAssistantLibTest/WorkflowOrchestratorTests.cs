@@ -9,7 +9,7 @@ using System.Linq;
 namespace iTunesAssistantLibTest
 {
     [TestClass]
-    public class WorkflowRunnerTests
+    public class WorkflowOrchestratorTests
     {
         private const int itemsTotal = 42;
         private const string trackName1 = "mock name 1";
@@ -24,7 +24,7 @@ namespace iTunesAssistantLibTest
         private IEnumerable<IITTrack> _testTracks;
         private IEnumerable<Workflow> _testWorkflows;
 
-        private WorkflowRunner _workflowRunner;
+        private WorkflowOrchestrator _workflowRunner;
 
         [TestInitialize]
         public void TestInitialize()
@@ -54,7 +54,7 @@ namespace iTunesAssistantLibTest
             _mockAppClass.Setup(appClass => appClass.LibraryPlaylist.Tracks.Count).Returns(itemsTotal);
             _mockAppClass.Setup(appClass => appClass.SelectedTracks).Returns(_mockTrackCollection.Object);
 
-            _workflowRunner = new WorkflowRunner(_mockAppClass.Object);
+            _workflowRunner = new WorkflowOrchestrator(_mockAppClass.Object);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace iTunesAssistantLibTest
             // assert
             _workflowRunner.ItemsProcessed.Should().Be(default);
             _workflowRunner.ItemsTotal.Should().Be(default);
-            _workflowRunner.State.Should().Be(default);
+            _workflowRunner.Message.Should().Be(default);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace iTunesAssistantLibTest
             // assert
             _workflowRunner.ItemsProcessed.Should().Be(0);
             _workflowRunner.ItemsTotal.Should().Be(itemsTotal);
-            _workflowRunner.State.Should().Be("Loading selected tracks...");
+            _workflowRunner.Message.Should().Be("Loading selected tracks...");
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace iTunesAssistantLibTest
             // assert
             _workflowRunner.ItemsProcessed.Should().Be(0);
             _workflowRunner.ItemsTotal.Should().Be(itemsTotal);
-            _workflowRunner.State.Should().Be("Loading selected tracks...");
+            _workflowRunner.Message.Should().Be("Loading selected tracks...");
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace iTunesAssistantLibTest
             var countOfNonNullTracks = _testTracks.Count(t => t != null);
             _workflowRunner.ItemsProcessed.Should().Be(countOfNonNullTracks);
             _workflowRunner.ItemsTotal.Should().Be(countOfNonNullTracks);
-            _workflowRunner.State.Should().Be("Running track workflows...");
+            _workflowRunner.Message.Should().Be("Running track workflows...");
         }
     }
 }

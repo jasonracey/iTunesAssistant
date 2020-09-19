@@ -9,7 +9,7 @@ namespace iTunesAssistant
     public partial class iTunesAssistant : Form
     {
         private HashSet<Workflow> _selectedWorkflows = new HashSet<Workflow>();
-        private WorkflowRunner _workflowRunner = new WorkflowRunner(new AppClassWrapper());
+        private WorkflowOrchestrator _workflowOrchestrator = new WorkflowOrchestrator();
 
         public iTunesAssistant()
         {
@@ -87,15 +87,15 @@ namespace iTunesAssistant
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (_workflowRunner.State != null)
+            if (_workflowOrchestrator.Message != null)
             {
-                stateLabel.Text = _workflowRunner.State;
+                stateLabel.Text = _workflowOrchestrator.Message;
             }
 
-            SetCountLabel(_workflowRunner.ItemsProcessed, _workflowRunner.ItemsTotal);
+            SetCountLabel(_workflowOrchestrator.ItemsProcessed, _workflowOrchestrator.ItemsTotal);
 
-            progressBar.Maximum = _workflowRunner.ItemsTotal;
-            progressBar.Value = _workflowRunner.ItemsProcessed;
+            progressBar.Maximum = _workflowOrchestrator.ItemsTotal;
+            progressBar.Value = _workflowOrchestrator.ItemsProcessed;
         }
 
         private void BuildWorkflowList()
@@ -123,7 +123,7 @@ namespace iTunesAssistant
 
         private void RunCheckedWorkflows()
         {
-            _workflowRunner = new WorkflowRunner(new AppClassWrapper());
+            _workflowOrchestrator = new WorkflowOrchestrator();
 
             timer.Interval = 100;
             timer.Start();
@@ -132,7 +132,7 @@ namespace iTunesAssistant
             {
                 try
                 {
-                    _workflowRunner.Run(_selectedWorkflows);
+                    _workflowOrchestrator.Run(_selectedWorkflows);
                 }
                 catch (Exception e)
                 {
