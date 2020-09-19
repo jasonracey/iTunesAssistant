@@ -21,7 +21,12 @@ namespace iTunesAssistantLib
 
         public void Run(IEnumerable<Workflow> workflows)
         {
-            SetNewState(0, _appClassWrapper.LibraryPlaylist.Tracks.Count, "Loading tracks...");
+            if (workflows?.Count() == 0)
+            {
+                return;
+            }
+
+            SetNewState(0, _appClassWrapper.LibraryPlaylist.Tracks.Count, "Loading selected tracks...");
 
             if (_appClassWrapper.SelectedTracks == null)
             {
@@ -44,31 +49,33 @@ namespace iTunesAssistantLib
                 return;
             }
 
-            if (workflows.Any(item => item.Name == WorkflowName.MergeAlbums))
+            if (workflows.Any(workflow => workflow.Name == WorkflowName.MergeAlbums))
             {
                 RunMergeAlbumsWorkflow(tracksToFix);
             }
 
-            if (workflows.Any(item => item.Name == WorkflowName.ImportTrackNames))
+            var inputFilePath = workflows
+                .FirstOrDefault(workflow => workflow.Name == WorkflowName.ImportTrackNames)?
+                .FileName;
+
+            if (!string.IsNullOrWhiteSpace(inputFilePath))
             {
-                var inputFilePath = workflows.First(item => item.Name == WorkflowName.ImportTrackNames).FileName;
-                if (string.IsNullOrWhiteSpace(inputFilePath)) throw new iTunesAssistantException($"Invalid input file path '{inputFilePath}'");
                 RunImportTrackNamesWorkflow(tracksToFix, inputFilePath);
             }
 
-            var albumWorkflows = workflows.Where(item => 
-                item.Name == WorkflowName.FixCountOfTracksOnAlbum ||
-                item.Name == WorkflowName.FixTrackNumbers).ToList();
+            var albumWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Album);
 
-            RunAlbumWorkflows(tracksToFix, albumWorkflows);
+            if (albumWorkflows.Any())
+            {
+                RunAlbumWorkflows(tracksToFix, albumWorkflows);
+            }
 
-            var trackWorkflows = workflows.Where(item => 
-                item.Name == WorkflowName.FindAndReplace ||
-                item.Name == WorkflowName.FixGratefulDeadTracks || 
-                item.Name == WorkflowName.FixTrackNames ||
-                item.Name == WorkflowName.SetAlbumNames).ToList();
+            var trackWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Track);
 
-            RunTrackWorkflows(tracksToFix, trackWorkflows);
+            if (trackWorkflows.Any())
+            {
+                RunTrackWorkflows(tracksToFix, trackWorkflows);
+            }
         }
 
         private void SetNewState(int itemsProcessed, int itemsTotal, string state)
@@ -153,12 +160,12 @@ namespace iTunesAssistantLib
 
             if (tracksToFix.Any(track => track.TrackNumber == 0))
             {
-                throw new System.Exception("One or more tracks does not have a track number");
+                throw new iTunesAssistantException("One or more tracks does not have a track number");
             }
 
             if (tracksToFix.Count != cleanedNewTrackNames.Count)
             {
-                throw new System.Exception("The number of names to import must match the number of tracks selected");
+                throw new iTunesAssistantException("The number of names to import must match the number of tracks selected");
             }
 
             SetNewState(0, tracksToFix.Count, "Assigning new track names...");
@@ -172,13 +179,8 @@ namespace iTunesAssistantLib
             return;
         }
 
-        private void RunAlbumWorkflows(IList<IITTrack> tracksToFix, IList<Workflow> albumWorkflows)
+        private void RunAlbumWorkflows(IList<IITTrack> tracksToFix, IEnumerable<Workflow> albumWorkflows)
         {
-            if (albumWorkflows.Count == 0)
-            {
-                return;
-            }
-
             var albums = GetAlbums(tracksToFix);
 
             SetNewState(0, albums.Count, "Running album workflows...");
@@ -203,7 +205,7 @@ namespace iTunesAssistantLib
                         {
                             if (e.Message.Contains(trackMissingErrorCode))
                             {
-                                throw new System.Exception(trackMissingErrorMessage);
+                                throw new iTunesAssistantException(trackMissingErrorMessage);
                             }
                             else
                             {
@@ -225,7 +227,7 @@ namespace iTunesAssistantLib
                         {
                             if (e.Message.Contains(trackMissingErrorCode))
                             {
-                                throw new System.Exception(trackMissingErrorMessage);
+                                throw new iTunesAssistantException(trackMissingErrorMessage);
                             }
                             else
                             {
@@ -239,13 +241,8 @@ namespace iTunesAssistantLib
             }
         }
 
-        private void RunTrackWorkflows(IList<IITTrack> tracksToFix, IList<Workflow> trackWorkflows)
+        private void RunTrackWorkflows(IList<IITTrack> tracksToFix, IEnumerable<Workflow> trackWorkflows)
         {
-            if (trackWorkflows.Count == 0)
-            {
-                return;
-            }
-
             SetNewState(0, tracksToFix.Count, "Running track workflows...");
 
             foreach (var track in tracksToFix)
@@ -277,7 +274,7 @@ namespace iTunesAssistantLib
                     track.Name = GratefulDeadTrackNameFixer.FixTrackName(track.Name);
                     if (string.IsNullOrWhiteSpace(track.Comment))
                     {
-                        throw new System.Exception("One or more Grateful Dead tracks is missing a comment");
+                        throw new iTunesAssistantException("One or more Grateful Dead tracks is missing a comment");
                     }
                     else
                     {
@@ -299,7 +296,7 @@ namespace iTunesAssistantLib
             {
                 if (string.IsNullOrWhiteSpace(track.Album))
                 {
-                    throw new System.Exception("One or more tracks is missing an album name");
+                    throw new iTunesAssistantException("One or more tracks is missing an album name");
                 }
 
                 if (!albums.ContainsKey(track.Album))

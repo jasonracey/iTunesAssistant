@@ -13,7 +13,7 @@ namespace iTunesAssistantLibTest
         [DataRow(" ")]
         public void Test(string name)
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new Workflow(name: name));
+            Assert.ThrowsException<ArgumentNullException>(() => Workflow.Create(name: name));
         }
     }
 }

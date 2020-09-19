@@ -33,7 +33,7 @@ namespace iTunesAssistant
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _selectedWorkflows.Add(new Workflow(name: workflowList.Text, fileName: openFileDialog.FileName));
+                    _selectedWorkflows.Add(Workflow.Create(name: workflowList.Text, fileName: openFileDialog.FileName));
                 }
                 else
                 {
@@ -42,7 +42,7 @@ namespace iTunesAssistant
             }
             else if (e.NewValue == CheckState.Checked)
             {
-                _selectedWorkflows.Add(new Workflow(name: workflowList.Text));
+                _selectedWorkflows.Add(Workflow.Create(name: workflowList.Text));
             }
             else
             {
@@ -190,7 +190,7 @@ namespace iTunesAssistant
         private void UpdateFindAndReplaceWorkflow(string findText, string replaceText)
         {
             RemoveWorkflow(WorkflowName.FindAndReplace);
-            _selectedWorkflows.Add(new Workflow(name: WorkflowName.FindAndReplace, oldValue: findText, newValue: replaceText));
+            _selectedWorkflows.Add(Workflow.Create(name: WorkflowName.FindAndReplace, oldValue: findText, newValue: replaceText));
         }
     }
 }

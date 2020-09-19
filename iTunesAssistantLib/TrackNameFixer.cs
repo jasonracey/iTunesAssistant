@@ -39,7 +39,7 @@ namespace iTunesAssistantLib
             trackName = Labels
                 .Select(label => GetTrackLabelRegex(label))
                 .Concat(new[] { GratefulDeadTrackNumberRegex, VinylTrackNumberRegex, TrackNumberRegex })
-                .Aggregate(trackName, (trackName, regex) => regex.Replace(trackName, string.Empty));
+                .Aggregate(trackName, (trackName, regex) => regex.Replace(trackName ?? string.Empty, string.Empty));
 
             trackName = trackName
                 .RepeatedlyReplace(StringExtensions.DoubleSpace, StringExtensions.SingleSpace)
