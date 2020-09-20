@@ -21,6 +21,11 @@ namespace iTunesAssistantLibTest
         private Mock<IITTrack> mockTrack2;
         private Mock<IITTrackCollection> _mockTrackCollection;
 
+        private Mock<IWorkflowRunner> _mockMergeAlbumsWorkflowRunner;
+        private Mock<IWorkflowRunner> _mockImportTrackNamesWorkflowRunner;
+        private Mock<IWorkflowRunner> _mockAlbumWorkflowRunner;
+        private Mock<IWorkflowRunner> _mockTrackWorkflowRunner;
+
         private IEnumerable<IITTrack> _testTracks;
         private IEnumerable<Workflow> _testWorkflows;
 
@@ -29,6 +34,11 @@ namespace iTunesAssistantLibTest
         [TestInitialize]
         public void TestInitialize()
         {
+            _mockMergeAlbumsWorkflowRunner = new Mock<IWorkflowRunner>();
+            _mockImportTrackNamesWorkflowRunner = new Mock<IWorkflowRunner>();
+            _mockAlbumWorkflowRunner = new Mock<IWorkflowRunner>();
+            _mockTrackWorkflowRunner = new Mock<IWorkflowRunner>();
+
             mockTrack1 = new Mock<IITTrack>();
             mockTrack2 = new Mock<IITTrack>();
 
@@ -54,7 +64,12 @@ namespace iTunesAssistantLibTest
             _mockAppClass.Setup(appClass => appClass.LibraryPlaylist.Tracks.Count).Returns(itemsTotal);
             _mockAppClass.Setup(appClass => appClass.SelectedTracks).Returns(_mockTrackCollection.Object);
 
-            _workflowRunner = new WorkflowOrchestrator(_mockAppClass.Object);
+            _workflowRunner = new WorkflowOrchestrator(
+                _mockAppClass.Object,
+                _mockMergeAlbumsWorkflowRunner.Object,
+                _mockImportTrackNamesWorkflowRunner.Object,
+                _mockAlbumWorkflowRunner.Object,
+                _mockTrackWorkflowRunner.Object);
         }
 
         [TestMethod]
@@ -70,6 +85,10 @@ namespace iTunesAssistantLibTest
             _workflowRunner.ItemsProcessed.Should().Be(default);
             _workflowRunner.ItemsTotal.Should().Be(default);
             _workflowRunner.Message.Should().Be(default);
+            VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Never());
+            VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Never());
+            VerifyTimes(_mockAlbumWorkflowRunner, Times.Never());
+            VerifyTimes(_mockTrackWorkflowRunner, Times.Never());
         }
 
         [TestMethod]
@@ -85,6 +104,10 @@ namespace iTunesAssistantLibTest
             _workflowRunner.ItemsProcessed.Should().Be(0);
             _workflowRunner.ItemsTotal.Should().Be(itemsTotal);
             _workflowRunner.Message.Should().Be("Loading selected tracks...");
+            VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Never());
+            VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Never());
+            VerifyTimes(_mockAlbumWorkflowRunner, Times.Never());
+            VerifyTimes(_mockTrackWorkflowRunner, Times.Never());
         }
 
         [TestMethod]
@@ -100,6 +123,10 @@ namespace iTunesAssistantLibTest
             _workflowRunner.ItemsProcessed.Should().Be(0);
             _workflowRunner.ItemsTotal.Should().Be(itemsTotal);
             _workflowRunner.Message.Should().Be("Loading selected tracks...");
+            VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Never());
+            VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Never());
+            VerifyTimes(_mockAlbumWorkflowRunner, Times.Never());
+            VerifyTimes(_mockTrackWorkflowRunner, Times.Never());
         }
 
         [TestMethod]
@@ -114,10 +141,52 @@ namespace iTunesAssistantLibTest
             _workflowRunner.Run(_testWorkflows);
 
             // assert
-            var countOfNonNullTracks = _testTracks.Count(t => t != null);
-            _workflowRunner.ItemsProcessed.Should().Be(countOfNonNullTracks);
-            _workflowRunner.ItemsTotal.Should().Be(countOfNonNullTracks);
-            _workflowRunner.Message.Should().Be("Running track workflows...");
+            _workflowRunner.ItemsProcessed.Should().Be(_testTracks.Count(t => t != null));
+            _workflowRunner.ItemsTotal.Should().Be(itemsTotal);
+            _workflowRunner.Message.Should().Be("Loading selected tracks...");
+            VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Never());
+            VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Never());
+            VerifyTimes(_mockAlbumWorkflowRunner, Times.Never());
+            VerifyTimes(_mockTrackWorkflowRunner, Times.Once());
+        }
+
+        [DataTestMethod]
+        [DataRow(WorkflowName.FindAndReplace, 0, 0, 0, 1)]
+        [DataRow(WorkflowName.FixCountOfTracksOnAlbum, 0, 0, 1, 0)]
+        [DataRow(WorkflowName.FixGratefulDeadTracks, 0, 0, 0, 1)]
+        [DataRow(WorkflowName.FixTrackNames, 0, 0, 0, 1)]
+        [DataRow(WorkflowName.FixTrackNumbers, 0, 0, 1, 0)]
+        [DataRow(WorkflowName.ImportTrackNames, 0, 1, 0, 0)]
+        [DataRow(WorkflowName.MergeAlbums, 1, 0, 0, 0)]
+        [DataRow(WorkflowName.SetAlbumNames, 0, 0, 0, 1)]
+        public void WhenRunningWorkflows_UsesTheCorrectRunner(string workflowName, int timesMerge, int timesImport, int timesAlbum, int timesTrack)
+        {
+            // arrange
+            var workflow = workflowName switch
+            {
+                WorkflowName.ImportTrackNames => Workflow.Create(workflowName, fileName: "mock file name"),
+                WorkflowName.FindAndReplace => Workflow.Create(workflowName, oldValue: "mock old value", newValue: "mock new value"),
+                _ => Workflow.Create(workflowName)
+            };
+            _testWorkflows = new[] { workflow };
+
+            // act
+            _workflowRunner.Run(_testWorkflows);
+
+            // assert
+            VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Exactly(timesMerge));
+            VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Exactly(timesImport));
+            VerifyTimes(_mockAlbumWorkflowRunner, Times.Exactly(timesAlbum));
+            VerifyTimes(_mockTrackWorkflowRunner, Times.Exactly(timesTrack));
+        }
+
+        private void VerifyTimes(Mock<IWorkflowRunner> mockWorkflowRunner, Times times)
+        {
+            mockWorkflowRunner.Verify(mock => mock.Run(
+                It.IsAny<Status>(),
+                It.IsAny<IList<IITTrack>>(),
+                It.IsAny<IEnumerable<Workflow>>(),
+                It.IsAny<string>()), times);
         }
     }
 }

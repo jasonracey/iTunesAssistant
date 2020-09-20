@@ -41,11 +41,11 @@ namespace iTunesAssistantLib
         {
             return name switch
             {
-                WorkflowName.FindAndReplace => new Workflow(name, oldValue: oldValue, newValue: newValue),
-                WorkflowName.ImportTrackNames => new Workflow(name, fileName: fileName),
                 WorkflowName.MergeAlbums => new Workflow(name),
+                WorkflowName.ImportTrackNames => new Workflow(name, fileName: fileName),
                 WorkflowName.FixCountOfTracksOnAlbum => new Workflow(name, type: WorkflowType.Album),
                 WorkflowName.FixTrackNumbers => new Workflow(name, type: WorkflowType.Album),
+                WorkflowName.FindAndReplace => new Workflow(name, oldValue: oldValue, newValue: newValue, type: WorkflowType.Track),
                 _ => new Workflow(name, type: WorkflowType.Track)
             };
         }
