@@ -151,24 +151,27 @@ namespace iTunesAssistantLibTest
         }
 
         [DataTestMethod]
-        [DataRow(WorkflowName.FindAndReplace, 0, 0, 0, 1)]
-        [DataRow(WorkflowName.FixCountOfTracksOnAlbum, 0, 0, 1, 0)]
-        [DataRow(WorkflowName.FixGratefulDeadTracks, 0, 0, 0, 1)]
-        [DataRow(WorkflowName.FixTrackNames, 0, 0, 0, 1)]
-        [DataRow(WorkflowName.FixTrackNumbers, 0, 0, 1, 0)]
-        [DataRow(WorkflowName.ImportTrackNames, 0, 1, 0, 0)]
-        [DataRow(WorkflowName.MergeAlbums, 1, 0, 0, 0)]
-        [DataRow(WorkflowName.SetAlbumNames, 0, 0, 0, 1)]
-        public void WhenRunningWorkflows_UsesTheCorrectRunner(string workflowName, int timesMerge, int timesImport, int timesAlbum, int timesTrack)
+        [DataRow(new[] { WorkflowName.FindAndReplace }, 0, 0, 0, 1)]
+        [DataRow(new[] { WorkflowName.FixCountOfTracksOnAlbum }, 0, 0, 1, 0)]
+        [DataRow(new[] { WorkflowName.FixGratefulDeadTracks }, 0, 0, 0, 1)]
+        [DataRow(new[] { WorkflowName.FixTrackNames }, 0, 0, 0, 1)]
+        [DataRow(new[] { WorkflowName.FixTrackNumbers }, 0, 0, 1, 0)]
+        [DataRow(new[] { WorkflowName.ImportTrackNames }, 0, 1, 0, 0)]
+        [DataRow(new[] { WorkflowName.MergeAlbums }, 1, 0, 0, 0)]
+        [DataRow(new[] { WorkflowName.SetAlbumNames }, 0, 0, 0, 1)]
+        [DataRow( new[] { WorkflowName.FindAndReplace, WorkflowName.FixCountOfTracksOnAlbum, WorkflowName.ImportTrackNames, WorkflowName.MergeAlbums }, 1, 1, 1, 1)]
+        public void WhenRunningWorkflows_UsesTheCorrectRunners(string[] workflowNames, int timesMerge, int timesImport, int timesAlbum, int timesTrack)
         {
             // arrange
-            var workflow = workflowName switch
+            _testWorkflows = workflowNames.Select(workflowName => 
             {
-                WorkflowName.ImportTrackNames => Workflow.Create(workflowName, fileName: "mock file name"),
-                WorkflowName.FindAndReplace => Workflow.Create(workflowName, oldValue: "mock old value", newValue: "mock new value"),
-                _ => Workflow.Create(workflowName)
-            };
-            _testWorkflows = new[] { workflow };
+                return workflowName switch
+                {
+                    WorkflowName.ImportTrackNames => Workflow.Create(workflowName, fileName: "mock file name"),
+                    WorkflowName.FindAndReplace => Workflow.Create(workflowName, oldValue: "mock old value", newValue: "mock new value"),
+                    _ => Workflow.Create(workflowName)
+                };
+            });
 
             // act
             _workflowRunner.Run(_testWorkflows);
