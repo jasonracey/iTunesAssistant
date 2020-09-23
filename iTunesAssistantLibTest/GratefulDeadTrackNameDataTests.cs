@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace iTunesAssistantLibTest
 {
     [TestClass]
-    public class GratefulDeadTrackNameDataTest
+    public class GratefulDeadTrackNameDataTests
     {
         [DataTestMethod]
         [DataRow("", null)]
