@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="iTunesAssistantLibTest.v3.ncrunchproject" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="iTunesLib.dll">
       <Guid>9e93c96f-cf0d-43f6-8ba8-b807a3370712</Guid>
       <VersionMajor>1</VersionMajor>
