@@ -1,5 +1,7 @@
 ﻿<ProjectConfiguration>
   <Settings>
+    <AutoDetectNugetBuildDependencies>False</AutoDetectNugetBuildDependencies>
+    <BuildProcessArchitecture>x64</BuildProcessArchitecture>
     <FrameworkUtilisationTypeForMSTest>UseDynamicAnalysis</FrameworkUtilisationTypeForMSTest>
   </Settings>
 </ProjectConfiguration>
