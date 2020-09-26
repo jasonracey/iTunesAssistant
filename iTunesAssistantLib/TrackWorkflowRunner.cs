@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using iTunesLib;
 
@@ -8,6 +9,10 @@ namespace iTunesAssistantLib
     {
         public void Run(Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
         {
+            if (status == null) throw new ArgumentNullException(nameof(status));
+            if (tracksToFix == null) throw new ArgumentNullException(nameof(tracksToFix));
+            if (workflows == null) throw new ArgumentNullException(nameof(workflows));
+
             status.Update(0, tracksToFix.Count, "Running track workflows...");
 
             foreach (var track in tracksToFix)
