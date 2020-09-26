@@ -7,13 +7,13 @@ namespace iTunesAssistantLib
 {
     public class TrackWorkflowRunner : IWorkflowRunner
     {
-        public void Run(Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
+        public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
         {
             if (status == null) throw new ArgumentNullException(nameof(status));
             if (tracksToFix == null) throw new ArgumentNullException(nameof(tracksToFix));
             if (workflows == null) throw new ArgumentNullException(nameof(workflows));
 
-            status.Update(0, tracksToFix.Count, "Running track workflows...");
+            status = Status.Create(tracksToFix.Count, "Running track workflows...");
 
             foreach (var track in tracksToFix)
             {
@@ -52,7 +52,7 @@ namespace iTunesAssistantLib
                     }
                 }
 
-                status.ItemsProcessed++;
+                status.ItemProcessed();
             }
         }
     }

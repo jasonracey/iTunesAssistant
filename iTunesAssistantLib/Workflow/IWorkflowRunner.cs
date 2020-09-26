@@ -5,6 +5,6 @@ namespace iTunesAssistantLib
 {
     public interface IWorkflowRunner
     {
-        void Run(Status status, IList<IITTrack> tracks, IEnumerable<Workflow>? workflows = null, string? inputFilePath = null);
+        void Run(ref Status status, IList<IITTrack> tracks, IEnumerable<Workflow>? workflows = null, string? inputFilePath = null);
     }
 }

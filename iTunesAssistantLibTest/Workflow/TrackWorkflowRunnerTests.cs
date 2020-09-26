@@ -22,7 +22,7 @@ namespace iTunesAssistantLibTest
         [TestInitialize]
         public void TestInitialize()
         {
-            _status = new Status();
+            _status = Status.Create(default);
             _tracksToFix = new List<IITTrack>();
             _workflows = new List<Workflow>();
 
@@ -32,9 +32,10 @@ namespace iTunesAssistantLibTest
         [TestMethod]
         public void ValidatesArgs()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(null, _tracksToFix, _workflows));
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(_status, null, _workflows));
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(_status, _tracksToFix, null));
+            Status nullStatus = null;
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref nullStatus, _tracksToFix, _workflows));
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref _status, null, _workflows));
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref _status, _tracksToFix, null));
         }
 
         [TestMethod]
@@ -44,7 +45,7 @@ namespace iTunesAssistantLibTest
             _tracksToFix = new List<IITTrack>();
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             _status.Should().NotBeNull();
@@ -61,7 +62,7 @@ namespace iTunesAssistantLibTest
             _tracksToFix.Add(mockTrack.Object);
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             _status.Should().NotBeNull();
@@ -88,7 +89,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.SetAlbumNames));
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             mockTrack.VerifySet(t => t.Album = trackName, Times.Exactly(times));
@@ -107,7 +108,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FindAndReplace, oldValue: oldValue, newValue: newValue));
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Exactly(times));
@@ -123,7 +124,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixTrackNames));
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Once);
@@ -141,7 +142,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixGratefulDeadTracks));
 
             // act
-            _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Once);
@@ -162,7 +163,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixGratefulDeadTracks));
 
             // act/assert
-            Assert.ThrowsException<iTunesAssistantException>(() => _trackWorkflowRunner.Run(_status, _tracksToFix, _workflows));
+            Assert.ThrowsException<iTunesAssistantException>(() => _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows));
         }
     }
 }

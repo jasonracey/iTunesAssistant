@@ -84,7 +84,7 @@ namespace iTunesAssistantLibTest
             // assert
             _workflowRunner.ItemsProcessed.Should().Be(default);
             _workflowRunner.ItemsTotal.Should().Be(default);
-            _workflowRunner.Message.Should().Be(default);
+            _workflowRunner.Message.Should().Be(string.Empty);
             VerifyTimes(_mockMergeAlbumsWorkflowRunner, Times.Never());
             VerifyTimes(_mockImportTrackNamesWorkflowRunner, Times.Never());
             VerifyTimes(_mockAlbumWorkflowRunner, Times.Never());
@@ -186,7 +186,7 @@ namespace iTunesAssistantLibTest
         private void VerifyTimes(Mock<IWorkflowRunner> mockWorkflowRunner, Times times)
         {
             mockWorkflowRunner.Verify(mock => mock.Run(
-                It.IsAny<Status>(),
+                ref It.Ref<Status>.IsAny,
                 It.IsAny<IList<IITTrack>>(),
                 It.IsAny<IEnumerable<Workflow>>(),
                 It.IsAny<string>()), times);

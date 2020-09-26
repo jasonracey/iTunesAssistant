@@ -6,9 +6,9 @@ namespace iTunesAssistantLib
 {
     public class MergeAlbumsWorkflowRunner : IWorkflowRunner
     {
-        public void Run(Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
+        public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
         {
-            status.Update(0, tracksToFix.Count, "Generating album groups...");
+            status = Status.Create(tracksToFix.Count, "Generating album groups...");
 
             var albumGroups = new Dictionary<string, IDictionary<string, IList<IITTrack>>>();
 
@@ -30,7 +30,7 @@ namespace iTunesAssistantLib
                     albumGroups[newAlbumName][track.Album].Add(track);
                 }
 
-                status.ItemsProcessed++;
+                status.ItemProcessed();
             }
 
             foreach (var album in albumGroups.SelectMany(albumGroup => albumGroup.Value.Values))
@@ -39,7 +39,7 @@ namespace iTunesAssistantLib
                 album.ToList().Sort(comparer);
             }
 
-            status.Update(0, albumGroups.Count, "Running merge albums workflow...");
+            status = Status.Create(albumGroups.Count, "Running merge albums workflow...");
 
             foreach (var albumGroup in albumGroups)
             {
@@ -58,7 +58,7 @@ namespace iTunesAssistantLib
                     track.TrackCount = trackCount;
                 }
 
-                status.ItemsProcessed++;
+                status.ItemProcessed();
             }
         }
     }

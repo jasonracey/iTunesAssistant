@@ -13,7 +13,7 @@ namespace iTunesAssistantLib
         IWorkflowRunner _albumWorkflowRunner;
         IWorkflowRunner _trackWorkflowRunner;
 
-        private readonly Status _status;
+        private Status _status;
 
         public WorkflowOrchestrator(
             IAppClassWrapper? appClassWrapper = null,
@@ -29,7 +29,7 @@ namespace iTunesAssistantLib
             _albumWorkflowRunner = albumWorkflowRunner ?? new AlbumWorkflowRunner();
             _trackWorkflowRunner = trackWorkflowRunner ?? new TrackWorkflowRunner();
 
-            _status = new Status();
+            _status = Status.Create(default);
         }
 
         public string? Message 
@@ -54,7 +54,7 @@ namespace iTunesAssistantLib
                 return;
             }
 
-            _status.Update(0, _appClassWrapper.LibraryPlaylist.Tracks.Count, "Loading selected tracks...");
+            _status = Status.Create(_appClassWrapper.LibraryPlaylist.Tracks.Count, "Loading selected tracks...");
 
             if (_appClassWrapper.SelectedTracks == null)
             {
@@ -68,7 +68,7 @@ namespace iTunesAssistantLib
                 if (track != null)
                 {
                     tracksToFix.Add(track);
-                    _status.ItemsProcessed++;
+                    _status.ItemProcessed();
                 }
             }
 
@@ -79,7 +79,7 @@ namespace iTunesAssistantLib
 
             if (workflows.Any(workflow => workflow.Name == WorkflowName.MergeAlbums))
             {
-                _mergeAlbumsWorkflowRunner.Run(_status, tracksToFix);
+                _mergeAlbumsWorkflowRunner.Run(ref _status, tracksToFix);
             }
 
             var inputFilePath = workflows
@@ -88,21 +88,21 @@ namespace iTunesAssistantLib
 
             if (!string.IsNullOrWhiteSpace(inputFilePath))
             {
-                _importTrackNamesWorkflowRunner.Run(_status, tracksToFix, inputFilePath: inputFilePath);
+                _importTrackNamesWorkflowRunner.Run(ref _status, tracksToFix, inputFilePath: inputFilePath);
             }
 
             var albumWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Album);
 
             if (albumWorkflows.Any())
             {
-                _albumWorkflowRunner.Run(_status, tracksToFix, albumWorkflows);
+                _albumWorkflowRunner.Run(ref _status, tracksToFix, albumWorkflows);
             }
 
             var trackWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Track);
 
             if (trackWorkflows.Any())
             {
-                _trackWorkflowRunner.Run(_status, tracksToFix, trackWorkflows);
+                _trackWorkflowRunner.Run(ref _status, tracksToFix, trackWorkflows);
             }
         }
     }
