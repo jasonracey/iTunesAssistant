@@ -8,12 +8,12 @@ namespace iTunesAssistantLib
     {
         public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
         {
-            var albums = GetAlbums(status, tracksToFix);
+            var albums = AlbumBuilder.BuildAlbums(ref status, tracksToFix);
 
             status = Status.Create(albums.Count, "Running album workflows...");
 
             const string trackMissingErrorCode = "0xA0040203";
-            const string trackMissingErrorMessage = "One or more tracks could not be found in your file system";
+            const string trackMissingErrorMessage = "One or more tracks could not be found";
 
             foreach (var album in albums)
             {
@@ -66,34 +66,6 @@ namespace iTunesAssistantLib
 
                 status.ItemProcessed();
             }
-        }
-
-        private IDictionary<string, IList<IITTrack>> GetAlbums(Status status, IList<IITTrack> tracksToFix)
-        {
-            status = Status.Create(tracksToFix.Count, "Generating album list...");
-
-            var albums = new SortedDictionary<string, IList<IITTrack>>();
-
-            foreach (var track in tracksToFix)
-            {
-                if (string.IsNullOrWhiteSpace(track.Album))
-                {
-                    throw new iTunesAssistantException("One or more tracks is missing an album name");
-                }
-
-                if (!albums.ContainsKey(track.Album))
-                {
-                    albums.Add(track.Album, new List<IITTrack> { track });
-                }
-                else
-                {
-                    albums[track.Album].Add(track);
-                }
-
-                status.ItemProcessed();
-            }
-
-            return albums;
         }
     }
 }

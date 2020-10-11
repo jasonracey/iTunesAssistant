@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentAssertions.Common;
 using iTunesAssistantLib;
 using iTunesLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
