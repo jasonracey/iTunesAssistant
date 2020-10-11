@@ -12,29 +12,47 @@ namespace iTunesAssistantLibTest
     [TestClass]
     public class TrackWorkflowRunnerTests
     {
-        private Status _status;
         private IList<IITTrack> _tracksToFix;
         private IList<Workflow> _workflows;
+
+        private WorkflowData _workflowData;
+        private Status _status;
 
         private TrackWorkflowRunner _trackWorkflowRunner;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _status = Status.Create(default);
             _tracksToFix = new List<IITTrack>();
             _workflows = new List<Workflow>();
+
+            _workflowData = new WorkflowData(_tracksToFix, _workflows);
+            _status = Status.Create(default);
 
             _trackWorkflowRunner = new TrackWorkflowRunner();
         }
 
         [TestMethod]
-        public void ValidatesArgs()
+        public void WhenWorkflowDataNull_Throws()
         {
-            Status nullStatus = null;
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref nullStatus, _tracksToFix, _workflows));
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref _status, null, _workflows));
-            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(ref _status, _tracksToFix, null));
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(null, ref _status));
+        }
+
+        [TestMethod]
+        public void WhenTracksNull_Throws()
+        {
+            var mockWorkflowData = new Mock<IWorkflowData>();
+            mockWorkflowData.Setup(m => m.Tracks).Returns((IList<IITTrack>)null);
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(mockWorkflowData.Object, ref _status));
+        }
+
+        [TestMethod]
+        public void WhenWorkflowsNull_Throws()
+        {
+            var mockWorkflowData = new Mock<IWorkflowData>();
+            mockWorkflowData.Setup(m => m.Tracks).Returns(new List<IITTrack>());
+            mockWorkflowData.Setup(m => m.Workflows).Returns((IEnumerable<Workflow>)null);
+            Assert.ThrowsException<ArgumentNullException>(() => _trackWorkflowRunner.Run(mockWorkflowData.Object, ref _status));
         }
 
         [TestMethod]
@@ -44,7 +62,7 @@ namespace iTunesAssistantLibTest
             _tracksToFix = new List<IITTrack>();
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             _status.Should().NotBeNull();
@@ -59,9 +77,10 @@ namespace iTunesAssistantLibTest
             // arrange
             var mockTrack = new Mock<IITTrack>();
             _tracksToFix.Add(mockTrack.Object);
+            _workflowData = new WorkflowData(_tracksToFix, _workflows);
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             _status.Should().NotBeNull();
@@ -88,7 +107,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.SetAlbumNames));
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             mockTrack.VerifySet(t => t.Album = trackName, Times.Exactly(times));
@@ -107,7 +126,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FindAndReplace, oldValue: oldValue, newValue: newValue));
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Exactly(times));
@@ -123,7 +142,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixTrackNames));
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Once);
@@ -141,7 +160,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixGratefulDeadTracks));
 
             // act
-            _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows);
+            _trackWorkflowRunner.Run(_workflowData, ref _status);
 
             // assert
             mockTrack.VerifySet(t => t.Name = It.IsAny<string>(), Times.Once);
@@ -162,7 +181,7 @@ namespace iTunesAssistantLibTest
             _workflows.Add(Workflow.Create(name: WorkflowName.FixGratefulDeadTracks));
 
             // act/assert
-            Assert.ThrowsException<iTunesAssistantException>(() => _trackWorkflowRunner.Run(ref _status, _tracksToFix, _workflows));
+            Assert.ThrowsException<iTunesAssistantException>(() => _trackWorkflowRunner.Run(_workflowData, ref _status));
         }
     }
 }

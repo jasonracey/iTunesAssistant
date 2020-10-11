@@ -6,7 +6,7 @@ namespace iTunesAssistantLib
 {
     public static class AlbumBuilder
     {
-        public static IDictionary<string, IList<IITTrack>> BuildAlbums(ref Status status, IList<IITTrack> tracksToFix)
+        public static IDictionary<string, IList<IITTrack>> BuildAlbums(IList<IITTrack> tracksToFix, ref Status status)
         {
             if (tracksToFix == null) throw new ArgumentNullException(nameof(tracksToFix));
 

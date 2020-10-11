@@ -1,67 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using iTunesLib;
 
 namespace iTunesAssistantLib
 {
     public class AlbumWorkflowRunner : IWorkflowRunner
     {
-        public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
+        public void Run(IWorkflowData workflowData, ref Status status)
         {
-            var albums = AlbumBuilder.BuildAlbums(ref status, tracksToFix);
+            if (workflowData == null) throw new ArgumentNullException(nameof(workflowData));
+            if (workflowData.Tracks == null) throw new ArgumentNullException(nameof(workflowData.Tracks));
+            if (workflowData.Workflows == null) throw new ArgumentNullException(nameof(workflowData.Workflows));
+
+            var albums = AlbumBuilder.BuildAlbums(workflowData.Tracks, ref status);
 
             status = Status.Create(albums.Count, "Running album workflows...");
 
-            const string trackMissingErrorCode = "0xA0040203";
-            const string trackMissingErrorMessage = "One or more tracks could not be found";
-
-            foreach (var album in albums)
+            foreach (var tracks in albums.Select(album => album.Value))
             {
-                // must set number before count in case old number is higher than count
-                if (workflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNumbers))
+                // iTunes doesn't allow TrackCount to be set to a value higher than TrackNumber, so set number 
+                // before count in case any old track numbers are higher than new track count.
+                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNumbers))
                 {
-                    var trackComparer = TrackComparerFactory.GetTrackComparer(album.Value);
-                    album.Value.ToList().Sort(trackComparer);
-                    for (var i = 0; i < album.Value.Count; i++)
-                    {
-                        try
-                        {
-                            album.Value[i].TrackNumber = i + 1;
-                        }
-                        catch (System.Runtime.InteropServices.COMException e)
-                        {
-                            if (e.Message.Contains(trackMissingErrorCode))
-                            {
-                                throw new iTunesAssistantException(trackMissingErrorMessage);
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                    }
+                    TrackNumberFixer.FixTrackNumbers(tracks);
                 }
 
-                if (workflows.Any(workflow => workflow.Name == WorkflowName.FixCountOfTracksOnAlbum))
+                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.FixCountOfTracksOnAlbum))
                 {
-                    foreach (var track in album.Value)
-                    {
-                        try
-                        {
-                            track.TrackCount = album.Value.Count;
-                        }
-                        catch (System.Runtime.InteropServices.COMException e)
-                        {
-                            if (e.Message.Contains(trackMissingErrorCode))
-                            {
-                                throw new iTunesAssistantException(trackMissingErrorMessage);
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                    }
+                    TrackCountFixer.FixTrackCounts(tracks);
                 }
 
                 status.ItemProcessed();

@@ -6,11 +6,11 @@ namespace iTunesAssistantLib
 {
     public class ImportTrackNamesWorkflowRunner : IWorkflowRunner
     {
-        public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
+        public void Run(IWorkflowData workflowData, ref Status status)
         {
-            status = Status.Create(tracksToFix.Count, "Reading track names to import...");
+            status = Status.Create(workflowData.Tracks.Count, "Reading track names to import...");
 
-            var newTrackNames = System.IO.File.ReadAllLines(inputFilePath);
+            var newTrackNames = System.IO.File.ReadAllLines(workflowData.InputFilePath);
 
             var cleanedNewTrackNames = new List<string>();
             foreach (var newTrackName in newTrackNames)
@@ -23,21 +23,21 @@ namespace iTunesAssistantLib
                 }
             }
 
-            if (tracksToFix.Any(track => track.TrackNumber == 0))
+            if (workflowData.Tracks.Any(track => track.TrackNumber == 0))
             {
                 throw new iTunesAssistantException("One or more tracks does not have a track number");
             }
 
-            if (tracksToFix.Count != cleanedNewTrackNames.Count)
+            if (workflowData.Tracks.Count != cleanedNewTrackNames.Count)
             {
                 throw new iTunesAssistantException("The number of names to import must match the number of tracks selected");
             }
 
-            status = Status.Create(tracksToFix.Count, "Assigning new track names...");
+            status = Status.Create(workflowData.Tracks.Count, "Assigning new track names...");
 
-            for (var i = 0; i < tracksToFix.Count; i++)
+            for (var i = 0; i < workflowData.Tracks.Count; i++)
             {
-                tracksToFix[i].Name = cleanedNewTrackNames[i];
+                workflowData.Tracks[i].Name = cleanedNewTrackNames[i];
                 status.ItemProcessed();
             }
 

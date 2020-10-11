@@ -6,13 +6,13 @@ namespace iTunesAssistantLib
 {
     public class MergeAlbumsWorkflowRunner : IWorkflowRunner
     {
-        public void Run(ref Status status, IList<IITTrack> tracksToFix, IEnumerable<Workflow>? workflows, string? inputFilePath = null)
+        public void Run(IWorkflowData workflowData, ref Status status)
         {
-            status = Status.Create(tracksToFix.Count, "Generating album groups...");
+            status = Status.Create(workflowData.Tracks.Count, "Generating album groups...");
 
             var albumGroups = new Dictionary<string, IDictionary<string, IList<IITTrack>>>();
 
-            foreach (var track in tracksToFix)
+            foreach (var track in workflowData.Tracks)
             {
                 var newAlbumName = AlbumNameFixer.FixAlbumName(track.Album);
 

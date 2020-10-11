@@ -18,7 +18,7 @@ namespace iTunesAssistantLibTest
             var status = Status.Create(0);
 
             // act/assert
-            Assert.ThrowsException<ArgumentNullException>(() => AlbumBuilder.BuildAlbums(ref status, null));
+            Assert.ThrowsException<ArgumentNullException>(() => AlbumBuilder.BuildAlbums(null, ref status));
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace iTunesAssistantLibTest
             var tracksToFix = new List<IITTrack>();
 
             // act
-            var result = AlbumBuilder.BuildAlbums(ref status, tracksToFix);
+            var result = AlbumBuilder.BuildAlbums(tracksToFix, ref status);
 
             // assert
             Assert.IsNotNull(result);
@@ -52,7 +52,7 @@ namespace iTunesAssistantLibTest
             var tracksToFix = new List<IITTrack> { mockTrack.Object };
 
             // act/assert
-            Assert.ThrowsException<iTunesAssistantException>(() => AlbumBuilder.BuildAlbums(ref status, tracksToFix));
+            Assert.ThrowsException<iTunesAssistantException>(() => AlbumBuilder.BuildAlbums(tracksToFix, ref status));
         }
 
         [TestMethod]
@@ -61,10 +61,10 @@ namespace iTunesAssistantLibTest
             // arrange
             const int albumCount = 7;
             var status = Status.Create(0);
-            var tracksToFix = BuildMockAlbums(albumCount).SelectMany(t => t).ToList();
+            var tracksToFix = TestData.BuildMockAlbums(albumCount).SelectMany(t => t).ToList();
 
             // act
-            var result = AlbumBuilder.BuildAlbums(ref status, tracksToFix);
+            var result = AlbumBuilder.BuildAlbums(tracksToFix, ref status);
 
             // assert
             Assert.IsNotNull(result);
@@ -72,36 +72,6 @@ namespace iTunesAssistantLibTest
             Assert.AreEqual(tracksToFix.Count, status.ItemsTotal);
             Assert.AreEqual(tracksToFix.Count, status.ItemsProcessed);
             Assert.AreEqual("Generating album list...", status.Message);
-        }
-
-        private IEnumerable<IEnumerable<IITTrack>> BuildMockAlbums(int albumCount)
-        {
-            var albums = new List<IEnumerable<IITTrack>>();
-
-            var random = new Random();
-            for (var i = 0; i < albumCount; i++)
-            {
-                var album = BuildMockAlbum(random.Next(11, 17));
-                albums.Add(album);
-            }
-
-            return albums;
-        }
-
-        private IEnumerable<IITTrack> BuildMockAlbum(int trackCount)
-        {
-            var albumName = Guid.NewGuid().ToString();
-
-            var tracks = new List<IITTrack>();
-
-            for (var i = 0; i < trackCount; i++)
-            {
-                var track = new Mock<IITTrack>();
-                track.Setup(t => t.Album).Returns(albumName);
-                tracks.Add(track.Object);
-            }
-
-            return tracks;
         }
     }
 }
