@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using iTunesLib;
 
@@ -8,6 +9,9 @@ namespace iTunesAssistantLib
     {
         public void Run(IWorkflowRunnerInfo workflowRunnerInfo, ref Status status)
         {
+            if (workflowRunnerInfo == null) throw new ArgumentNullException(nameof(workflowRunnerInfo));
+            if (workflowRunnerInfo.Tracks == null) throw new ArgumentNullException(nameof(workflowRunnerInfo.Tracks));
+
             status = Status.Create(workflowRunnerInfo.Tracks.Count, "Generating album groups...");
 
             var albumGroups = new Dictionary<string, IDictionary<string, IList<IITTrack>>>();
