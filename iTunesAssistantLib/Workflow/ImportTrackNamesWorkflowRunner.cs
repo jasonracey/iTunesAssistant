@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using iTunesLib;
 
 namespace iTunesAssistantLib
 {
@@ -8,27 +9,31 @@ namespace iTunesAssistantLib
     {
         public void Run(IWorkflowRunnerInfo workflowRunnerInfo, ref Status status)
         {
-            status = Status.Create(workflowRunnerInfo.Tracks.Count, "Reading track names to import...");
+            if (workflowRunnerInfo == null) throw new ArgumentNullException(nameof(workflowRunnerInfo));
+            if (workflowRunnerInfo.Tracks == null) throw new ArgumentNullException(nameof(workflowRunnerInfo.Tracks));
+            if (string.IsNullOrWhiteSpace(workflowRunnerInfo.InputFilePath)) throw new ArgumentNullException(nameof(workflowRunnerInfo.InputFilePath));
 
-            var newTrackNames = System.IO.File.ReadAllLines(workflowRunnerInfo.InputFilePath);
-
-            var cleanedNewTrackNames = new List<string>();
-            foreach (var newTrackName in newTrackNames)
-            {
-                var cleanName = newTrackName.Trim();
-                if (cleanName != string.Empty)
-                {
-                    cleanedNewTrackNames.Add(cleanName);
-                    status.ItemProcessed();
-                }
-            }
-
+            // Prevent assigning wrong names.
             if (workflowRunnerInfo.Tracks.Any(track => track.TrackNumber == 0))
             {
                 throw new iTunesAssistantException("One or more tracks does not have a track number");
             }
 
-            if (workflowRunnerInfo.Tracks.Count != cleanedNewTrackNames.Count)
+            status = Status.Create(workflowRunnerInfo.Tracks.Count, "Reading track names to import...");
+
+            var newTrackNames = new List<string>();
+
+            foreach (var line in File.ReadAllLines(workflowRunnerInfo.InputFilePath))
+            {
+                var trimmedLine = line.Trim();
+                if (trimmedLine != string.Empty)
+                {
+                    newTrackNames.Add(trimmedLine);
+                    status.ItemProcessed();
+                }
+            }
+
+            if (workflowRunnerInfo.Tracks.Count != newTrackNames.Count)
             {
                 throw new iTunesAssistantException("The number of names to import must match the number of tracks selected");
             }
@@ -37,7 +42,7 @@ namespace iTunesAssistantLib
 
             for (var i = 0; i < workflowRunnerInfo.Tracks.Count; i++)
             {
-                workflowRunnerInfo.Tracks[i].Name = cleanedNewTrackNames[i];
+                workflowRunnerInfo.Tracks[i].Name = newTrackNames[i];
                 status.ItemProcessed();
             }
 

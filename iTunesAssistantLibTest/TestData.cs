@@ -18,15 +18,17 @@ namespace iTunesAssistantLibTest
 
             for (var i = 0; i < albumCount; i++)
             {
-                var album = BuildMockAlbum(Random.Next(MinAlbumSize, MaxAlbumSize));
+                var album = BuildMockAlbum();
                 albums.Add(album);
             }
 
             return albums;
         }
 
-        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount)
+        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount = 0)
         {
+            if (trackCount == 0) trackCount = Random.Next(MinAlbumSize, MaxAlbumSize);
+
             var albumName = Guid.NewGuid().ToString();
 
             var tracks = new List<IITTrack>();

@@ -39,7 +39,7 @@ namespace iTunesAssistantLibTest
         }
 
         [TestMethod]
-        public void WhenWorkflowDataNull_Throws()
+        public void WhenWorkflowInfoNull_Throws()
         {
             Assert.ThrowsException<ArgumentNullException>(() => _albumWorkflowRunner.Run(null, ref _status));
         }
