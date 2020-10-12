@@ -2,6 +2,6 @@
 {
     public interface IWorkflowRunner
     {
-        void Run(IWorkflowData workflowData, ref Status status);
+        void Run(IWorkflowRunnerInfo workflowRunnerInfo, ref Status status);
     }
 }

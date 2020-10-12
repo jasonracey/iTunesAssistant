@@ -4,9 +4,9 @@ using iTunesLib;
 
 namespace iTunesAssistantLib
 {
-    public class WorkflowData : IWorkflowData
+    public class WorkflowRunnerInfo : IWorkflowRunnerInfo
     {
-        public WorkflowData(IList<IITTrack> tracks, IEnumerable<Workflow>? workflows = null, string? inputFilePath = null)
+        public WorkflowRunnerInfo(IList<IITTrack> tracks, IEnumerable<Workflow>? workflows = null, string? inputFilePath = null)
         {
             this.Tracks = tracks ?? throw new ArgumentNullException(nameof(tracks));
             this.Workflows = workflows;

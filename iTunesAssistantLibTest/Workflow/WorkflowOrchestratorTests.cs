@@ -186,7 +186,7 @@ namespace iTunesAssistantLibTest
         private void VerifyTimes(Mock<IWorkflowRunner> mockWorkflowRunner, Times times)
         {
             mockWorkflowRunner.Verify(mock => 
-                mock.Run(It.IsAny<WorkflowData>(), ref It.Ref<Status>.IsAny), 
+                mock.Run(It.IsAny<WorkflowRunnerInfo>(), ref It.Ref<Status>.IsAny), 
                 times);
         }
     }

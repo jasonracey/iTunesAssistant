@@ -17,7 +17,7 @@ namespace iTunesAssistantLibTest
         private IList<IITTrack> _tracksToFix;
         private IList<Workflow> _workflows;
 
-        private WorkflowData _workflowData;
+        private WorkflowRunnerInfo _workflowRunnerInfo;
         private Status _status;
 
         private AlbumWorkflowRunner _albumWorkflowRunner;
@@ -32,7 +32,7 @@ namespace iTunesAssistantLibTest
                 Workflow.Create(WorkflowName.FixCountOfTracksOnAlbum)
             };
 
-            _workflowData = new WorkflowData(_tracksToFix, _workflows);
+            _workflowRunnerInfo = new WorkflowRunnerInfo(_tracksToFix, _workflows);
             _status = Status.Create(default);
 
             _albumWorkflowRunner = new AlbumWorkflowRunner();
@@ -47,7 +47,7 @@ namespace iTunesAssistantLibTest
         [TestMethod]
         public void WhenTracksNull_Throws()
         {
-            var mockWorkflowData = new Mock<IWorkflowData>();
+            var mockWorkflowData = new Mock<IWorkflowRunnerInfo>();
             mockWorkflowData.Setup(m => m.Tracks).Returns((IList<IITTrack>)null);
             Assert.ThrowsException<ArgumentNullException>(() => _albumWorkflowRunner.Run(mockWorkflowData.Object, ref _status));
         }
@@ -55,7 +55,7 @@ namespace iTunesAssistantLibTest
         [TestMethod]
         public void WhenWorkflowsNull_Throws()
         {
-            var mockWorkflowData = new Mock<IWorkflowData>();
+            var mockWorkflowData = new Mock<IWorkflowRunnerInfo>();
             mockWorkflowData.Setup(m => m.Tracks).Returns(new List<IITTrack>());
             mockWorkflowData.Setup(m => m.Workflows).Returns((IEnumerable<Workflow>)null);
             Assert.ThrowsException<ArgumentNullException>(() => _albumWorkflowRunner.Run(mockWorkflowData.Object, ref _status));
@@ -66,10 +66,10 @@ namespace iTunesAssistantLibTest
         {
             // arrange
             _tracksToFix = new List<IITTrack>();
-            _workflowData = new WorkflowData(_tracksToFix, _workflows);
+            _workflowRunnerInfo = new WorkflowRunnerInfo(_tracksToFix, _workflows);
 
             // act
-            _albumWorkflowRunner.Run(_workflowData, ref _status);
+            _albumWorkflowRunner.Run(_workflowRunnerInfo, ref _status);
 
             // assert
             _status.Should().NotBeNull();
@@ -86,10 +86,10 @@ namespace iTunesAssistantLibTest
             mockTrack.SetupGet(t => t.Album).Returns(Guid.NewGuid().ToString());
             _tracksToFix = new List<IITTrack> { mockTrack.Object };
             _workflows = new List<Workflow>();
-            _workflowData = new WorkflowData(_tracksToFix, _workflows);
+            _workflowRunnerInfo = new WorkflowRunnerInfo(_tracksToFix, _workflows);
 
             // act
-            _albumWorkflowRunner.Run(_workflowData, ref _status);
+            _albumWorkflowRunner.Run(_workflowRunnerInfo, ref _status);
 
             // assert
             _status.Should().NotBeNull();
@@ -104,14 +104,14 @@ namespace iTunesAssistantLibTest
         public void FixesNumbersBeforeCounts()
         {
             // act
-            _albumWorkflowRunner.Run(_workflowData, ref _status);
+            _albumWorkflowRunner.Run(_workflowRunnerInfo, ref _status);
 
             // assert
             _status.Should().NotBeNull();
             _status.ItemsProcessed.Should().Be(AlbumCount);
             _status.ItemsTotal.Should().Be(AlbumCount);
             _status.Message.Should().Be("Running album workflows...");
-            foreach (var album in _workflowData.Tracks.GroupBy(t => t.Album))
+            foreach (var album in _workflowRunnerInfo.Tracks.GroupBy(t => t.Album))
             {
                 foreach (var track in album)
                 {

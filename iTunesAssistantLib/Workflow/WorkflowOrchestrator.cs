@@ -79,7 +79,7 @@ namespace iTunesAssistantLib
 
             if (workflows.Any(workflow => workflow.Name == WorkflowName.MergeAlbums))
             {
-                _mergeAlbumsWorkflowRunner.Run(new WorkflowData(tracksToFix), ref _status);
+                _mergeAlbumsWorkflowRunner.Run(new WorkflowRunnerInfo(tracksToFix), ref _status);
             }
 
             var inputFilePath = workflows
@@ -88,21 +88,21 @@ namespace iTunesAssistantLib
 
             if (!string.IsNullOrWhiteSpace(inputFilePath))
             {
-                _importTrackNamesWorkflowRunner.Run(new WorkflowData(tracksToFix ,inputFilePath: inputFilePath), ref _status);
+                _importTrackNamesWorkflowRunner.Run(new WorkflowRunnerInfo(tracksToFix ,inputFilePath: inputFilePath), ref _status);
             }
 
             var albumWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Album);
 
             if (albumWorkflows.Any())
             {
-                _albumWorkflowRunner.Run(new WorkflowData(tracksToFix, albumWorkflows), ref _status);
+                _albumWorkflowRunner.Run(new WorkflowRunnerInfo(tracksToFix, albumWorkflows), ref _status);
             }
 
             var trackWorkflows = workflows.Where(workflow => workflow.Type == WorkflowType.Track);
 
             if (trackWorkflows.Any())
             {
-                _trackWorkflowRunner.Run(new WorkflowData(tracksToFix, trackWorkflows), ref _status);
+                _trackWorkflowRunner.Run(new WorkflowRunnerInfo(tracksToFix, trackWorkflows), ref _status);
             }
         }
     }

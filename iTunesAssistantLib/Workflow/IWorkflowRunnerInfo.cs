@@ -3,7 +3,7 @@ using iTunesLib;
 
 namespace iTunesAssistantLib
 {
-    public interface IWorkflowData
+    public interface IWorkflowRunnerInfo
     {
         IList<IITTrack> Tracks { get; }
 

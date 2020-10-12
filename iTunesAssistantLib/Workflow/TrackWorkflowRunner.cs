@@ -5,17 +5,17 @@ namespace iTunesAssistantLib
 {
     public class TrackWorkflowRunner : IWorkflowRunner
     {
-        public void Run(IWorkflowData workflowData, ref Status status)
+        public void Run(IWorkflowRunnerInfo workflowRunnerInfo, ref Status status)
         {
-            if (workflowData == null) throw new ArgumentNullException(nameof(workflowData));
-            if (workflowData.Tracks == null) throw new ArgumentNullException(nameof(workflowData.Tracks));
-            if (workflowData.Workflows == null) throw new ArgumentNullException(nameof(workflowData.Workflows));
+            if (workflowRunnerInfo == null) throw new ArgumentNullException(nameof(workflowRunnerInfo));
+            if (workflowRunnerInfo.Tracks == null) throw new ArgumentNullException(nameof(workflowRunnerInfo.Tracks));
+            if (workflowRunnerInfo.Workflows == null) throw new ArgumentNullException(nameof(workflowRunnerInfo.Workflows));
 
-            status = Status.Create(workflowData.Tracks.Count, "Running track workflows...");
+            status = Status.Create(workflowRunnerInfo.Tracks.Count, "Running track workflows...");
 
-            foreach (var track in workflowData.Tracks)
+            foreach (var track in workflowRunnerInfo.Tracks)
             {
-                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.SetAlbumNames))
+                if (workflowRunnerInfo.Workflows.Any(workflow => workflow.Name == WorkflowName.SetAlbumNames))
                 {
                     if (string.IsNullOrWhiteSpace(track.Album))
                     {
@@ -23,21 +23,21 @@ namespace iTunesAssistantLib
                     }
                 }
 
-                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.FindAndReplace))
+                if (workflowRunnerInfo.Workflows.Any(workflow => workflow.Name == WorkflowName.FindAndReplace))
                 {
-                    var findAndReplace = workflowData.Workflows.First(item => item.Name == WorkflowName.FindAndReplace);
+                    var findAndReplace = workflowRunnerInfo.Workflows.First(item => item.Name == WorkflowName.FindAndReplace);
                     if (!string.IsNullOrEmpty(findAndReplace.OldValue))
                     {
                         track.Name = track.Name.Replace(findAndReplace.OldValue, findAndReplace.NewValue);
                     }
                 }
 
-                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNames))
+                if (workflowRunnerInfo.Workflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNames))
                 {
                     track.Name = TrackNameFixer.FixTrackName(track.Name);
                 }
 
-                if (workflowData.Workflows.Any(workflow => workflow.Name == WorkflowName.FixGratefulDeadTracks))
+                if (workflowRunnerInfo.Workflows.Any(workflow => workflow.Name == WorkflowName.FixGratefulDeadTracks))
                 {
                     track.Name = GratefulDeadTrackNameFixer.FixTrackName(track.Name);
                     if (string.IsNullOrWhiteSpace(track.Comment))
