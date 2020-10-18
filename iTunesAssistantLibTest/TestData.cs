@@ -25,11 +25,25 @@ namespace iTunesAssistantLibTest
             return albums;
         }
 
-        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount = 0)
+        public static IEnumerable<IEnumerable<IITTrack>> BuildMockMultiDiscAlbum(int discCount, string albumName)
+        {
+            var albums = new List<IEnumerable<IITTrack>>();
+
+            for (var i = 0; i < discCount; i++)
+            {
+                var albumNameWithDiscNumber = $"{albumName} cd{i + 1}";
+                var album = BuildMockAlbum(albumName: albumNameWithDiscNumber);
+                albums.Add(album);
+            }
+
+            return albums;
+        }
+
+        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount = 0, string albumName = null)
         {
             if (trackCount == 0) trackCount = Random.Next(MinAlbumSize, MaxAlbumSize);
 
-            var albumName = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(albumName)) albumName = Guid.NewGuid().ToString();
 
             var tracks = new List<IITTrack>();
 
@@ -45,6 +59,21 @@ namespace iTunesAssistantLibTest
                 track.SetupGet(t => t.TrackNumber).Returns(i == 0 
                     ? int.MaxValue 
                     : Random.Next());
+
+                // keep track of the value assigned for verification
+                track.SetupSet(t => t.Album = It.IsAny<string>())
+                    .Callback<string>(name => track.SetupGet(t => t.Album)
+                    .Returns(name));
+
+                // keep track of the value assigned for verification
+                track.SetupSet(t => t.DiscCount = It.IsAny<int>())
+                    .Callback<int>(count => track.SetupGet(t => t.DiscCount)
+                    .Returns(count));
+
+                // keep track of the value assigned for verification
+                track.SetupSet(t => t.DiscNumber = It.IsAny<int>())
+                    .Callback<int>(number => track.SetupGet(t => t.DiscNumber)
+                    .Returns(number));
 
                 // keep track of the value assigned for verification
                 track.SetupSet(t => t.TrackCount = It.IsAny<int>())
