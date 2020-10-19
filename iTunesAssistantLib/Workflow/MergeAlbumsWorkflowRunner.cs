@@ -57,7 +57,8 @@ namespace iTunesAssistantLib
                     track.DiscCount = 1;
                     track.DiscNumber = 1;
 
-                    // must set number before count in case old number is higher than count
+                    // iTunes doesn't allow TrackCount to be set to a value higher than TrackNumber, so set number 
+                    // before count in case any old track numbers are higher than new track count.
                     track.TrackNumber = trackNumber++;
                     track.TrackCount = trackCount;
                 }
