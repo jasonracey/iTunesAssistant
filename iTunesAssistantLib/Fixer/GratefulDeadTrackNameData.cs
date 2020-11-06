@@ -241,7 +241,7 @@ namespace iTunesAssistantLib
             KeyValuePair.Create("midnighthour", "In The Midnight Hour"),
             KeyValuePair.Create("inthepines", "In The Pines"),
             KeyValuePair.Create("intro", "Introduction"),
-            KeyValuePair.Create("ithurtsmetoo", "It Hurts Me Too"),
+            KeyValuePair.Create("hurtsmetoo", "It Hurts Me Too"),
             KeyValuePair.Create("musthavebeenthe", "It Must Have Been The Roses"),
             KeyValuePair.Create("traintocry", "It Takes A Lot to Laugh, It Takes A Train to Cry"),
             KeyValuePair.Create("mansworld", "It's A Man's, Man's, Man's World"),
