@@ -38,7 +38,21 @@ namespace iTunesAssistantLib
     {
         public int Compare(IITTrack? t1, IITTrack? t2)
         {
-            return t1?.GetKey()?.CompareTo(t2?.GetKey()) ?? 0;
+            var discComparisonResult = CompareDiscNumbers(t1, t2);
+
+            return discComparisonResult == 0 
+                ? CompareTrackNumbers(t1, t2) 
+                : discComparisonResult;
+        }
+
+        private int CompareDiscNumbers(IITTrack? t1, IITTrack? t2)
+        {
+            return t1?.DiscNumber.CompareTo(t2?.DiscNumber) ?? 0;
+        }
+
+        private int CompareTrackNumbers(IITTrack? t1, IITTrack? t2)
+        {
+            return t1?.TrackNumber.CompareTo(t2?.TrackNumber) ?? 0;
         }
     }
 

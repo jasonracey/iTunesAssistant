@@ -39,7 +39,7 @@ namespace iTunesAssistantLibTest
             return albums;
         }
 
-        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount = 0, string albumName = null)
+        public static IEnumerable<IITTrack> BuildMockAlbum(int trackCount = 0, string albumName = null, bool setupTrackNumbers = true)
         {
             if (trackCount == 0) trackCount = Random.Next(MinAlbumSize, MaxAlbumSize);
 
@@ -54,11 +54,18 @@ namespace iTunesAssistantLibTest
                 track.SetupGet(t => t.Album).Returns(albumName);
                 track.SetupGet(t => t.Name).Returns(Guid.NewGuid().ToString());
 
-                // Make at least one track have a number that's higher than count of tracks 
-                // on album to verify numbers are set before counts.
-                track.SetupGet(t => t.TrackNumber).Returns(i == 0 
-                    ? int.MaxValue 
-                    : Random.Next());
+                if (setupTrackNumbers)
+                {
+                    // make at least one track have a number that's higher than count
+                    // of tracks on album to verify numbers are set before counts
+                    track.SetupGet(t => t.TrackNumber).Returns(i == 0
+                        ? int.MaxValue
+                        : Random.Next());
+                }
+                else
+                {
+                    track.SetupGet(t => t.TrackNumber).Returns(1);
+                }
 
                 // keep track of the value assigned for verification
                 track.SetupSet(t => t.Album = It.IsAny<string>())
@@ -74,6 +81,11 @@ namespace iTunesAssistantLibTest
                 track.SetupSet(t => t.DiscNumber = It.IsAny<int>())
                     .Callback<int>(number => track.SetupGet(t => t.DiscNumber)
                     .Returns(number));
+
+                // keep track of the value assigned for verification
+                track.SetupSet(t => t.Name = It.IsAny<string>())
+                    .Callback<string>(name => track.SetupGet(t => t.Name)
+                    .Returns(name));
 
                 // keep track of the value assigned for verification
                 track.SetupSet(t => t.TrackCount = It.IsAny<int>())

@@ -66,10 +66,29 @@ namespace iTunesAssistantLibTest.Fixer
             TrackNumberFixer.FixTrackNumbers(tracks);
 
             // assert
-            int trackNumber = 1;
-            foreach (var track in tracks)
+            var trackList = tracks.ToList();
+            trackList.Sort(new TrackDiscAndNumberComparer());
+            for (var i = 0; i < trackList.Count; i++)
             {
-                Assert.AreEqual(trackNumber++, track.TrackNumber);
+                Assert.AreEqual(i + 1, trackList[i].TrackNumber);
+            }
+        }
+
+        [TestMethod]
+        public void CanSortTracksByName()
+        {
+            // arrange
+            var tracks = TestData.BuildMockAlbum(trackCount: 10, setupTrackNumbers: false).ToList();
+
+            // act
+            TrackNumberFixer.FixTrackNumbers(tracks);
+
+            // assert
+            for (var i = 0; i < tracks.Count - 2; i++)
+            {
+                var curr = tracks.Single(t => t.TrackNumber == (i + 1));
+                var next = tracks.Single(t => t.TrackNumber == (i + 2));
+                Assert.AreEqual(-1, curr.Name.CompareTo(next.Name));
             }
         }
     }

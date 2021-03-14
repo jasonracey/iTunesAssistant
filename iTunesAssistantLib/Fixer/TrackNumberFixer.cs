@@ -13,13 +13,14 @@ namespace iTunesAssistantLib
 
             var trackComparer = TrackComparerFactory.GetTrackComparer(tracks);
 
-            tracks.ToList().Sort(trackComparer);
-            
-            for (var i = 0; i < tracks.Count; i++)
+            var trackList = tracks.ToList();
+            trackList.Sort(trackComparer);
+
+            for (var i = 0; i < trackList.Count; i++)
             {
                 try
                 {
-                    tracks[i].TrackNumber = i + 1;
+                    trackList[i].TrackNumber = i + 1;
                 }
                 catch (System.Runtime.InteropServices.COMException e)
                 {
