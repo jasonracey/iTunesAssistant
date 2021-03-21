@@ -17,8 +17,8 @@ namespace iTunesAssistantLib
 
             foreach (var tracks in albums.Select(album => album.Value))
             {
-                // iTunes doesn't allow TrackCount to be set to a value higher than TrackNumber, so set number 
-                // before count in case any old track numbers are higher than new track count.
+                // iTunes deletes TrackCount if TrackNumber is set to a higher value, so set number before count
+                // in case any old track numbers are higher than new track count.
                 if (workflowRunnerInfo.Workflows.Any(workflow => workflow.Name == WorkflowName.FixTrackNumbers))
                 {
                     TrackNumberFixer.FixTrackNumbers(tracks);
