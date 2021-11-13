@@ -140,6 +140,7 @@ namespace iTunesAssistantLib
             KeyValuePair.Create("downsolong", "Down So Long"),
             KeyValuePair.Create("drinkup", "Drink Up And Go Home"),
             KeyValuePair.Create("drums", "Drums"),
+            KeyValuePair.Create("rhythmdevils", "Drums"),
             KeyValuePair.Create("dupreesdiamondblues", "Dupree's Diamond Blues"),
             KeyValuePair.Create("earlymorningrain", "Early Morning Rain"),
             KeyValuePair.Create("easyanswers", "Easy Answers"),
