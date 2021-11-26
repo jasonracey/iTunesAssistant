@@ -42,9 +42,10 @@ namespace iTunesAssistantLib
                 .Aggregate(trackName, (trackName, regex) => regex.Replace(trackName ?? string.Empty, string.Empty));
 
             trackName = trackName
-                .RepeatedlyReplace(StringExtensions.DoubleSpace, StringExtensions.SingleSpace)
                 .Trim()
-                .ToTitleCase();
+                .RemoveDoubleSpaces()
+                .ToTitleCase()
+                .FixRomanNumerals();
 
             return trackName;
         }
